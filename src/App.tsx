@@ -5,6 +5,7 @@ import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 import { AdminRoute } from '@/components/auth/AdminRoute';
 import { BossmanRoute } from '@/components/auth/BossmanRoute';
 import { GalaxyRoute } from '@/components/auth/GalaxyRoute';
+import { RouteTitle } from '@/components/RouteTitle';
 
 const MapPage = lazy(() => import('@/pages/MapPage').then(m => ({ default: m.MapPage })));
 const MapLoadingPage = lazy(() => import('@/pages/MapLoadingPage').then(m => ({ default: m.MapLoadingPage })));
@@ -23,73 +24,76 @@ const FeedbackPage = lazy(() => import('@/pages/FeedbackPage').then(m => ({ defa
 
 function App() {
   return (
-    <Suspense fallback={
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#0a0a0a' }}>
-        <div style={{ width: 32, height: 32, border: '3px solid rgba(255,255,255,0.1)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
-      </div>
-    }>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/privacy" element={<PrivacyPolicyPage />} />
-        <Route path="/terms" element={<TermsPage />} />
-        <Route path="/credits" element={<CreditsPage />} />
-        <Route path="/map-loading" element={
-          <GalaxyRoute>
-            <MapLoadingPage />
-          </GalaxyRoute>
-        } />
-        <Route path="/map" element={
-          <GalaxyRoute>
-            <MapPage />
-          </GalaxyRoute>
-        } />
-        <Route path="/settings" element={
-          <ProtectedRoute>
-            <SettingsPage />
-          </ProtectedRoute>
-        } />
-        <Route path="/admin" element={
-          <AdminRoute>
-            <Navigate to="/admin/audit" replace />
-          </AdminRoute>
-        } />
-        <Route path="/admin/audit" element={
-          <AdminRoute>
-            <AdminPage />
-          </AdminRoute>
-        } />
-        <Route path="/admin/users" element={
-          <AdminRoute>
-            <AdminPage />
-          </AdminRoute>
-        } />
-        <Route path="/news" element={<NewsPage />} />
-        <Route path="/news/dashboard" element={
-          <BossmanRoute>
-            <ArticleDashboardPage />
-          </BossmanRoute>
-        } />
-        <Route path="/news/editor" element={
-          <BossmanRoute>
-            <ArticleEditorPage />
-          </BossmanRoute>
-        } />
-        <Route path="/news/editor/:id" element={
-          <BossmanRoute>
-            <ArticleEditorPage />
-          </BossmanRoute>
-        } />
-        <Route path="/news/:slug" element={<ArticlePage />} />
-        <Route path="/blog" element={<BlogPage />} />
-        <Route path="/services" element={<ServicesPage />} />
-        <Route path="/feedback" element={
-          <ProtectedRoute>
-            <FeedbackPage />
-          </ProtectedRoute>
-        } />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </Suspense>
+    <>
+      <RouteTitle />
+      <Suspense fallback={
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#0a0a0a' }}>
+          <div style={{ width: 32, height: 32, border: '3px solid rgba(255,255,255,0.1)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
+        </div>
+      }>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/privacy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/credits" element={<CreditsPage />} />
+          <Route path="/map-loading" element={
+            <GalaxyRoute>
+              <MapLoadingPage />
+            </GalaxyRoute>
+          } />
+          <Route path="/map" element={
+            <GalaxyRoute>
+              <MapPage />
+            </GalaxyRoute>
+          } />
+          <Route path="/settings" element={
+            <ProtectedRoute>
+              <SettingsPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin" element={
+            <AdminRoute>
+              <Navigate to="/admin/audit" replace />
+            </AdminRoute>
+          } />
+          <Route path="/admin/audit" element={
+            <AdminRoute>
+              <AdminPage />
+            </AdminRoute>
+          } />
+          <Route path="/admin/users" element={
+            <AdminRoute>
+              <AdminPage />
+            </AdminRoute>
+          } />
+          <Route path="/news" element={<NewsPage />} />
+          <Route path="/news/dashboard" element={
+            <BossmanRoute>
+              <ArticleDashboardPage />
+            </BossmanRoute>
+          } />
+          <Route path="/news/editor" element={
+            <BossmanRoute>
+              <ArticleEditorPage />
+            </BossmanRoute>
+          } />
+          <Route path="/news/editor/:id" element={
+            <BossmanRoute>
+              <ArticleEditorPage />
+            </BossmanRoute>
+          } />
+          <Route path="/news/:slug" element={<ArticlePage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/feedback" element={
+            <ProtectedRoute>
+              <FeedbackPage />
+            </ProtectedRoute>
+          } />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Suspense>
+    </>
   );
 }
 
