@@ -11,8 +11,12 @@ export function GalaxyOverview() {
   const factions = useFactionStore((s) => s.factions);
   const activeModule = useGalaxyUIStore((s) => s.activeModule);
   const getFactionStats = useGalaxyDataStore((s) => s.getFactionStats);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const factionStats = useMemo(() => getFactionStats(), [systems, fleets, factions, getFactionStats]);
+  const factionStats = useMemo(
+    () => getFactionStats(),
+    // getFactionStats reads the stores itself, so it has to rerun when they change.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [systems, fleets, factions, getFactionStats],
+  );
 
   if (activeModule !== 'overview') return null;
 
@@ -35,7 +39,8 @@ export function GalaxyOverview() {
           {factions.map((f, i) => {
             const stats = factionStats[f.id];
             const color = f.barColor;
-            if (!stats || (stats.planets === 0 && stats.fleets === 0 && stats.shipUnits === 0)) return null;
+            if (!stats || (stats.planets === 0 && stats.fleets === 0 && stats.shipUnits === 0))
+              return null;
             return (
               <motion.div
                 key={f.id}
