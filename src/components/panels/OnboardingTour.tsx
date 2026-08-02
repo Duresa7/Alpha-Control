@@ -5,6 +5,20 @@ import type { Step, TooltipRenderProps, EventData, Controls } from 'react-joyrid
 
 type WalkthroughPhase = 'welcome' | 'tour' | 'done';
 
+/* Joyride draws the cutout as an SVG path over the target, so a stroke here
+   outlines the highlighted element and the fill tints it. Without this the
+   spotlight is only an undimmed hole, which barely reads on a dark map. */
+const SPOTLIGHT_RING = {
+  fill: 'rgba(210, 176, 112, 0.07)',
+  stroke: 'rgba(210, 176, 112, 0.9)',
+  strokeWidth: 1.5,
+  style: {
+    pointerEvents: 'none' as const,
+    filter: 'drop-shadow(0 0 12px rgba(210, 176, 112, 0.55))',
+    animation: 'holoTourSpotlight 2.4s ease-in-out infinite',
+  },
+};
+
 interface TourStep extends Step {
   data?: {
     hint?: string;
@@ -91,7 +105,14 @@ function WelcomeModal({ onStart, onSkip }: { onStart: () => void; onSkip: () => 
         }}
         initial={{ scale: 0.95, y: 20 }}
         animate={{ scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+        exit={{
+          opacity: 0,
+          scale: 0.96,
+          y: 12,
+          // Short: fading drops the panel's backdrop-filter, so the glass reads
+          // as flat while it leaves. Quick enough that you don't catch it.
+          transition: { duration: 0.16, ease: 'easeIn' },
+        }}
         transition={{ duration: 0.35, ease: 'easeOut' }}
       >
         <div
@@ -205,6 +226,7 @@ function HoloTooltip({
   step,
   size,
   isLastStep,
+  backProps,
   primaryProps,
   skipProps,
   tooltipProps,
@@ -301,6 +323,12 @@ function HoloTooltip({
             Skip Tour
           </button>
 
+          {index > 0 && (
+            <button {...backProps} className="holo-button holo-button-sm">
+              Back
+            </button>
+          )}
+
           <button {...primaryProps} className="holo-button holo-button-sm">
             {isLastStep ? 'Finish' : 'Next'}
           </button>
@@ -390,9 +418,14 @@ export function OnboardingTour({ run, onFinish, isAdmin, storageKey }: Onboardin
           tooltipComponent={HoloTooltip}
           scrollToFirstStep={false}
           onEvent={handleEvent}
+          styles={{ spotlight: SPOTLIGHT_RING }}
           options={{
-            arrowColor: 'rgba(10, 10, 16, 0.92)',
-            overlayColor: 'rgba(5, 5, 8, 0.5)',
+            arrowColor: 'rgba(210, 176, 112, 0.95)',
+            arrowBase: 22,
+            arrowSize: 11,
+            overlayColor: 'rgba(4, 6, 12, 0.82)',
+            spotlightPadding: 12,
+            spotlightRadius: 18,
             zIndex: 10001,
             skipScroll: true,
             blockTargetInteraction: false,

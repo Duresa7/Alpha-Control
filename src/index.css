@@ -6542,11 +6542,25 @@ body {
   }
 }
 
-.react-joyride__overlay {
-  background-color: rgba(5, 5, 8, 0.65) !important;
+/* ── Onboarding tour ──────────────────────────────────────── */
+
+/* The ring Joyride strokes around the spotlight cutout. Breathing draws the
+   eye to the target, which is otherwise just a hole in the dimmed overlay. */
+@keyframes holoTourSpotlight {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
-.react-joyride__spotlight {
-  border: 1px solid rgba(200, 170, 110, 0.3) !important;
-  box-shadow: 0 0 20px rgba(200, 170, 110, 0.15) !important;
+@media (prefers-reduced-motion: reduce) {
+  @keyframes holoTourSpotlight {
+    0%,
+    100% {
+      opacity: 1;
+    }
+  }
 }
