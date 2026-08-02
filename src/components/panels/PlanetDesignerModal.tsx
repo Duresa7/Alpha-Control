@@ -13,7 +13,7 @@ import {
   presetForPlanetType,
 } from '@/config/planetPresets';
 
-export interface PlanetDesignerTarget {
+interface PlanetDesignerTarget {
   name: string;
   faction: Faction;
   color: string;

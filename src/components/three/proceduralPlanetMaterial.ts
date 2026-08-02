@@ -187,7 +187,7 @@ const SURFACE_FRAGMENT = /* glsl */ `
 
   void main() {
     vec3 n = vObject;
-    vec3 p = n * 1.0 + uSeedOffset;
+    vec3 p = n + uSeedOffset;
 
     float height;
     float emissive;
@@ -350,13 +350,9 @@ const ATMOSPHERE_FRAGMENT = /* glsl */ `
 
 const RING_VERTEX = /* glsl */ `
   varying vec3 vLocal;
-  varying vec3 vLightDir;
-
-  uniform vec3 uLightDir;
 
   void main() {
     vLocal = position;
-    vLightDir = normalize((viewMatrix * vec4(uLightDir, 0.0)).xyz);
     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
   }
 `;
@@ -390,7 +386,7 @@ const RING_FRAGMENT = /* glsl */ `
 `;
 
 /** Seeds are hashed into a small offset so the noise stays in a precise float range. */
-export function seedOffset(seed: number): THREE.Vector3 {
+function seedOffset(seed: number): THREE.Vector3 {
   const a = Math.abs(Math.sin(seed * 12.9898) * 43758.5453);
   const b = Math.abs(Math.sin(seed * 78.233) * 24634.6345);
   const c = Math.abs(Math.sin(seed * 39.425) * 15731.7431);
@@ -400,7 +396,7 @@ export function seedOffset(seed: number): THREE.Vector3 {
 const LIGHT_DIR = new THREE.Vector3(...DIRECTIONAL_LIGHT.system.position).normalize();
 
 export function createSurfaceMaterial(appearance: PlanetAppearance): THREE.ShaderMaterial {
-  const material = new THREE.ShaderMaterial({
+  return new THREE.ShaderMaterial({
     vertexShader: SURFACE_VERTEX,
     fragmentShader: SURFACE_FRAGMENT,
     transparent: appearance.renderStyle === 'holo',
@@ -421,7 +417,6 @@ export function createSurfaceMaterial(appearance: PlanetAppearance): THREE.Shade
       uHolo: { value: appearance.renderStyle === 'holo' },
     },
   });
-  return material;
 }
 
 export function updateSurfaceMaterial(
@@ -513,7 +508,6 @@ export function createRingMaterial(appearance: PlanetAppearance): THREE.ShaderMa
     depthWrite: false,
     side: THREE.DoubleSide,
     uniforms: {
-      uLightDir: { value: LIGHT_DIR.clone() },
       uRingColor: { value: new THREE.Color(appearance.ringColor) },
       uSeedOffset: { value: seedOffset(appearance.seed + 313) },
       uInner: { value: RING_INNER },

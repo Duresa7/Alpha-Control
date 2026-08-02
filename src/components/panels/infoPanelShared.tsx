@@ -62,55 +62,6 @@ export function EditableInfoRow({
   );
 }
 
-export function EditableStatCard({
-  label,
-  value,
-  placeholder,
-  editable = true,
-  editing,
-  draft,
-  onStartEdit,
-  onDraftChange,
-  onSave,
-  onCancel,
-}: EditableFieldProps) {
-  return (
-    <div className="holo-stat-card">
-      <div className="holo-stat-label">{label}</div>
-      {!editable ? (
-        <div className="holo-stat-value truncate" title={value || placeholder}>
-          {value || placeholder}
-        </div>
-      ) : editing ? (
-        <div className="flex items-center gap-1 mt-1">
-          <input
-            type="text"
-            value={draft}
-            onChange={(e) => onDraftChange(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') onSave();
-              if (e.key === 'Escape') onCancel();
-            }}
-            autoFocus
-            className="holo-input holo-field-input w-full text-left text-sm"
-          />
-          <button onClick={onSave} className="holo-edit-action holo-edit-action-save px-1">
-            &#10003;
-          </button>
-        </div>
-      ) : (
-        <div
-          onClick={onStartEdit}
-          className="holo-stat-value holo-editable-text cursor-pointer hover:text-amber-400 transition-colors truncate"
-          title={value ? `Click to edit (Current: ${value})` : 'Click to edit'}
-        >
-          {value || placeholder}
-        </div>
-      )}
-    </div>
-  );
-}
-
 /**
  * One row of the planet spec sheet. Comma-separated values are split into chips
  * so a long list wraps within its column instead of stretching the panel.

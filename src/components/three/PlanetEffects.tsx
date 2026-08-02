@@ -3,20 +3,12 @@ import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import type { EffectComposer as EffectComposerImpl } from 'postprocessing';
 
 /**
- * Bloom for close-up planet views.
+ * Bloom for close-up planet views. Mount only where one planet fills the frame;
+ * across the map it would bloom every marker for a full extra pass.
  *
- * The composer renders to a half-float buffer, so the planet shader's additive
- * highlights — atmosphere rim, specular, city lights, lava — keep their values
- * above 1.0 while the lit surface stays below it. Thresholding just above 1
- * therefore catches only those highlights and leaves the planet body sharp.
- *
- * No ToneMapping effect on purpose: the planet shader linearises its own output
- * so the composer's sRGB encoding lands exactly on the tuned look. Adding a
- * filmic curve on top lifts the midtones and washes every preset out.
- *
- * Mount this only where a single planet fills the frame. Across the top-down
- * map it would bloom every system marker and cost a full pass on the heaviest
- * scene in the app.
+ * The half-float buffer keeps the shader's additive highlights above 1.0 while
+ * the lit surface stays below, so a threshold just over 1 catches only those.
+ * No ToneMapping on purpose — a filmic curve on top washes every preset out.
  */
 export function PlanetEffects() {
   const composer = useRef<EffectComposerImpl>(null);
