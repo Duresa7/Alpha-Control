@@ -160,9 +160,30 @@ const mocks = vi.hoisted(() => {
     throw new Error(`Unexpected table: ${table}`);
   });
 
+  const rpc = vi.fn(async (fn: string, params: Record<string, string[]>) => {
+    if (fn === 'fetch_profile_names') {
+      const data = params.p_ids.flatMap((id) => {
+        const profile = state.profileById.get(id);
+        return profile ? [{ id, display_name: profile.display_name }] : [];
+      });
+      return { data, error: null };
+    }
+
+    if (fn === 'fetch_article_like_counts') {
+      const data = params.p_article_ids.flatMap((id) => {
+        const count = state.likesCountByArticle.get(id);
+        return count === undefined ? [] : [{ article_id: id, likes_count: count }];
+      });
+      return { data, error: null };
+    }
+
+    throw new Error(`Unexpected rpc: ${fn}`);
+  });
+
   return {
     state,
     from,
+    rpc,
     storageFrom,
     authGetUser: vi.fn(async () => ({
       data: { user: state.currentUser },
@@ -174,6 +195,7 @@ vi.mock('@/lib/supabase', () => ({
   supabaseConfigured: true,
   supabase: {
     from: mocks.from,
+    rpc: mocks.rpc,
     storage: {
       from: mocks.storageFrom,
     },

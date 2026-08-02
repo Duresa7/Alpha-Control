@@ -62,6 +62,60 @@ function dbToArticle(
   };
 }
 
+/**
+ * Resolves author display names via RPC. A direct `profiles` select cannot be
+ * used here: the profiles RLS policy restricts reads to the caller's own row,
+ * so every byline but your own would fall back to "Anonymous".
+ */
+async function fetchProfileNames(ids: string[]): Promise<Map<string, string>> {
+  const nameMap = new Map<string, string>();
+  if (ids.length === 0) return nameMap;
+
+  const { data, error } = await supabase.rpc('fetch_profile_names', { p_ids: ids });
+  if (error) {
+    logger.error('Failed to fetch profile names:', error);
+    return nameMap;
+  }
+
+  for (const row of (data ?? []) as { id: string; display_name: string }[]) {
+    nameMap.set(row.id, row.display_name || 'Anonymous');
+  }
+  return nameMap;
+}
+
+/**
+ * List views render cards, never the article body. Selecting `content` here
+ * would download every article's full rich text just to show its excerpt.
+ */
+const ARTICLE_LIST_COLUMNS =
+  'id, slug, title, excerpt, category, cover_image_url, author_id, reading_time_minutes, is_featured, is_trending, published, created_at, updated_at';
+
+type DbArticleListRow = Omit<DbArticle, 'content'>;
+
+/**
+ * Tallies likes for a set of articles in one call. Goes through an RPC rather
+ * than reading `article_likes`: the rows say which user liked which article and
+ * are restricted to their owner, while the counts are public.
+ */
+async function fetchLikeCounts(articleIds: string[]): Promise<Map<string, number>> {
+  const counts = new Map<string, number>();
+  if (articleIds.length === 0) return counts;
+
+  const { data, error } = await supabase.rpc('fetch_article_like_counts', {
+    p_article_ids: articleIds,
+  });
+
+  if (error) {
+    logger.error('Failed to fetch like counts:', error);
+    return counts;
+  }
+
+  for (const row of (data ?? []) as { article_id: string; likes_count: number }[]) {
+    counts.set(row.article_id, Number(row.likes_count));
+  }
+  return counts;
+}
+
 export async function fetchArticles(opts?: {
   category?: string;
   limit?: number;
@@ -75,7 +129,7 @@ export async function fetchArticles(opts?: {
 
   let query = supabase
     .from('articles')
-    .select('*')
+    .select(ARTICLE_LIST_COLUMNS)
     .order('created_at', { ascending: false })
     .range(offset, offset + limit - 1);
 
@@ -92,42 +146,22 @@ export async function fetchArticles(opts?: {
     return [];
   }
 
-  const articles = data as DbArticle[];
+  const articles = data as unknown as DbArticleListRow[];
   if (articles.length === 0) return [];
 
   const authorIds = [...new Set(articles.map((a) => a.author_id))];
   const articleIds = articles.map((a) => a.id);
 
-  const [profilesRes, userLikesRes] = await Promise.all([
-    supabase.from('profiles').select('id, display_name').in('id', authorIds),
+  const [profileMap, userLikesRes, likesCountMap] = await Promise.all([
+    fetchProfileNames(authorIds),
     getCurrentUserLikes(articleIds),
+    fetchLikeCounts(articleIds),
   ]);
-
-  const profileMap = new Map<string, string>();
-  if (profilesRes.data) {
-    for (const p of profilesRes.data) {
-      profileMap.set(p.id, p.display_name || 'Anonymous');
-    }
-  }
-
-  const likesCountMap = new Map<string, number>();
-  const likesCountQueries = await Promise.all(
-    articleIds.map((aid) =>
-      supabase
-        .from('article_likes')
-        .select('*', { count: 'exact', head: true })
-        .eq('article_id', aid)
-        .then(({ count }) => ({ id: aid, count: count ?? 0 })),
-    ),
-  );
-  for (const { id: aid, count: c } of likesCountQueries) {
-    likesCountMap.set(aid, c);
-  }
 
   return articles.map((row) => {
     const name = profileMap.get(row.author_id) || 'Anonymous';
     return dbToArticle(
-      row,
+      { ...row, content: '' },
       name,
       getInitials(name),
       likesCountMap.get(row.id) ?? 0,
@@ -150,17 +184,14 @@ export async function fetchArticleBySlug(slug: string): Promise<Article | null> 
 
   const row = data as DbArticle;
 
-  const [profileRes, likesCountRes, userLikesRes] = await Promise.all([
-    supabase.from('profiles').select('display_name').eq('id', row.author_id).single(),
-    supabase
-      .from('article_likes')
-      .select('*', { count: 'exact', head: true })
-      .eq('article_id', row.id),
+  const [profileMap, likeCounts, userLikesRes] = await Promise.all([
+    fetchProfileNames([row.author_id]),
+    fetchLikeCounts([row.id]),
     getCurrentUserLikes([row.id]),
   ]);
 
-  const name = profileRes.data?.display_name || 'Anonymous';
-  const likesCount = likesCountRes.count ?? 0;
+  const name = profileMap.get(row.author_id) || 'Anonymous';
+  const likesCount = likeCounts.get(row.id) ?? 0;
 
   return dbToArticle(row, name, getInitials(name), likesCount, userLikesRes.has(row.id));
 }
@@ -173,13 +204,9 @@ export async function fetchArticleById(id: string): Promise<Article | null> {
   if (error || !data) return null;
 
   const row = data as DbArticle;
-  const profileRes = await supabase
-    .from('profiles')
-    .select('display_name')
-    .eq('id', row.author_id)
-    .single();
+  const profileMap = await fetchProfileNames([row.author_id]);
 
-  const name = profileRes.data?.display_name || 'Anonymous';
+  const name = profileMap.get(row.author_id) || 'Anonymous';
   return dbToArticle(row, name, getInitials(name), 0, false);
 }
 
@@ -286,12 +313,9 @@ export async function toggleLike(articleId: string): Promise<{ liked: boolean; c
     await supabase.from('article_likes').insert({ article_id: articleId, user_id: userId });
   }
 
-  const { count } = await supabase
-    .from('article_likes')
-    .select('*', { count: 'exact', head: true })
-    .eq('article_id', articleId);
+  const counts = await fetchLikeCounts([articleId]);
 
-  return { liked: !existing, count: count ?? 0 };
+  return { liked: !existing, count: counts.get(articleId) ?? 0 };
 }
 
 export async function fetchComments(articleId: string): Promise<ArticleComment[]> {
@@ -315,17 +339,7 @@ export async function fetchComments(articleId: string): Promise<ArticleComment[]
   if (comments.length === 0) return [];
 
   const userIds = [...new Set(comments.map((c) => c.user_id))];
-  const { data: profiles } = await supabase
-    .from('profiles')
-    .select('id, display_name')
-    .in('id', userIds);
-
-  const nameMap = new Map<string, string>();
-  if (profiles) {
-    for (const p of profiles) {
-      nameMap.set(p.id, p.display_name || 'Anonymous');
-    }
-  }
+  const nameMap = await fetchProfileNames(userIds);
 
   return comments.map((c) => ({
     id: c.id,
