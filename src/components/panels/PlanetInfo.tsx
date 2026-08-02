@@ -1,6 +1,9 @@
 import { useState, useCallback, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
+import { Palette } from 'lucide-react';
 import type { Planet, PlanetType } from '@/types';
+import { PlanetDesignerModal } from '@/components/panels/PlanetDesignerModal';
 import { useGalaxySelectionStore } from '@/store/galaxySelectionStore';
 import { useGalaxyDataStore } from '@/store/galaxyDataStore';
 import { useFactionStore } from '@/store/factionStore';
@@ -82,6 +85,7 @@ export function PlanetInfo({ planet, editable }: PlanetInfoProps) {
   const [typeDraft, setTypeDraft] = useState(planet.customType || '');
 
   const [editingFaction, setEditingFaction] = useState(false);
+  const [showDesigner, setShowDesigner] = useState(false);
 
   const factionControl = useMemo(
     () => planet.factionControl || { [planet.faction]: 100 },
@@ -333,8 +337,46 @@ export function PlanetInfo({ planet, editable }: PlanetInfoProps) {
               )}
             </div>
           </div>
+
+          <div className={`${PANEL_DIVIDER} my-2`} />
+          <div className="py-1">
+            <label className={SECTION_LABEL}>Surface Design</label>
+            <div className="flex items-center gap-3" style={{ marginTop: '14px' }}>
+              <button onClick={() => setShowDesigner(true)} className="holo-button holo-button-sm">
+                <Palette className="w-3.5 h-3.5" aria-hidden="true" />
+                <span>{planet.appearance ? 'Edit Design' : 'Design Surface'}</span>
+              </button>
+              {planet.appearance && (
+                <button
+                  onClick={() => updateStats({ appearance: null })}
+                  className="holo-inline-link"
+                >
+                  Reset
+                </button>
+              )}
+            </div>
+          </div>
         </>
       )}
+
+      {showDesigner &&
+        createPortal(
+          <PlanetDesignerModal
+            editing={{
+              name: planet.name,
+              faction: planet.faction,
+              color: planet.customColor || defaultPlanetColor,
+              type: planet.type,
+              appearance: planet.appearance,
+            }}
+            onConfirm={(data) => {
+              updateStats({ appearance: data.appearance });
+              setShowDesigner(false);
+            }}
+            onCancel={() => setShowDesigner(false)}
+          />,
+          document.body,
+        )}
 
       <div className={`${PANEL_DIVIDER} my-2`} />
 

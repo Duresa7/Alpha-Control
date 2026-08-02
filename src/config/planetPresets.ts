@@ -1,4 +1,4 @@
-import type { PlanetAppearance, PlanetType } from '@/types';
+import type { PlanetAppearance, PlanetSurfaceStyle, PlanetType } from '@/types';
 
 export interface PlanetPreset {
   id: string;
@@ -230,7 +230,12 @@ export const PLANET_PRESETS: PlanetPreset[] = [
 
 export const DEFAULT_PLANET_APPEARANCE = PLANET_PRESETS[0].appearance;
 
-export const SURFACE_STYLE_OPTIONS: { value: PlanetAppearance['surface']; label: string }[] = [
+/** Opening the designer on an existing planet starts from the closest template. */
+export function presetForPlanetType(type: PlanetType): PlanetPreset {
+  return PLANET_PRESETS.find((preset) => preset.planetType === type) ?? PLANET_PRESETS[0];
+}
+
+export const SURFACE_STYLE_OPTIONS: { value: PlanetSurfaceStyle; label: string }[] = [
   { value: 'landmass', label: 'Continents' },
   { value: 'dunes', label: 'Dunes' },
   { value: 'icy', label: 'Ice sheet' },
@@ -239,3 +244,8 @@ export const SURFACE_STYLE_OPTIONS: { value: PlanetAppearance['surface']; label:
   { value: 'bands', label: 'Gas bands' },
   { value: 'cratered', label: 'Craters' },
 ];
+
+/** Single source of truth for validating a surface style read back from the database. */
+export const PLANET_SURFACE_STYLES: PlanetSurfaceStyle[] = SURFACE_STYLE_OPTIONS.map(
+  (option) => option.value,
+);

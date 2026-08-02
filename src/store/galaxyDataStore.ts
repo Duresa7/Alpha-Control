@@ -102,6 +102,7 @@ const NULLABLE_PATCH_FIELDS = [
   'factionControl',
   'customColor',
   'customType',
+  'appearance',
 ] as const;
 
 const applyPlanetStatsPatch = (planet: Planet, updates: PlanetStatsUpdate): Planet => {

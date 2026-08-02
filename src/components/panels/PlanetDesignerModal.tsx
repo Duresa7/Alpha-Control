@@ -2,16 +2,30 @@ import { useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { Dices, Globe, X } from 'lucide-react';
-import type { PendingCustomPlanet, PlanetAppearance, PlanetType } from '@/types';
+import type { Faction, PendingCustomPlanet, PlanetAppearance, PlanetType } from '@/types';
 import { useFactionStore } from '@/store/factionStore';
 import { ProceduralPlanet } from '@/components/three/ProceduralPlanet';
 import {
   PLANET_PRESETS,
   SURFACE_STYLE_OPTIONS,
   DEFAULT_PLANET_APPEARANCE,
+  presetForPlanetType,
 } from '@/config/planetPresets';
 
+export interface PlanetDesignerTarget {
+  name: string;
+  faction: Faction;
+  color: string;
+  type: PlanetType;
+  appearance?: PlanetAppearance;
+}
+
 interface PlanetDesignerModalProps {
+  /**
+   * An already-placed planet being restyled. Identity is edited from the info
+   * panel, so those fields are hidden and only the appearance is returned.
+   */
+  editing?: PlanetDesignerTarget;
   onConfirm: (data: PendingCustomPlanet) => void;
   onCancel: () => void;
 }
@@ -62,17 +76,26 @@ function ColorRow({ label, value, onChange }: ColorRowProps) {
   );
 }
 
-export function PlanetDesignerModal({ onConfirm, onCancel }: PlanetDesignerModalProps) {
+export function PlanetDesignerModal({ editing, onConfirm, onCancel }: PlanetDesignerModalProps) {
   const allFactions = useFactionStore((s) => s.factions);
 
-  const [name, setName] = useState('');
-  const [faction, setFaction] = useState(() => allFactions[0]?.id ?? 'neutral');
-  const [markerColor, setMarkerColor] = useState('#4DD0E1');
-  const [planetType, setPlanetType] = useState<PlanetType>(PLANET_PRESETS[0].planetType);
-  const [appearance, setAppearance] = useState<PlanetAppearance>({
-    ...DEFAULT_PLANET_APPEARANCE,
+  const [name, setName] = useState(editing?.name ?? '');
+  const [faction, setFaction] = useState(() => editing?.faction ?? allFactions[0]?.id ?? 'neutral');
+  const [markerColor, setMarkerColor] = useState(editing?.color ?? '#4DD0E1');
+  const [planetType, setPlanetType] = useState<PlanetType>(
+    editing?.type ?? PLANET_PRESETS[0].planetType,
+  );
+  const [appearance, setAppearance] = useState<PlanetAppearance>(() => {
+    if (editing?.appearance) return { ...editing.appearance };
+    // Never styled before: start from the template closest to what it already is.
+    if (editing) return { ...presetForPlanetType(editing.type).appearance };
+    return { ...DEFAULT_PLANET_APPEARANCE };
   });
-  const [activePresetId, setActivePresetId] = useState<string | null>(PLANET_PRESETS[0].id);
+  const [activePresetId, setActivePresetId] = useState<string | null>(() => {
+    if (editing?.appearance) return null;
+    if (editing) return presetForPlanetType(editing.type).id;
+    return PLANET_PRESETS[0].id;
+  });
 
   const setField = <K extends keyof PlanetAppearance>(key: K, value: PlanetAppearance[K]) => {
     setAppearance((prev) => ({ ...prev, [key]: value }));
@@ -110,7 +133,9 @@ export function PlanetDesignerModal({ onConfirm, onCancel }: PlanetDesignerModal
         <div className="fleet-modal-header">
           <div className="fleet-modal-header-left">
             <Globe className="fleet-modal-header-icon" strokeWidth={1.5} aria-hidden="true" />
-            <h2 className="fleet-modal-title">Planetary Design Interface</h2>
+            <h2 className="fleet-modal-title">
+              {editing ? `Planetary Design · ${editing.name}` : 'Planetary Design Interface'}
+            </h2>
           </div>
           <button className="fleet-modal-close holo-close-button" onClick={onCancel}>
             <X size={14} aria-hidden="true" />
@@ -157,33 +182,37 @@ export function PlanetDesignerModal({ onConfirm, onCancel }: PlanetDesignerModal
           </div>
 
           <div className="fleet-modal-config planet-designer-config">
-            <div className="fleet-config-section">
-              <label className="fleet-config-label">Designation</label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="holo-input fleet-config-input"
-                placeholder="Enter planet name..."
-                maxLength={30}
-                autoFocus
-              />
-            </div>
+            {!editing && (
+              <>
+                <div className="fleet-config-section">
+                  <label className="fleet-config-label">Designation</label>
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="holo-input fleet-config-input"
+                    placeholder="Enter planet name..."
+                    maxLength={30}
+                    autoFocus
+                  />
+                </div>
 
-            <div className="fleet-config-section">
-              <label className="fleet-config-label">Allegiance</label>
-              <select
-                value={faction}
-                onChange={(e) => setFaction(e.target.value)}
-                className="holo-input fleet-config-select"
-              >
-                {allFactions.map((f) => (
-                  <option key={f.id} value={f.id}>
-                    {f.label}
-                  </option>
-                ))}
-              </select>
-            </div>
+                <div className="fleet-config-section">
+                  <label className="fleet-config-label">Allegiance</label>
+                  <select
+                    value={faction}
+                    onChange={(e) => setFaction(e.target.value)}
+                    className="holo-input fleet-config-select"
+                  >
+                    {allFactions.map((f) => (
+                      <option key={f.id} value={f.id}>
+                        {f.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </>
+            )}
 
             <div className="fleet-config-section">
               <label className="fleet-config-label">Render Style</label>
@@ -298,10 +327,12 @@ export function PlanetDesignerModal({ onConfirm, onCancel }: PlanetDesignerModal
               />
             </div>
 
-            <div className="planet-designer-section">
-              <span className="planet-designer-section-title">Map Marker</span>
-              <ColorRow label="Marker colour" value={markerColor} onChange={setMarkerColor} />
-            </div>
+            {!editing && (
+              <div className="planet-designer-section">
+                <span className="planet-designer-section-title">Map Marker</span>
+                <ColorRow label="Marker colour" value={markerColor} onChange={setMarkerColor} />
+              </div>
+            )}
 
             <div className="fleet-modal-actions">
               <button
@@ -309,7 +340,7 @@ export function PlanetDesignerModal({ onConfirm, onCancel }: PlanetDesignerModal
                 onClick={handleConfirm}
                 disabled={!name.trim()}
               >
-                Place on Map
+                {editing ? 'Save Appearance' : 'Place on Map'}
               </button>
               <button className="holo-button fleet-cancel-btn" onClick={onCancel}>
                 Cancel

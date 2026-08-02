@@ -197,6 +197,7 @@ export interface PlanetStatsUpdate {
   nativeInhabitants?: string | null;
   customColor?: string | null;
   customType?: string | null;
+  appearance?: PlanetAppearance | null;
 }
 export interface FleetStatsUpdate {
   name?: string;
