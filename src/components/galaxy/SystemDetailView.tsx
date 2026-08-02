@@ -6,6 +6,7 @@ import type { StarSystem, Planet } from '@/types';
 import { useGalaxySelectionStore } from '@/store/galaxySelectionStore';
 import { useGalaxyUIStore } from '@/store/galaxyUIStore';
 import { PlanetModel } from '@/components/three/ModelLoader';
+import { ProceduralPlanet } from '@/components/three/ProceduralPlanet';
 import { hasPlanetModel } from '@/utils/planetModels';
 import { PLANET_APPEARANCES } from '@/config/planetAppearances';
 
@@ -102,17 +103,17 @@ function StaticPlanet({ planet, showLabels, isDetailView, customColor }: StaticP
             <PlanetModel planetId={planet.id} position={new THREE.Vector3(0, 0, 0)} scale={1} />
           </group>
         </Suspense>
+      ) : planet.appearance ? (
+        <ProceduralPlanet appearance={planet.appearance} radius={viewScale * planetSize} />
       ) : (
-        <>
-          <mesh scale={viewScale}>
-            <sphereGeometry args={[planetSize, 64, 64]} />
-            <meshStandardMaterial
-              color={planetMaterial.color}
-              roughness={planetMaterial.roughness}
-              metalness={planetMaterial.metalness}
-            />
-          </mesh>
-        </>
+        <mesh scale={viewScale}>
+          <sphereGeometry args={[planetSize, 64, 64]} />
+          <meshStandardMaterial
+            color={planetMaterial.color}
+            roughness={planetMaterial.roughness}
+            metalness={planetMaterial.metalness}
+          />
+        </mesh>
       )}
 
       {(hovered || isSelected) && (

@@ -116,12 +116,13 @@ function TopDownView() {
           {
             id: `${uniqueId}-prime`,
             name: pendingCustomPlanet.name,
-            type: 'terrestrial' as const,
+            type: pendingCustomPlanet.type,
             position: new THREE.Vector3(0, 0, 0),
             radius: 1,
             faction: pendingCustomPlanet.faction,
             description: `Custom planet: ${pendingCustomPlanet.name}`,
             systemId: uniqueId,
+            appearance: pendingCustomPlanet.appearance,
           },
         ],
       });

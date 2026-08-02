@@ -25,6 +25,35 @@ export type PlanetType =
   | 'city'
   | 'barren'
   | 'destroyed';
+export type PlanetSurfaceStyle =
+  'landmass' | 'dunes' | 'icy' | 'ridged' | 'urban' | 'bands' | 'cratered';
+export type PlanetRenderStyle = 'procedural' | 'holo';
+
+/**
+ * Drives the procedural planet shader. Generated entirely from `seed`, so a
+ * planet costs nothing to store or serve beyond these few numbers.
+ */
+export interface PlanetAppearance {
+  renderStyle: PlanetRenderStyle;
+  surface: PlanetSurfaceStyle;
+  seed: number;
+  colorLow: string;
+  colorMid: string;
+  colorHigh: string;
+  /** Floods everything below this height with `colorLow`; 0 disables water. */
+  waterLevel: number;
+  iceCaps: number;
+  clouds: number;
+  cloudColor: string;
+  atmosphere: number;
+  atmosphereColor: string;
+  nightLights: number;
+  nightLightColor: string;
+  rings: number;
+  ringColor: string;
+  roughness: number;
+}
+
 export interface Planet {
   id: string;
   name: string;
@@ -42,6 +71,7 @@ export interface Planet {
   factionControl?: Partial<Record<Faction, number>>;
   customColor?: string;
   customType?: string;
+  appearance?: PlanetAppearance;
 }
 export interface StarSystem {
   id: string;
@@ -196,6 +226,14 @@ export interface GalaxySelectionStore {
   clearZoomDelta: () => void;
 }
 
+export interface PendingCustomPlanet {
+  name: string;
+  color: string;
+  faction: Faction;
+  type: PlanetType;
+  appearance: PlanetAppearance;
+}
+
 export interface GalaxyUIStore {
   showFleets: boolean;
   showLabels: boolean;
@@ -209,11 +247,8 @@ export interface GalaxyUIStore {
   toggleFactionFilter: (faction: string) => void;
   syncFactionFilters: (factionIds: string[]) => void;
   placementMode: boolean;
-  pendingCustomPlanet: { name: string; color: string; faction: Faction } | null;
-  setPlacementMode: (
-    mode: boolean,
-    pending?: { name: string; color: string; faction: Faction } | null,
-  ) => void;
+  pendingCustomPlanet: PendingCustomPlanet | null;
+  setPlacementMode: (mode: boolean, pending?: PendingCustomPlanet | null) => void;
   draggingCustomPlanet: boolean;
   setDraggingCustomPlanet: (dragging: boolean) => void;
   fleetPlacementMode: boolean;
