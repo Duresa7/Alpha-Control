@@ -30,7 +30,7 @@ export function TimelineControl() {
 
   return (
     <motion.div
-      className="absolute left-20 top-[60%] z-40 w-[240px]"
+      className="absolute left-20 top-1/2 -translate-y-1/2 z-40 w-[240px]"
       initial={{ opacity: 0, x: -12 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
