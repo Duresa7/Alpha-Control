@@ -225,13 +225,14 @@ body {
   animation: slideInLeft 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* No opacity here: a translucent ancestor disables the panel's
+   backdrop-filter until the animation lands, which reads as the blur
+   arriving late. */
 @keyframes slideUpSubtle {
   from {
-    opacity: 0;
     transform: translateY(8px);
   }
   to {
-    opacity: 1;
     transform: translateY(0);
   }
 }

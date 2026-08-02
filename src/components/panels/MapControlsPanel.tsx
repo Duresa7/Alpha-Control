@@ -27,8 +27,8 @@ export function MapControlsPanel() {
     <motion.div
       className="absolute bottom-24 left-1/2 -translate-x-1/2 z-40"
       style={{ width: 'min(31rem, calc(100vw - 1.5rem))' }}
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={{ y: 16 }}
+      animate={{ y: 0 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
     >
       <div>

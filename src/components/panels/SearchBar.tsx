@@ -97,8 +97,8 @@ export function SearchBar() {
     <motion.div
       ref={searchRef}
       className="absolute left-20 top-1/2 -translate-y-1/2 z-40 w-80"
-      initial={{ opacity: 0, x: -12 }}
-      animate={{ opacity: 1, x: 0 }}
+      initial={{ x: -12 }}
+      animate={{ x: 0 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
     >
       <div className="holo-panel">
