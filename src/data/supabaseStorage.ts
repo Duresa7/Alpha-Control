@@ -13,7 +13,10 @@ import type {
   ShipModelType,
   FactionConfig,
   FleetShipEntry,
+  PlanetAppearance,
+  PlanetSurfaceStyle,
 } from '@/types';
+import { PLANET_SURFACE_STYLES } from '@/config/planetPresets';
 
 const AUTH_LOOKUP_TIMEOUT_MS = 8_000;
 
@@ -63,6 +66,7 @@ interface DbPlanet {
   factionControl?: Partial<Record<Faction, number>>;
   customColor?: string;
   customType?: string;
+  appearance?: unknown;
 }
 
 const sanitizeStringArray = (value: unknown): string[] | undefined => {
@@ -72,6 +76,51 @@ const sanitizeStringArray = (value: unknown): string[] | undefined => {
     .map((item) => item.trim())
     .filter(Boolean);
   return items.length > 0 ? items : undefined;
+};
+
+/**
+ * Rows predate the appearance field and the column is free-form jsonb, so the
+ * value is checked rather than cast. Anything malformed falls back to
+ * undefined, which renders the plain sphere exactly as before.
+ */
+const sanitizeAppearance = (value: unknown): PlanetAppearance | undefined => {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return undefined;
+  const a = value as Record<string, unknown>;
+
+  // Clamped, not just checked: these land in float32 shader uniforms, where a
+  // large finite double overflows to Infinity and poisons the bloom buffer for
+  // the whole scene. The designer's sliders cannot produce one, but the column
+  // is free-form, so a hand-edited row can.
+  const num = (key: string, fallback: number, max = 1): number =>
+    typeof a[key] === 'number' && Number.isFinite(a[key])
+      ? Math.min(Math.max(a[key] as number, 0), max)
+      : fallback;
+  const color = (key: string, fallback: string): string =>
+    typeof a[key] === 'string' && /^#[0-9a-fA-F]{6}$/.test(a[key] as string)
+      ? (a[key] as string)
+      : fallback;
+
+  if (!PLANET_SURFACE_STYLES.includes(a.surface as PlanetSurfaceStyle)) return undefined;
+
+  return {
+    renderStyle: a.renderStyle === 'holo' ? 'holo' : 'procedural',
+    surface: a.surface as PlanetSurfaceStyle,
+    seed: num('seed', 1337, 99999),
+    colorLow: color('colorLow', '#123a52'),
+    colorMid: color('colorMid', '#4A7C59'),
+    colorHigh: color('colorHigh', '#8B7355'),
+    waterLevel: num('waterLevel', 0),
+    iceCaps: num('iceCaps', 0),
+    clouds: num('clouds', 0),
+    cloudColor: color('cloudColor', '#F2F6FA'),
+    atmosphere: num('atmosphere', 0, 1.5),
+    atmosphereColor: color('atmosphereColor', '#87CEEB'),
+    nightLights: num('nightLights', 0),
+    nightLightColor: color('nightLightColor', '#FFCC66'),
+    rings: num('rings', 0),
+    ringColor: color('ringColor', '#E2C9A0'),
+    roughness: num('roughness', 0.8),
+  };
 };
 
 export interface DbFleet {
@@ -109,6 +158,7 @@ export function dbToSystem(row: DbSystem): StarSystem {
           factionControl: p.factionControl,
           customColor: p.customColor,
           customType: p.customType,
+          appearance: sanitizeAppearance(p.appearance),
         }))
       : [
           {
@@ -182,6 +232,7 @@ function serializeSystemForDb(system: StarSystem, userId: string) {
       factionControl: p.factionControl,
       customColor: p.customColor,
       customType: p.customType,
+      ...(p.appearance ? { appearance: p.appearance } : {}),
     })),
     created_by: userId,
   };

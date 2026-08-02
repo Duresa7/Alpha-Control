@@ -170,7 +170,7 @@ export function InfoPanel() {
             className="holo-panel"
             style={{ maxHeight: 'calc(100vh - 2rem)', overflowY: 'auto' }}
           >
-            <div key={currentPanelId} className="space-y-6 pr-16">
+            <div key={currentPanelId} className="holo-panel-content space-y-6">
               {renderPanelContent(panelData)}
             </div>
           </div>

@@ -9,6 +9,7 @@ import { GalaxyMapBackground } from '@/components/galaxy/GalaxyMapBackground';
 import { FleetMarkers } from '@/components/galaxy/FleetMarker';
 import { CivilianTrafficLayer } from '@/components/galaxy/CivilianTrafficLayer';
 import { SystemDetailView } from '@/components/galaxy/SystemDetailView';
+import { PlanetEffects } from '@/components/three/PlanetEffects';
 import { FleetDetailView } from '@/components/galaxy/FleetDetailView';
 import { useGalaxySelectionStore } from '@/store/galaxySelectionStore';
 import { useGalaxyUIStore } from '@/store/galaxyUIStore';
@@ -79,6 +80,8 @@ function GalaxyContent() {
         </group>
       )}
 
+      {isSystemView && <PlanetEffects />}
+
       <CameraController />
     </group>
   );
@@ -116,12 +119,13 @@ function TopDownView() {
           {
             id: `${uniqueId}-prime`,
             name: pendingCustomPlanet.name,
-            type: 'terrestrial' as const,
+            type: pendingCustomPlanet.type,
             position: new THREE.Vector3(0, 0, 0),
             radius: 1,
             faction: pendingCustomPlanet.faction,
             description: `Custom planet: ${pendingCustomPlanet.name}`,
             systemId: uniqueId,
+            appearance: pendingCustomPlanet.appearance,
           },
         ],
       });

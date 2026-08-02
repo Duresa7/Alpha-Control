@@ -1,5 +1,6 @@
 import { memo, useMemo, useState } from 'react';
 import { MapLabel } from '@/components/galaxy/MapLabel';
+import { ProceduralPlanet } from '@/components/three/ProceduralPlanet';
 import type { StarSystem } from '@/types';
 import { useGalaxySelectionStore } from '@/store/galaxySelectionStore';
 import { useGalaxyUIStore } from '@/store/galaxyUIStore';
@@ -10,6 +11,9 @@ import {
   TOPDOWN_SYSTEM_MARKER_SIZE_BY_IMPORTANCE,
   DEFAULT_TOPDOWN_SYSTEM_MARKER_SIZE,
 } from '@/config/topDownMarkerConfig';
+
+/** A marker covers a handful of pixels, so it does not need the detail view's geometry. */
+const TOPDOWN_PLANET_DETAIL = 24;
 
 interface TopDownMarkerProps {
   system: StarSystem;
@@ -29,9 +33,9 @@ const TopDownMarker = memo(function TopDownMarker({ system }: TopDownMarkerProps
   const placementMode = useGalaxyUIStore((s) => s.placementMode);
 
   const getFactionMarkerColor = useFactionStore((s) => s.getFactionMarkerColor);
-  const primaryPlanetColor = system.planets[0]?.customColor;
+  const primaryPlanet = system.planets[0];
   const factionColor =
-    primaryPlanetColor ||
+    primaryPlanet?.customColor ||
     (system.isCustom && system.customColor ? system.customColor : null) ||
     getFactionMarkerColor(system.faction);
   const markerSize =
@@ -40,7 +44,6 @@ const TopDownMarker = memo(function TopDownMarker({ system }: TopDownMarkerProps
     DEFAULT_TOPDOWN_SYSTEM_MARKER_SIZE;
 
   const openTopDownPlanetEditor = () => {
-    const primaryPlanet = system.planets[0];
     setTopDownSelection(system.id, primaryPlanet?.id ?? null);
     if (primaryPlanet) {
       setInfoPanelData({ type: 'planet', data: primaryPlanet });
@@ -61,7 +64,6 @@ const TopDownMarker = memo(function TopDownMarker({ system }: TopDownMarkerProps
     placementMode,
     onSingleClick: openTopDownPlanetEditor,
     onDoubleClick: () => {
-      const primaryPlanet = system.planets[0];
       setSelectedSystem(system.id);
       if (primaryPlanet) {
         setSelectedPlanet(primaryPlanet.id);
@@ -77,7 +79,7 @@ const TopDownMarker = memo(function TopDownMarker({ system }: TopDownMarkerProps
 
   return (
     <group position={system.position}>
-      <mesh
+      <group
         onClick={handleClick}
         onDoubleClick={handleDoubleClick}
         onPointerDown={handlePointerDown}
@@ -89,11 +91,24 @@ const TopDownMarker = memo(function TopDownMarker({ system }: TopDownMarkerProps
           basePointerOut();
           setHovered(false);
         }}
-        rotation={[-Math.PI / 2, 0, 0]}
       >
-        <circleGeometry args={[markerSize * (hovered ? 1.3 : 1), 16]} />
-        <meshBasicMaterial color={factionColor} transparent opacity={hovered ? 1 : 0.9} />
-      </mesh>
+        {primaryPlanet?.appearance ? (
+          // Laid on its side so the map camera, which looks straight down, sees
+          // the equator rather than a pole — the same face the system view shows.
+          <group rotation={[-Math.PI / 2, 0, 0]} scale={hovered ? 1.3 : 1}>
+            <ProceduralPlanet
+              appearance={primaryPlanet.appearance}
+              radius={markerSize}
+              detail={TOPDOWN_PLANET_DETAIL}
+            />
+          </group>
+        ) : (
+          <mesh rotation={[-Math.PI / 2, 0, 0]}>
+            <circleGeometry args={[markerSize * (hovered ? 1.3 : 1), 16]} />
+            <meshBasicMaterial color={factionColor} transparent opacity={hovered ? 1 : 0.9} />
+          </mesh>
+        )}
+      </group>
 
       {system.isCustom && (
         <mesh rotation={[-Math.PI / 2, 0, 0]}>
