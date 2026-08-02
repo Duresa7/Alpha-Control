@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router';
 import { useAuth } from '@/hooks/useAuth';
 
 const AUTH_GUARD_TIMEOUT_MS = 8_000;

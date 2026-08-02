@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { NewsShell } from "@/components/news/NewsShell";
 import { fetchArticles } from "@/data/articleStorage";
 import { CATEGORIES } from "@/data/articleTypes";

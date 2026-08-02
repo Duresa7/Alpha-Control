@@ -17,13 +17,15 @@ export default defineConfig({
     setupFiles: ['./tests/setup.ts'],
   },
   build: {
-    rollupOptions: {
+    rolldownOptions: {
       output: {
-        manualChunks: {
-          three: ['three'],
-          'react-three': ['@react-three/fiber', '@react-three/drei'],
-          supabase: ['@supabase/supabase-js'],
-          tiptap: ['@tiptap/react', '@tiptap/starter-kit', '@tiptap/extension-link', '@tiptap/extension-image'],
+        codeSplitting: {
+          groups: [
+            { name: 'three', test: /node_modules\/three\// },
+            { name: 'react-three', test: /node_modules\/@react-three\/(?:fiber|drei)\// },
+            { name: 'supabase', test: /node_modules\/@supabase\// },
+            { name: 'tiptap', test: /node_modules\/@tiptap\// },
+          ],
         },
       },
     },

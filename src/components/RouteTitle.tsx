@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { matchPath, useLocation } from 'react-router-dom';
+import { matchPath, useLocation } from 'react-router';
 
 const SITE_TITLE = 'AlphaSec United';
 

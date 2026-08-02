@@ -1,5 +1,5 @@
 import { useState, type ComponentType } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router';
 import { useAuth } from '@/hooks/useAuth';
 import { useShaderBackground } from '@/hooks/useShaderBackground';
 import { AuthModal } from '@/components/auth/AuthModal';

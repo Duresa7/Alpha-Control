@@ -4,7 +4,7 @@ import { type ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
 import remarkGfm from "remark-gfm";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 import { cn } from "@/lib/utils";
 

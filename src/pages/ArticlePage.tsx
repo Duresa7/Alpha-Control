@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link, Navigate, useNavigate } from 'react-router-dom';
+import { useParams, Link, Navigate, useNavigate } from 'react-router';
 import { NewsShell } from '@/components/news/NewsShell';
 import { LikeButton } from '@/components/news/LikeButton';
 import { CommentSection } from '@/components/news/CommentSection';

@@ -1,12 +1,13 @@
 import { ReactNode } from 'react';
-import { act, render, screen } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { MemoryRouter, Route, Routes, useLocation } from 'react-router';
 import { AdminRoute } from '@/components/auth/AdminRoute';
 import { BossmanRoute } from '@/components/auth/BossmanRoute';
 import { GalaxyRoute } from '@/components/auth/GalaxyRoute';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 import type { AuthContextValue } from '@/contexts/authContextHelpers';
+import App from '@/App';
 
 const authState = vi.hoisted(() => ({
   value: {
@@ -98,6 +99,53 @@ describe('route guards', () => {
       isUser: true,
       canAccessGalaxy: false,
     };
+  });
+
+  describe('App routing', () => {
+    it('renders a public lazy route with its document title', async () => {
+      render(
+        <MemoryRouter initialEntries={['/privacy']}>
+          <App />
+        </MemoryRouter>,
+      );
+
+      expect(await screen.findByRole('heading', { name: 'Privacy Policy', level: 1 })).toBeTruthy();
+      await waitFor(() => {
+        expect(document.title).toBe('AlphaSec United | Privacy Policy');
+      });
+    });
+
+    it('redirects unauthenticated users from protected routes to sign in', async () => {
+      render(
+        <MemoryRouter initialEntries={['/settings']}>
+          <App />
+          <RouteProbe />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        expect(screen.getByTestId('route-probe').textContent).toBe('/');
+      });
+      expect(await screen.findByRole('heading', { name: 'Sign In', level: 2 })).toBeTruthy();
+      await waitFor(() => {
+        expect(document.title).toBe('AlphaSec United');
+      });
+    });
+
+    it('redirects unknown routes to the public homepage', async () => {
+      render(
+        <MemoryRouter initialEntries={['/missing-route']}>
+          <App />
+          <RouteProbe />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        expect(screen.getByTestId('route-probe').textContent).toBe('/');
+      });
+      expect(screen.getByLabelText('Portfolio homepage')).toBeTruthy();
+      expect(document.title).toBe('AlphaSec United');
+    });
   });
 
   describe('ProtectedRoute', () => {

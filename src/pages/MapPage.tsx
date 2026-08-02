@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router';
 import { GalaxyScene } from '@/components/galaxy/GalaxyScene';
 import { InfoPanel } from '@/components/panels/InfoPanel';
 import { IconRail } from '@/components/panels/IconRail';

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router";
 
 import { useAuth } from "@/hooks/useAuth";
 import { getUserIdentity } from "@/utils/getUserIdentity";
