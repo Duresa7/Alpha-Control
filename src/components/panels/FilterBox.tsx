@@ -23,7 +23,7 @@ export function FilterBox({ active, onClick, label, color = 'blue', hexColor }: 
   return (
     <button
       onClick={onClick}
-      className="relative flex flex-col items-center justify-center p-3.5 border transition-all duration-250 cursor-pointer overflow-hidden"
+      className="flex flex-col items-center justify-center p-3.5 border transition-all duration-250 cursor-pointer"
       style={{
         background: active
           ? `linear-gradient(160deg, rgba(255, 255, 255, 0.08) 0%, transparent 70%), rgba(200, 170, 110, 0.08)`
@@ -43,12 +43,6 @@ export function FilterBox({ active, onClick, label, color = 'blue', hexColor }: 
       >
         {label}
       </span>
-      {active && (
-        <div
-          className="absolute inset-0 opacity-10 pointer-events-none"
-          style={{ background: `radial-gradient(circle at center, ${activeColor}, transparent 70%)` }}
-        />
-      )}
     </button>
   );
 }

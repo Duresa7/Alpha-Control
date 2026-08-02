@@ -219,7 +219,7 @@ export function FleetLogisticsModal({ onConfirm, onCancel }: FleetLogisticsModal
 
           <div className="fleet-modal-config">
             <div className="fleet-config-section">
-              <label className="fleet-config-label">Fleet Designation:</label>
+              <label className="fleet-config-label">Fleet Designation</label>
               <input
                 type="text"
                 value={fleetName}

@@ -518,7 +518,7 @@ export function MapPage() {
               <div className="holo-account-shell">
                 <span
                   className="px-3 py-1 text-[10px] font-semibold tracking-[0.1em] uppercase"
-                  style={{ fontFamily: 'Oxanium, Orbitron, monospace', color: 'rgba(255, 255, 255, 0.8)' }}
+                  style={{ fontFamily: 'Oxanium, Orbitron, monospace', color: 'rgba(255, 255, 255, 0.55)' }}
                 >
                   {displayName}
                 </span>

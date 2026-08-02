@@ -163,29 +163,29 @@ export function InfoPanel() {
           transition={{ duration: 0.15, ease: 'easeOut' }}
         >
           <div className="holo-panel" style={{ maxHeight: 'calc(100vh - 2rem)', overflowY: 'auto' }}>
+            <div key={currentPanelId} className="space-y-6 pr-16">{renderPanelContent(panelData)}</div>
+          </div>
 
-            <div className="absolute -top-2 right-4 z-10 flex items-center gap-1">
-              <button
-                onClick={handleClose}
-                className="holo-close-button"
-                title="Close panel"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-              <button
-                onClick={() => setCollapsed(true)}
-                className="holo-close-button"
-                title="Hide panel"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14" />
-                </svg>
-              </button>
-            </div>
-
-            <div key={currentPanelId} className="space-y-6">{renderPanelContent(panelData)}</div>
+          {/* Outside the panel: it scrolls, and these must stay reachable. */}
+          <div className="absolute top-4 right-4 z-10 flex items-center gap-1">
+            <button
+              onClick={() => setCollapsed(true)}
+              className="holo-close-button"
+              title="Hide panel"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14" />
+              </svg>
+            </button>
+            <button
+              onClick={handleClose}
+              className="holo-close-button"
+              title="Close panel"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
           </div>
         </motion.div>
       )}

@@ -65,10 +65,6 @@ export function CustomPlanetsPanel() {
                   onChange={(e) => setNewPlanetColor(e.target.value)}
                   className="holo-color-input"
                 />
-                <div
-                  className="w-4 h-4 rounded-full"
-                  style={{ backgroundColor: newPlanetColor }}
-                />
               </div>
               <div className="flex gap-2">
                 <button

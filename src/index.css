@@ -537,9 +537,14 @@ body {
   border-radius: 20px 20px 0 0;
 }
 
-.holo-panel > * {
-  position: relative;
-  z-index: 2;
+/* Lifts panel content above the ::before/::after sheen. Layered so a child
+   that explicitly asks for another position (a Tailwind utility) still wins —
+   unlayered, this silently overrode them. */
+@layer base {
+  .holo-panel > * {
+    position: relative;
+    z-index: 2;
+  }
 }
 
 .holo-label {
@@ -780,7 +785,8 @@ body {
   z-index: 50;
 }
 
-.holo-rail-item:hover .holo-rail-tooltip {
+.holo-rail-item:hover .holo-rail-tooltip,
+.holo-rail-item:focus-within .holo-rail-tooltip {
   opacity: 1;
   transform: translateY(-50%) translateX(0);
 }
@@ -1105,9 +1111,12 @@ body {
   gap: 6px;
   padding: 5px 12px;
   border-radius: 999px;
-  border: 1px solid rgba(200, 170, 110, 0.16);
-  background: rgba(200, 170, 110, 0.08);
-  color: rgba(255, 255, 255, 0.8);
+  /* Neutral by default: an amber wash under white text muddies both, and
+     amber elsewhere in the UI means active or accented, which sign-out isn't.
+     It earns the accent on hover, where it reads as intent. */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.75);
   font-family: "Oxanium", "Orbitron", monospace;
   font-size: 10px;
   font-weight: 600;
@@ -1118,9 +1127,9 @@ body {
 }
 
 .holo-account-action:hover {
-  color: var(--holo-amber);
-  background: rgba(200, 170, 110, 0.12);
-  border-color: rgba(200, 170, 110, 0.25);
+  color: var(--holo-amber-bright);
+  background: rgba(200, 170, 110, 0.14);
+  border-color: rgba(200, 170, 110, 0.35);
 }
 
 .holo-placement-notice {
