@@ -16,9 +16,13 @@ export interface HoloMicroExpanderProps
   isLoading?: boolean;
 }
 
-const SIZES: Record<HoloSize, { collapsed: number; label: string }> = {
-  sm: { collapsed: 40, label: "text-[10px]" },
-  md: { collapsed: 48, label: "text-[11px]" },
+const SIZES: Record<HoloSize, {
+  collapsed: number;
+  label: string;
+  labelTrail: number;
+}> = {
+  sm: { collapsed: 40, label: "text-[10px]", labelTrail: 16 },
+  md: { collapsed: 48, label: "text-[11px]", labelTrail: 20 },
 };
 
 const VARIANT_STYLES: Record<HoloVariant, { base: string; hover: string }> = {
@@ -172,14 +176,12 @@ export const HoloMicroExpander = React.forwardRef<
             delay: expanded ? 0.08 : 0,
             ease: "easeOut",
           }}
-          className={cn(
-            "block whitespace-nowrap pl-3 pr-7 tracking-[0.08em]",
-            dims.label,
-          )}
+          className={cn("block whitespace-nowrap tracking-[0.08em]", dims.label)}
           style={{
             fontFamily: "Oxanium, Orbitron, monospace",
             width: "max-content",
             minWidth: "max-content",
+            paddingRight: dims.labelTrail,
           }}
           aria-hidden
         >
