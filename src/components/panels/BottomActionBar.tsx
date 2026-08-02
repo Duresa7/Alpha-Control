@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Globe, SlidersHorizontal, Zap } from "lucide-react";
 import { useGalaxyUIStore } from "@/store/galaxyUIStore";
 import { useRole } from "@/hooks/useRole";
 import { CustomPlanetsPanel } from "@/components/panels/CustomPlanetsPanel";
@@ -27,22 +28,7 @@ export function BottomActionBar() {
           text="Map Controls"
           isActive={activeModule === "mapControls"}
           onClick={() => setActiveModule("mapControls")}
-          icon={
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
-              />
-            </svg>
-          }
+          icon={<SlidersHorizontal className="w-4 h-4" aria-hidden="true" />}
         />
 
         {isAdmin && (
@@ -52,44 +38,14 @@ export function BottomActionBar() {
               label="Create Planet"
               activeModule={activeModule}
               onOpen={() => setActiveModule(null)}
-              icon={
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
-                  />
-                </svg>
-              }
+              icon={<Globe className="w-4 h-4" aria-hidden="true" />}
             />
             <PanelTriggerWrapper
               component={<CustomFleetsPanel />}
               label="Create Fleet"
               activeModule={activeModule}
               onOpen={() => setActiveModule(null)}
-              icon={
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 10V3L4 14h7v7l9-11h-7z"
-                  />
-                </svg>
-              }
+              icon={<Zap className="w-4 h-4" aria-hidden="true" />}
             />
           </>
         )}

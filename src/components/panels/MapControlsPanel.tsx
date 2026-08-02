@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { SlidersHorizontal } from 'lucide-react';
 import { useGalaxyUIStore } from '@/store/galaxyUIStore';
 import { useFactionStore } from '@/store/factionStore';
 import { FilterBox } from '@/components/panels/FilterBox';
@@ -35,9 +36,7 @@ export function MapControlsPanel() {
         <div className="holo-panel map-controls-panel">
           <label className="holo-label holo-section-header mb-5 pointer-events-none">
             <span className="flex items-center gap-2">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-              </svg>
+              <SlidersHorizontal className="w-4 h-4" aria-hidden="true" />
               Map Controls
             </span>
           </label>

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Globe, Plus } from 'lucide-react';
 import { useGalaxyUIStore } from '@/store/galaxyUIStore';
 import { useGalaxyDataStore } from '@/store/galaxyDataStore';
 import { useFactionStore } from '@/store/factionStore';
@@ -23,9 +24,7 @@ export function CustomPlanetsPanel() {
         className="holo-label holo-section-header"
       >
         <span className="flex items-center gap-2">
-          <svg className="w-4 h-4 holo-icon-dim" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-          </svg>
+          <Globe className="w-4 h-4 holo-icon-dim" aria-hidden="true" />
           Custom Planets
         </span>
       </label>
@@ -100,9 +99,7 @@ export function CustomPlanetsPanel() {
               onClick={() => setShowCreateForm(true)}
               className="holo-button holo-button-sm mt-3 w-full"
             >
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
+              <Plus className="w-3.5 h-3.5" aria-hidden="true" />
               <span>Create Planet</span>
             </button>
           )}

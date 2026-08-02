@@ -1,5 +1,17 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import {
+  ArrowLeft,
+  Download,
+  Eye,
+  EyeOff,
+  HelpCircle,
+  MessageSquareText,
+  Minus,
+  Plus,
+  RefreshCw,
+  Settings,
+} from 'lucide-react';
 import { Link, useNavigate } from 'react-router';
 import { GalaxyScene } from '@/components/galaxy/GalaxyScene';
 import { InfoPanel } from '@/components/panels/InfoPanel';
@@ -310,16 +322,9 @@ export function MapPage() {
           text={uiHidden ? 'Show UI' : 'Hide UI'}
           onClick={() => setUiHidden((prev) => !prev)}
           icon={
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" aria-hidden="true">
-              {uiHidden ? (
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L6.59 6.59m7.532 7.532l3.29 3.29M3 3l18 18" />
-              ) : (
-                <>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                </>
-              )}
-            </svg>
+            uiHidden
+              ? <EyeOff className="w-5 h-5" aria-hidden="true" />
+              : <Eye className="w-5 h-5" aria-hidden="true" />
           }
         />
 
@@ -330,9 +335,7 @@ export function MapPage() {
               text="Download Map"
               onClick={handleDownloadMap}
               icon={
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V3" />
-                </svg>
+                <Download className="w-5 h-5" aria-hidden="true" />
               }
             />
           </span>
@@ -344,9 +347,7 @@ export function MapPage() {
             text="Feedback"
             onClick={() => navigate('/feedback')}
             icon={
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M7 8h10M7 12h6m-6 4h4M5 3h14a2 2 0 012 2v13a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z" />
-              </svg>
+              <MessageSquareText className="w-5 h-5" aria-hidden="true" />
             }
           />
         )}
@@ -360,11 +361,7 @@ export function MapPage() {
               setTourRunning(true);
             }}
             icon={
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="12" cy="12" r="10" />
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3" />
-                <circle cx="12" cy="17" r="0.5" fill="currentColor" />
-              </svg>
+              <HelpCircle className="w-5 h-5" aria-hidden="true" />
             }
           />
         )}
@@ -426,30 +423,21 @@ export function MapPage() {
                 className="holo-button holo-button-sm"
                 title="Zoom in"
               >
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v12M6 12h12" />
-                </svg>
+                <Plus className="w-3.5 h-3.5" aria-hidden="true" />
               </button>
               <button
                 onClick={() => requestZoom(1)}
                 className="holo-button holo-button-sm"
                 title="Zoom out"
               >
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 12h12" />
-                </svg>
+                <Minus className="w-3.5 h-3.5" aria-hidden="true" />
               </button>
               <button
                 onClick={() => requestCameraReset()}
                 className="holo-button holo-button-sm"
                 title="Reset camera to default position"
               >
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h4V6" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10a9 9 0 0117.36-2.35" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 14h-4v4" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 14a9 9 0 01-17.36 2.35" />
-                </svg>
+                <RefreshCw className="w-3.5 h-3.5" aria-hidden="true" />
               </button>
             </motion.div>
           )}
@@ -469,9 +457,7 @@ export function MapPage() {
                 className="holo-button holo-button-sm"
                 title="Back to Galaxy Map"
               >
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 17l-5-5m0 0l5-5m-5 5h12" />
-                </svg>
+                <ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
                 <span>Galaxy Map</span>
               </button>
             </motion.div>
@@ -484,9 +470,7 @@ export function MapPage() {
             transition={{ duration: 0.3, ease: 'easeOut', delay: 0.2 }}
           >
             <Link to="/" className="holo-button holo-button-sm">
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 17l-5-5m0 0l5-5m-5 5h12" />
-              </svg>
+              <ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
               <span>AlphaSec</span>
             </Link>
           </motion.div>
@@ -499,10 +483,7 @@ export function MapPage() {
           >
             {isAdmin && (
               <Link to="/admin" className="holo-button holo-button-sm">
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
+                <Settings className="w-3.5 h-3.5" aria-hidden="true" />
                 <span>Admin</span>
               </Link>
             )}

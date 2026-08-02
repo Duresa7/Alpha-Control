@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Minus, X } from 'lucide-react';
 import { useGalaxySelectionStore } from '@/store/galaxySelectionStore';
 import { useGalaxyDataStore } from '@/store/galaxyDataStore';
 import { useRole } from '@/hooks/useRole';
@@ -173,18 +174,14 @@ export function InfoPanel() {
               className="holo-close-button"
               title="Hide panel"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14" />
-              </svg>
+              <Minus className="w-4 h-4" aria-hidden="true" />
             </button>
             <button
               onClick={handleClose}
               className="holo-close-button"
               title="Close panel"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              <X className="w-4 h-4" aria-hidden="true" />
             </button>
           </div>
         </motion.div>
