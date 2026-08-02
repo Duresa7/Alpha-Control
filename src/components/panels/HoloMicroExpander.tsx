@@ -76,10 +76,20 @@ export const HoloMicroExpander = React.forwardRef<
   ref,
 ) {
   const [isHovered, setIsHovered] = React.useState(false);
+  const labelRef = React.useRef<HTMLSpanElement>(null);
+  const [labelWidth, setLabelWidth] = React.useState(0);
   const dims = SIZES[size];
   const palette = VARIANT_STYLES[variant];
   const expanded = isHovered && !isLoading;
   const iconSize = dims.collapsed;
+
+  React.useLayoutEffect(() => {
+    const label = labelRef.current;
+    if (!label) return;
+    const observer = new ResizeObserver(() => setLabelWidth(label.offsetWidth));
+    observer.observe(label);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <button
@@ -165,15 +175,16 @@ export const HoloMicroExpander = React.forwardRef<
       <span
         className="overflow-hidden shrink-0"
         style={{
-          maxWidth: expanded ? "1000px" : "0px",
-          transition: "max-width 280ms cubic-bezier(0.22, 1, 0.36, 1)",
+          width: expanded ? labelWidth : 0,
+          transition: "width 420ms cubic-bezier(0.32, 0.72, 0, 1)",
         }}
       >
         <motion.span
+          ref={labelRef}
           animate={{ opacity: expanded ? 1 : 0 }}
           transition={{
-            duration: 0.22,
-            delay: expanded ? 0.08 : 0,
+            duration: expanded ? 0.28 : 0.14,
+            delay: expanded ? 0.12 : 0,
             ease: "easeOut",
           }}
           className={cn("block whitespace-nowrap tracking-[0.08em]", dims.label)}
