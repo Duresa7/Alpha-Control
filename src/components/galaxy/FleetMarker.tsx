@@ -117,6 +117,8 @@ const FleetMarker = memo(function FleetMarker({ fleet }: FleetMarkerProps) {
             hovered={hovered}
             title={fleet.name}
             subtitle={`${fleet.shipCount} ships`}
+            onClick={handleClick}
+            onDoubleClick={handleDoubleClick}
           />
         )}
       </group>

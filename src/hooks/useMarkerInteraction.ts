@@ -10,6 +10,8 @@ const _plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
 const _intersection = new THREE.Vector3();
 const _nextPosition = new THREE.Vector3();
 
+type StoppableEvent = { stopPropagation: () => void };
+
 interface UseMarkerInteractionOptions {
   entityId: string;
   position: THREE.Vector3;
@@ -50,7 +52,9 @@ export function useMarkerInteraction({
     };
   }, []);
 
-  const handleClick = (e: ThreeEvent<MouseEvent>) => {
+  // Typed by capability rather than by event so the map labels, which are DOM
+  // nodes rather than meshes, can share the click/double-click disambiguation.
+  const handleClick = (e: StoppableEvent) => {
     if (didDragRef.current) {
       didDragRef.current = false;
       return;
@@ -64,7 +68,7 @@ export function useMarkerInteraction({
     }, SINGLE_CLICK_DELAY_MS);
   };
 
-  const handleDoubleClick = (e: ThreeEvent<MouseEvent>) => {
+  const handleDoubleClick = (e: StoppableEvent) => {
     if (didDragRef.current) {
       didDragRef.current = false;
       return;

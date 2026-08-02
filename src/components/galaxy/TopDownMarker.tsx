@@ -110,6 +110,8 @@ const TopDownMarker = memo(function TopDownMarker({ system }: TopDownMarkerProps
           hovered={hovered}
           title={system.name}
           fontSize={system.importance === 'capital' ? '16px' : '13px'}
+          onClick={handleClick}
+          onDoubleClick={handleDoubleClick}
         />
       )}
     </group>

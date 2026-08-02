@@ -1,4 +1,5 @@
 import { Html } from '@react-three/drei';
+import type { MouseEvent } from 'react';
 
 interface MapLabelProps {
   markerSize: number;
@@ -7,9 +8,22 @@ interface MapLabelProps {
   title: string;
   subtitle?: string;
   fontSize?: string;
+  onClick?: (event: MouseEvent<HTMLDivElement>) => void;
+  onDoubleClick?: (event: MouseEvent<HTMLDivElement>) => void;
 }
 
-export function MapLabel({ markerSize, color, hovered, title, subtitle, fontSize = '13px' }: MapLabelProps) {
+export function MapLabel({
+  markerSize,
+  color,
+  hovered,
+  title,
+  subtitle,
+  fontSize = '13px',
+  onClick,
+  onDoubleClick,
+}: MapLabelProps) {
+  const interactive = Boolean(onClick);
+
   return (
     <Html
       position={[0, 0, -markerSize * 1.5]}
@@ -20,6 +34,8 @@ export function MapLabel({ markerSize, color, hovered, title, subtitle, fontSize
       <div
         data-map-label
         className="text-center whitespace-nowrap px-3 py-1 rounded"
+        onClick={onClick}
+        onDoubleClick={onDoubleClick}
         style={{
           color: '#FFFFFF',
           backgroundColor: hovered ? 'rgba(0,0,0,0.9)' : 'rgba(0,0,0,0.75)',
@@ -27,6 +43,10 @@ export function MapLabel({ markerSize, color, hovered, title, subtitle, fontSize
           fontSize,
           fontWeight: 'bold',
           borderBottom: `2px solid ${color}`,
+          // Panning still works from here: R3F binds its events to the
+          // container the labels are portalled into, not to the canvas.
+          pointerEvents: interactive ? 'auto' : 'none',
+          cursor: interactive ? 'pointer' : undefined,
         }}
       >
         {title}
