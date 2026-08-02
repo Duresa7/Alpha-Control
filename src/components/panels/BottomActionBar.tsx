@@ -4,8 +4,9 @@ import { useRole } from "@/hooks/useRole";
 import { CustomPlanetsPanel } from "@/components/panels/CustomPlanetsPanel";
 import { CustomFleetsPanel } from "@/components/panels/CustomFleetsPanel";
 import { HoloMicroExpander } from "@/components/panels/HoloMicroExpander";
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
+import { useFloating, offset, flip, shift, autoUpdate } from "@floating-ui/react-dom";
 
 export function BottomActionBar() {
   const { isAdmin } = useRole();
@@ -118,39 +119,26 @@ function PanelTriggerWrapper({
     }
   }, [activeModule]);
 
-  const buttonRef = useRef<HTMLButtonElement>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
-  const [pos, setPos] = useState<{ left: number; bottom: number } | null>(null);
-
-  const computePosition = useCallback(() => {
-    if (!buttonRef.current) return null;
-    const rect = buttonRef.current.getBoundingClientRect();
-    return {
-      left: rect.left + rect.width / 2,
-      bottom: window.innerHeight - rect.top + 16,
-    };
-  }, []);
-
-  const updatePosition = useCallback(() => {
-    const p = computePosition();
-    if (p) setPos(p);
-  }, [computePosition]);
-
-  useEffect(() => {
-    if (!open) return;
-    window.addEventListener("resize", updatePosition);
-    return () => window.removeEventListener("resize", updatePosition);
-  }, [open, updatePosition]);
+  // Floating UI keeps the panel anchored on scroll and resize, and flips or
+  // shifts it when the trigger sits too close to a screen edge.
+  const { refs, floatingStyles } = useFloating({
+    placement: "top",
+    strategy: "fixed",
+    middleware: [offset(16), flip({ padding: 12 }), shift({ padding: 12 })],
+    whileElementsMounted: autoUpdate,
+  });
 
   useEffect(() => {
     if (!open) return;
     const handleClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
+      const panel = refs.floating.current;
+      const button = refs.reference.current as HTMLElement | null;
       if (
-        panelRef.current &&
-        !panelRef.current.contains(target) &&
-        buttonRef.current &&
-        !buttonRef.current.contains(target) &&
+        panel &&
+        !panel.contains(target) &&
+        button &&
+        !button.contains(target) &&
         !target.closest(".fleet-modal-overlay")
       ) {
         setOpen(false);
@@ -158,37 +146,26 @@ function PanelTriggerWrapper({
     };
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
-  }, [open]);
+  }, [open, refs]);
 
   return (
     <>
       <HoloMicroExpander
-        ref={buttonRef}
+        ref={refs.setReference}
         size="md"
         text={label}
         isActive={open}
         icon={icon}
         onClick={() => {
           const next = !open;
-          if (next) {
-            setPos(computePosition());
-            onOpen();
-          }
+          if (next) onOpen();
           setOpen(next);
         }}
       />
 
-      {open && pos &&
+      {open &&
         createPortal(
-          <div
-            ref={panelRef}
-            className="fixed w-72 z-50"
-            style={{
-              left: pos.left,
-              bottom: pos.bottom,
-              transform: "translateX(-50%)",
-            }}
-          >
+          <div ref={refs.setFloating} className="w-72 z-50" style={floatingStyles}>
             <div className="animate-slide-up-subtle">{component}</div>
           </div>,
           document.body,
