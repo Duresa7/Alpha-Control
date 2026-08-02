@@ -187,7 +187,7 @@ describe('route guards', () => {
 
       renderRoute('/guard', <GalaxyRoute><div>map</div></GalaxyRoute>);
 
-      expect(screen.getByLabelText('Preparing interactive map')).toBeTruthy();
+      expect(screen.getByLabelText('Verifying clearance')).toBeTruthy();
     });
 
     it('shows access denied for authenticated users without galaxy access', () => {

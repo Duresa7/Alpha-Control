@@ -1,56 +1,39 @@
 import { useGalaxyDataStore } from '@/store/galaxyDataStore';
 
-export function LoadingScreen() {
-  const isLoading = useGalaxyDataStore((s) => s.isLoading);
-  const currentYear = useGalaxyDataStore((s) => s.currentYear);
-
-  if (!isLoading) return null;
-
+export function GalaxyLoading({ caption }: { caption: string }) {
   return (
     <section
-      className="map-loading-overlay"
+      className="galaxy-loading"
       role="status"
       aria-live="polite"
       aria-busy="true"
-      aria-label="Loading galaxy map"
+      aria-label={caption}
     >
-      <div className="map-loading-overlay__layer map-loading-overlay__layer--void" aria-hidden="true" />
-      <div className="map-loading-overlay__layer map-loading-overlay__layer--stars" aria-hidden="true" />
-      <div className="map-loading-overlay__layer map-loading-overlay__layer--grid" aria-hidden="true" />
-      <div className="map-loading-overlay__layer map-loading-overlay__layer--sweep" aria-hidden="true" />
+      <div className="galaxy-loading__stars" aria-hidden="true" />
 
-      <div className="map-loading-overlay__frame">
-        <div className="map-loading-overlay__corner map-loading-overlay__corner--tl" aria-hidden="true" />
-        <div className="map-loading-overlay__corner map-loading-overlay__corner--tr" aria-hidden="true" />
-        <div className="map-loading-overlay__corner map-loading-overlay__corner--bl" aria-hidden="true" />
-        <div className="map-loading-overlay__corner map-loading-overlay__corner--br" aria-hidden="true" />
-
-        <div className="map-loading-overlay__core" aria-hidden="true">
-          <span className="map-loading-overlay__core-ring map-loading-overlay__core-ring--outer" />
-          <span className="map-loading-overlay__core-ring map-loading-overlay__core-ring--middle" />
-          <span className="map-loading-overlay__core-ring map-loading-overlay__core-ring--inner" />
-          <span className="map-loading-overlay__core-ring map-loading-overlay__core-ring--arc" />
-          <span className="map-loading-overlay__core-dot" />
+      <div className="galaxy-loading__content">
+        <div className="galaxy-loading__core" aria-hidden="true">
+          <span className="galaxy-loading__orbit" />
+          <span className="galaxy-loading__echo" />
+          <span className="galaxy-loading__dot" />
         </div>
 
-        <h1 className="map-loading-overlay__title">GALAXY MAP</h1>
+        <h1 className="galaxy-loading__title">Galaxy Map</h1>
 
-        <div className="map-loading-overlay__signal" aria-hidden="true">
-          <span className="map-loading-overlay__signal-line" />
-          <span className="map-loading-overlay__signal-pip" />
-          <span className="map-loading-overlay__signal-pip map-loading-overlay__signal-pip--offset" />
-          <span className="map-loading-overlay__signal-line map-loading-overlay__signal-line--reverse" />
-        </div>
-
-        <div className="map-loading-overlay__progress" aria-hidden="true">
-          <span />
+        <div className="galaxy-loading__track" aria-hidden="true">
           <span />
         </div>
 
-        <p className="map-loading-overlay__status">HOLONET UPLINK ESTABLISHED</p>
-        <p className="map-loading-overlay__copy">Initializing Navicomputer...</p>
-        <p className="map-loading-overlay__meta">Old Republic Era &middot; {currentYear} ATC</p>
+        <p className="galaxy-loading__caption">{caption}</p>
       </div>
     </section>
   );
+}
+
+export function LoadingScreen() {
+  const isLoading = useGalaxyDataStore((s) => s.isLoading);
+
+  if (!isLoading) return null;
+
+  return <GalaxyLoading caption="Initializing navicomputer" />;
 }

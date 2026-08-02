@@ -1,9 +1,8 @@
-import { useEffect, useState, type CSSProperties } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate, useLocation } from 'react-router';
 import { useAuth } from '@/hooks/useAuth';
 import { useRole } from '@/hooks/useRole';
-
-const heroImageUrl = `${import.meta.env.BASE_URL}homepage-bg.jpg`;
+import { GalaxyLoading } from '@/components/panels/LoadingScreen';
 
 const AUTH_GUARD_TIMEOUT_MS = 8_000;
 
@@ -31,23 +30,7 @@ export function GalaxyRoute({ children }: { children: React.ReactNode }) {
   }
 
   if (loading && !session && !authWaitExpired) {
-    return (
-      <section
-        className="route-auth-loading"
-        aria-label="Preparing interactive map"
-        style={{ '--portfolio-hero-bg-image': `url("${heroImageUrl}")` } as CSSProperties}
-      >
-        <div className="route-auth-loading__layer route-auth-loading__layer--base" aria-hidden="true" />
-        <div className="route-auth-loading__layer route-auth-loading__layer--grid" aria-hidden="true" />
-        <div className="route-auth-loading__veil" aria-hidden="true" />
-        <div className="route-auth-loading__card">
-          <p className="route-auth-loading__eyebrow">Hyperspace Transition</p>
-          <h2 className="route-auth-loading__title">Projecting star lanes</h2>
-          <p className="route-auth-loading__copy">Calibrating the interactive galaxy map...</p>
-          <div className="route-auth-loading__bar" aria-hidden="true"><span /></div>
-        </div>
-      </section>
-    );
+    return <GalaxyLoading caption="Verifying clearance" />;
   }
 
   if (!session) {
