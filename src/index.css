@@ -943,39 +943,103 @@ body {
   line-height: 1.2;
 }
 
-.holo-stat-pill {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 8px;
-  padding: 6px 14px;
+/**
+ * The collapse and close buttons float over the top-right corner of the panel,
+ * so only the title has to clear them. Indenting the whole column instead, as
+ * this used to, cost every section a gutter it had no use for.
+ */
+.holo-panel-content h2 {
+  padding-right: 68px;
+}
+
+/**
+ * Spec sheet: a fixed label column beside a value column that wraps into chips.
+ * Values here are open-ended lists — a planet can sit on one hyperlane or six —
+ * so the value column is grid-constrained rather than sized by its content.
+ */
+.holo-spec-list {
+  display: flex;
+  flex-direction: column;
   background:
-    linear-gradient(160deg, rgba(255, 255, 255, 0.07) 0%, transparent 70%),
-    rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 999px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  transition: all 0.2s ease;
+    linear-gradient(160deg, rgba(255, 255, 255, 0.05) 0%, transparent 65%),
+    rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  overflow: hidden;
 }
 
-.holo-stat-pill:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.14);
+.holo-spec-row {
+  display: grid;
+  grid-template-columns: 78px minmax(0, 1fr);
+  align-items: start;
+  gap: 12px;
+  padding: 9px 14px;
+  transition: background 0.18s ease;
 }
 
-.holo-stat-pill-label {
+.holo-spec-row + .holo-spec-row {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.holo-spec-row:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.holo-spec-label {
   font-family: 'Oxanium', monospace;
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 0.12em;
+  line-height: 24px;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.35);
-  white-space: nowrap;
 }
 
-.holo-stat-pill-value {
-  font-size: 13px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.88);
+.holo-spec-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-width: 0;
+}
+
+.holo-spec-chip {
+  padding: 3px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  font-size: 12px;
+  line-height: 16px;
+  color: rgba(255, 255, 255, 0.85);
+  transition:
+    color 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.holo-spec-empty {
+  font-size: 12px;
+  line-height: 24px;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.25);
+  transition: color 0.18s ease;
+}
+
+.holo-spec-chips.is-editable,
+.holo-spec-empty.is-editable {
+  cursor: pointer;
+}
+
+.holo-spec-chips.is-editable:hover .holo-spec-chip,
+.holo-spec-empty.is-editable:hover {
+  border-color: rgba(240, 201, 135, 0.35);
+  color: rgba(240, 201, 135, 0.95);
+}
+
+.holo-spec-edit {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
 }
 
 .holo-recessed-card {

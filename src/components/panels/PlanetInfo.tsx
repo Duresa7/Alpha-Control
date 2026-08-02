@@ -7,7 +7,7 @@ import { PlanetDesignerModal } from '@/components/panels/PlanetDesignerModal';
 import { useGalaxySelectionStore } from '@/store/galaxySelectionStore';
 import { useGalaxyDataStore } from '@/store/galaxyDataStore';
 import { useFactionStore } from '@/store/factionStore';
-import { EditableStatPill, AddFactionControl } from '@/components/panels/infoPanelShared';
+import { EditableSpecRow, AddFactionControl } from '@/components/panels/infoPanelShared';
 import { PLANET_APPEARANCES } from '@/config/planetAppearances';
 import { normalizeFactionControl } from '@/utils/factionControl';
 import { useEditableField } from '@/hooks/useEditableField';
@@ -246,9 +246,9 @@ export function PlanetInfo({ planet, editable }: PlanetInfoProps) {
         variants={sectionVariants}
         initial="hidden"
         animate="visible"
-        className="flex flex-wrap gap-2"
+        className="holo-spec-list"
       >
-        <EditableStatPill
+        <EditableSpecRow
           label="Climate"
           value={planet.climate || ''}
           placeholder="Unknown"
@@ -263,7 +263,7 @@ export function PlanetInfo({ planet, editable }: PlanetInfoProps) {
           }}
           onCancel={climate.cancel}
         />
-        <EditableStatPill
+        <EditableSpecRow
           label="Terrain"
           value={planet.terrain || ''}
           placeholder="Unknown"
@@ -278,7 +278,7 @@ export function PlanetInfo({ planet, editable }: PlanetInfoProps) {
           }}
           onCancel={terrain.cancel}
         />
-        <EditableStatPill
+        <EditableSpecRow
           label="Inhabitants"
           value={planet.nativeInhabitants || ''}
           placeholder="Unknown"
@@ -293,7 +293,7 @@ export function PlanetInfo({ planet, editable }: PlanetInfoProps) {
           }}
           onCancel={inhabitants.cancel}
         />
-        <EditableStatPill
+        <EditableSpecRow
           label="Hyperlanes"
           value={formatHyperlanes(planet.hyperlanes)}
           placeholder="None"
@@ -430,7 +430,7 @@ export function PlanetInfo({ planet, editable }: PlanetInfoProps) {
                   />
                 </div>
                 <span
-                  className="w-[36px] shrink-0 text-right text-[12px] font-semibold"
+                  className="w-[42px] shrink-0 text-right text-[12px] font-semibold"
                   style={{ color: getFactionBarColor(faction) }}
                 >
                   {pct}%

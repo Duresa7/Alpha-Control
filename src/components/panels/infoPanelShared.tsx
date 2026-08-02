@@ -110,7 +110,11 @@ export function EditableStatCard({
   );
 }
 
-export function EditableStatPill({
+/**
+ * One row of the planet spec sheet. Comma-separated values are split into chips
+ * so a long list wraps within its column instead of stretching the panel.
+ */
+export function EditableSpecRow({
   label,
   value,
   placeholder,
@@ -122,13 +126,19 @@ export function EditableStatPill({
   onSave,
   onCancel,
 }: EditableFieldProps) {
+  const items = value
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+
+  const interactive = editable ? ' is-editable' : '';
+  const title = editable ? 'Click to edit' : undefined;
+
   return (
-    <div className="holo-stat-pill">
-      <span className="holo-stat-pill-label">{label}</span>
-      {!editable ? (
-        <span className="holo-stat-pill-value">{value || placeholder}</span>
-      ) : editing ? (
-        <div className="flex items-center gap-1">
+    <div className="holo-spec-row">
+      <span className="holo-spec-label">{label}</span>
+      {editing ? (
+        <div className="holo-spec-edit">
           <input
             type="text"
             value={draft}
@@ -138,19 +148,31 @@ export function EditableStatPill({
               if (e.key === 'Escape') onCancel();
             }}
             autoFocus
-            className="holo-input holo-field-input w-24 text-left text-sm"
+            className="holo-input holo-field-input min-w-0 flex-1 text-left text-sm"
           />
           <button onClick={onSave} className="holo-edit-action holo-edit-action-save px-1">
             &#10003;
           </button>
         </div>
+      ) : items.length > 0 ? (
+        <div
+          onClick={editable ? onStartEdit : undefined}
+          className={`holo-spec-chips${interactive}`}
+          title={title}
+        >
+          {items.map((item, i) => (
+            <span key={i} className="holo-spec-chip">
+              {item}
+            </span>
+          ))}
+        </div>
       ) : (
         <span
-          onClick={onStartEdit}
-          className="holo-stat-pill-value cursor-pointer hover:text-amber-400 transition-colors"
-          title={value ? `Click to edit (Current: ${value})` : 'Click to edit'}
+          onClick={editable ? onStartEdit : undefined}
+          className={`holo-spec-empty${interactive}`}
+          title={title}
         >
-          {value || placeholder}
+          {placeholder}
         </span>
       )}
     </div>
