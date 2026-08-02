@@ -10,6 +10,8 @@ import { useFactionStore } from '@/store/factionStore';
 import { EditableSpecRow, AddFactionControl } from '@/components/panels/infoPanelShared';
 import { PLANET_APPEARANCES } from '@/config/planetAppearances';
 import { normalizeFactionControl } from '@/utils/factionControl';
+import { readableOnDark } from '@/utils/color';
+import { hasPlanetModel } from '@/utils/planetModels';
 import { useEditableField } from '@/hooks/useEditableField';
 import {
   TOPDOWN_SYSTEM_MARKER_SIZE_BY_IMPORTANCE,
@@ -111,6 +113,8 @@ export function PlanetInfo({ planet, editable }: PlanetInfoProps) {
     () => (PLANET_APPEARANCES[planet.type as PlanetType] || PLANET_APPEARANCES.terrestrial).color,
     [planet.type],
   );
+
+  const hasSculptedModel = hasPlanetModel(planet.id);
 
   const badgeColorClass = PLANET_TYPE_COLORS[planet.type] ?? 'text-gray-400';
   const badgeBorderClass = PLANET_TYPE_COLORS[planet.type]
@@ -227,7 +231,7 @@ export function PlanetInfo({ planet, editable }: PlanetInfoProps) {
           )}
           <div
             className="holo-faction-territory min-w-0 max-w-full text-[12px] font-medium tracking-wide"
-            style={{ color: getFactionBarColor(planet.faction) }}
+            style={{ color: readableOnDark(getFactionBarColor(planet.faction)) }}
           >
             <span
               className="holo-faction-dot h-2.5 w-2.5 shrink-0 shadow-[0_0_8px_currentColor]"
@@ -342,17 +346,29 @@ export function PlanetInfo({ planet, editable }: PlanetInfoProps) {
           <div className="py-1">
             <label className={SECTION_LABEL}>Surface Design</label>
             <div className="flex items-center gap-3" style={{ marginTop: '14px' }}>
-              <button onClick={() => setShowDesigner(true)} className="holo-button holo-button-sm">
-                <Palette className="w-3.5 h-3.5" aria-hidden="true" />
-                <span>{planet.appearance ? 'Edit Design' : 'Design Surface'}</span>
-              </button>
-              {planet.appearance && (
-                <button
-                  onClick={() => updateStats({ appearance: null })}
-                  className="holo-inline-link"
-                >
-                  Reset
-                </button>
+              {hasSculptedModel ? (
+                // The detail view draws the bundled model in preference to a
+                // designed surface, so offering the designer here would save a
+                // look that only ever shows up on the map marker.
+                <span className="text-[12px] text-white/35 italic">Uses a bundled 3D model.</span>
+              ) : (
+                <>
+                  <button
+                    onClick={() => setShowDesigner(true)}
+                    className="holo-button holo-button-sm"
+                  >
+                    <Palette className="w-3.5 h-3.5" aria-hidden="true" />
+                    <span>{planet.appearance ? 'Edit Design' : 'Design Surface'}</span>
+                  </button>
+                  {planet.appearance && (
+                    <button
+                      onClick={() => updateStats({ appearance: null })}
+                      className="holo-inline-link"
+                    >
+                      Reset
+                    </button>
+                  )}
+                </>
               )}
             </div>
           </div>
@@ -431,7 +447,7 @@ export function PlanetInfo({ planet, editable }: PlanetInfoProps) {
                 </div>
                 <span
                   className="w-[42px] shrink-0 text-right text-[12px] font-semibold"
-                  style={{ color: getFactionBarColor(faction) }}
+                  style={{ color: readableOnDark(getFactionBarColor(faction)) }}
                 >
                   {pct}%
                 </span>
@@ -457,7 +473,10 @@ export function PlanetInfo({ planet, editable }: PlanetInfoProps) {
                       />
                       <span className="text-white/80">{getFactionLabel(f.id)}</span>
                     </span>
-                    <span className="font-bold" style={{ color: getFactionBarColor(f.id) }}>
+                    <span
+                      className="font-bold"
+                      style={{ color: readableOnDark(getFactionBarColor(f.id)) }}
+                    >
                       {pct}%
                     </span>
                   </div>

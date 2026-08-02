@@ -194,4 +194,33 @@ describe('planet appearance persistence', () => {
     expect(restored?.waterLevel).toBe(0);
     expect(restored?.rings).toBe(0.5);
   });
+
+  it('clamps out-of-range numbers so none reach a shader uniform', async () => {
+    mocks.state.selectData = [
+      {
+        ...legacyRow(),
+        planets: [
+          {
+            ...legacyRow().planets[0],
+            appearance: {
+              surface: 'landmass',
+              renderStyle: 'procedural',
+              seed: 1e12,
+              atmosphere: 1e40,
+              roughness: -50,
+              clouds: 8,
+            },
+          },
+        ],
+      },
+    ];
+
+    const systems = await loadCustomSystems();
+    const restored = systems[0].planets[0].appearance;
+
+    expect(restored?.seed).toBe(99999);
+    expect(restored?.atmosphere).toBe(1.5);
+    expect(restored?.roughness).toBe(0);
+    expect(restored?.clouds).toBe(1);
+  });
 });

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useFactionStore } from '@/store/factionStore';
+import { readableOnDark } from '@/utils/color';
 
 export interface EditableFieldProps {
   label: string;
@@ -213,7 +214,10 @@ export function AddFactionControl({
             setOpen(false);
           }}
           className="holo-badge text-[9px] cursor-pointer hover:bg-amber-500/10 transition-colors"
-          style={{ borderColor: getFactionBarColor(f.id), color: getFactionBarColor(f.id) }}
+          style={{
+            borderColor: getFactionBarColor(f.id),
+            color: readableOnDark(getFactionBarColor(f.id)),
+          }}
         >
           + {getFactionLabel(f.id)}
         </button>
