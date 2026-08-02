@@ -22,6 +22,11 @@ interface ProceduralPlanetProps {
   rotate?: boolean;
 }
 
+/**
+ * Requires PlanetEffects on the same Canvas. The shaders emit linear colour for
+ * the composer to encode, so without one the planet renders noticeably dark.
+ */
+
 export function ProceduralPlanet({ appearance, radius = 1, rotate = true }: ProceduralPlanetProps) {
   const surfaceRef = useRef<THREE.Mesh>(null);
   const cloudRef = useRef<THREE.Mesh>(null);

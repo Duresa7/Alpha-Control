@@ -9,6 +9,7 @@ import { GalaxyMapBackground } from '@/components/galaxy/GalaxyMapBackground';
 import { FleetMarkers } from '@/components/galaxy/FleetMarker';
 import { CivilianTrafficLayer } from '@/components/galaxy/CivilianTrafficLayer';
 import { SystemDetailView } from '@/components/galaxy/SystemDetailView';
+import { PlanetEffects } from '@/components/three/PlanetEffects';
 import { FleetDetailView } from '@/components/galaxy/FleetDetailView';
 import { useGalaxySelectionStore } from '@/store/galaxySelectionStore';
 import { useGalaxyUIStore } from '@/store/galaxyUIStore';
@@ -78,6 +79,8 @@ function GalaxyContent() {
           <FleetDetailView fleet={selectedFleet} />
         </group>
       )}
+
+      {isSystemView && <PlanetEffects />}
 
       <CameraController />
     </group>

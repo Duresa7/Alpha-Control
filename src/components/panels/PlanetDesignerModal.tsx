@@ -5,6 +5,7 @@ import { Dices, Globe, X } from 'lucide-react';
 import type { Faction, PendingCustomPlanet, PlanetAppearance, PlanetType } from '@/types';
 import { useFactionStore } from '@/store/factionStore';
 import { ProceduralPlanet } from '@/components/three/ProceduralPlanet';
+import { PlanetEffects } from '@/components/three/PlanetEffects';
 import {
   PLANET_PRESETS,
   SURFACE_STYLE_OPTIONS,
@@ -147,6 +148,7 @@ export function PlanetDesignerModal({ editing, onConfirm, onCancel }: PlanetDesi
             <div className="planet-designer-viewport">
               <Canvas camera={{ position: [0, 0.7, 3.6], fov: 34 }} gl={{ alpha: true }}>
                 <ProceduralPlanet appearance={appearance} />
+                <PlanetEffects />
                 <OrbitControls enablePan={false} minDistance={2.4} maxDistance={6} />
               </Canvas>
               <span className="planet-designer-seed">

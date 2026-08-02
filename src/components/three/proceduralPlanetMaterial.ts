@@ -13,6 +13,19 @@ const SURFACE_INDEX: Record<PlanetSurfaceStyle, number> = {
 };
 
 /**
+ * The shaders below author and shade in sRGB space, which is what the presets
+ * were tuned against. An EffectComposer renders into a linear buffer and applies
+ * sRGB encoding on output, so the result has to be linearised first or every
+ * planet washes out. Values above 1 stay above 1, which is what lets bloom pick
+ * out the highlights.
+ */
+const OUTPUT_CHUNK = /* glsl */ `
+  vec3 toLinearOutput(vec3 c) {
+    return mix(c / 12.92, pow((c + 0.055) / 1.055, vec3(2.4)), step(vec3(0.04045), c));
+  }
+`;
+
+/**
  * Value noise keeps the surface generation dependency-free and stable across
  * drivers. Gradient noise looks marginally better but costs roughly twice as
  * much for a difference nobody notices at planet scale.
@@ -111,6 +124,7 @@ const SURFACE_FRAGMENT = /* glsl */ `
   uniform int uSurface;
   uniform bool uHolo;
 
+  ${OUTPUT_CHUNK}
   ${NOISE_CHUNK}
 
   void surface(vec3 p, vec3 n, out float height, out float emissive) {
@@ -204,7 +218,7 @@ const SURFACE_FRAGMENT = /* glsl */ `
         + uAtmosphereColor * fresnel * 0.55
         + vec3(0.0, 0.94, 1.0) * grid * 0.55;
 
-      gl_FragColor = vec4(color * scanline, clamp(0.30 + level * 0.70 + grid * 0.35, 0.0, 1.0));
+      gl_FragColor = vec4(toLinearOutput(color * scanline), clamp(0.30 + level * 0.70 + grid * 0.35, 0.0, 1.0));
       return;
     }
 
@@ -230,7 +244,7 @@ const SURFACE_FRAGMENT = /* glsl */ `
     float night = smoothstep(0.12, -0.22, ndl) * emissive * uNightLights;
     color += uNightLightColor * night;
 
-    gl_FragColor = vec4(color, 1.0);
+    gl_FragColor = vec4(toLinearOutput(color), 1.0);
   }
 `;
 
@@ -258,6 +272,7 @@ const CLOUD_FRAGMENT = /* glsl */ `
   uniform vec3 uSeedOffset;
   uniform float uCoverage;
 
+  ${OUTPUT_CHUNK}
   ${NOISE_CHUNK}
 
   void main() {
@@ -277,7 +292,7 @@ const CLOUD_FRAGMENT = /* glsl */ `
     float ndl = dot(normalize(vNormalView), normalize(vLightDir));
     float lambert = 0.08 + 1.0 * pow(max(0.0, (ndl + 0.35) / 1.35), 1.3);
 
-    gl_FragColor = vec4(uCloudColor * lambert, alpha);
+    gl_FragColor = vec4(toLinearOutput(uCloudColor * lambert), alpha);
   }
 `;
 
@@ -306,6 +321,8 @@ const ATMOSPHERE_FRAGMENT = /* glsl */ `
   uniform float uStrength;
   uniform float uShellRatio;
 
+  ${OUTPUT_CHUNK}
+
   void main() {
     // Back-side shell: the normal points away from us, so flip it.
     vec3 normal = normalize(-vNormalView);
@@ -321,7 +338,7 @@ const ATMOSPHERE_FRAGMENT = /* glsl */ `
 
     float ndl = dot(normal, normalize(vLightDir));
     float lit = 0.25 + 0.75 * smoothstep(-0.45, 0.55, ndl);
-    gl_FragColor = vec4(uAtmosphereColor, glow * uStrength * lit * 0.85);
+    gl_FragColor = vec4(toLinearOutput(uAtmosphereColor), glow * uStrength * lit * 0.85);
   }
 `;
 
@@ -347,6 +364,7 @@ const RING_FRAGMENT = /* glsl */ `
   uniform float uOuter;
   uniform float uOpacity;
 
+  ${OUTPUT_CHUNK}
   ${NOISE_CHUNK}
 
   void main() {
@@ -360,7 +378,7 @@ const RING_FRAGMENT = /* glsl */ `
     float alpha = clamp(bands * edges * uOpacity, 0.0, 1.0);
     if (alpha <= 0.002) discard;
 
-    gl_FragColor = vec4(uRingColor, alpha);
+    gl_FragColor = vec4(toLinearOutput(uRingColor), alpha);
   }
 `;
 
