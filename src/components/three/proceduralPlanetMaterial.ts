@@ -14,10 +14,12 @@ const SURFACE_INDEX: Record<PlanetSurfaceStyle, number> = {
 
 /**
  * The shaders below author and shade in sRGB space, which is what the presets
- * were tuned against. An EffectComposer renders into a linear buffer and applies
- * sRGB encoding on output, so the result has to be linearised first or every
- * planet washes out. Values above 1 stay above 1, which is what lets bloom pick
- * out the highlights.
+ * were tuned against, so every output is linearised before it is written.
+ * Pairing that with `#include <colorspace_fragment>` lets three re-encode per
+ * render target: identity into an EffectComposer's linear buffer (the composer
+ * encodes on output) and sRGB straight to the canvas. The planet therefore
+ * looks the same with or without post-processing. Values above 1 survive the
+ * round trip, which is what lets bloom pick out the highlights.
  */
 const OUTPUT_CHUNK = /* glsl */ `
   vec3 toLinearOutput(vec3 c) {
@@ -219,6 +221,7 @@ const SURFACE_FRAGMENT = /* glsl */ `
         + vec3(0.0, 0.94, 1.0) * grid * 0.55;
 
       gl_FragColor = vec4(toLinearOutput(color * scanline), clamp(0.30 + level * 0.70 + grid * 0.35, 0.0, 1.0));
+      #include <colorspace_fragment>
       return;
     }
 
@@ -245,6 +248,7 @@ const SURFACE_FRAGMENT = /* glsl */ `
     color += uNightLightColor * night;
 
     gl_FragColor = vec4(toLinearOutput(color), 1.0);
+    #include <colorspace_fragment>
   }
 `;
 
@@ -293,6 +297,7 @@ const CLOUD_FRAGMENT = /* glsl */ `
     float lambert = 0.08 + 1.0 * pow(max(0.0, (ndl + 0.35) / 1.35), 1.3);
 
     gl_FragColor = vec4(toLinearOutput(uCloudColor * lambert), alpha);
+    #include <colorspace_fragment>
   }
 `;
 
@@ -339,6 +344,7 @@ const ATMOSPHERE_FRAGMENT = /* glsl */ `
     float ndl = dot(normal, normalize(vLightDir));
     float lit = 0.25 + 0.75 * smoothstep(-0.45, 0.55, ndl);
     gl_FragColor = vec4(toLinearOutput(uAtmosphereColor), glow * uStrength * lit * 0.85);
+    #include <colorspace_fragment>
   }
 `;
 
@@ -379,6 +385,7 @@ const RING_FRAGMENT = /* glsl */ `
     if (alpha <= 0.002) discard;
 
     gl_FragColor = vec4(toLinearOutput(uRingColor), alpha);
+    #include <colorspace_fragment>
   }
 `;
 

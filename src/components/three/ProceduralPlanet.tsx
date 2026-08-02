@@ -20,14 +20,16 @@ interface ProceduralPlanetProps {
   appearance: PlanetAppearance;
   radius?: number;
   rotate?: boolean;
+  /** Lower this where the planet covers few pixels, such as a map marker. */
+  detail?: number;
 }
 
-/**
- * Requires PlanetEffects on the same Canvas. The shaders emit linear colour for
- * the composer to encode, so without one the planet renders noticeably dark.
- */
-
-export function ProceduralPlanet({ appearance, radius = 1, rotate = true }: ProceduralPlanetProps) {
+export function ProceduralPlanet({
+  appearance,
+  radius = 1,
+  rotate = true,
+  detail = 64,
+}: ProceduralPlanetProps) {
   const surfaceRef = useRef<THREE.Mesh>(null);
   const cloudRef = useRef<THREE.Mesh>(null);
 
@@ -67,30 +69,33 @@ export function ProceduralPlanet({ appearance, radius = 1, rotate = true }: Proc
   // the shell's far hemisphere fill the disc. Its own fresnel supplies the rim.
   const showAtmosphere = !isHolo && appearance.atmosphere > 0;
 
+  const cloudDetail = Math.round(detail * 0.75);
+  const shellDetail = Math.round(detail * 0.5);
+
   return (
     <group scale={radius}>
       <mesh ref={surfaceRef}>
-        <sphereGeometry args={[1, 64, 64]} />
+        <sphereGeometry args={[1, detail, detail]} />
         <primitive object={surfaceMaterial} attach="material" />
       </mesh>
 
       {showClouds && (
         <mesh ref={cloudRef}>
-          <sphereGeometry args={[1.015, 48, 48]} />
+          <sphereGeometry args={[1.015, cloudDetail, cloudDetail]} />
           <primitive object={cloudMaterial} attach="material" />
         </mesh>
       )}
 
       {showAtmosphere && (
         <mesh>
-          <sphereGeometry args={[ATMOSPHERE_SHELL, 32, 32]} />
+          <sphereGeometry args={[ATMOSPHERE_SHELL, shellDetail, shellDetail]} />
           <primitive object={atmosphereMaterial} attach="material" />
         </mesh>
       )}
 
       {showRings && (
         <mesh rotation={[-Math.PI / 2 + 0.18, 0, 0.12]}>
-          <ringGeometry args={[RING_INNER, RING_OUTER, 128]} />
+          <ringGeometry args={[RING_INNER, RING_OUTER, detail * 2]} />
           <primitive object={ringMaterial} attach="material" />
         </mesh>
       )}
