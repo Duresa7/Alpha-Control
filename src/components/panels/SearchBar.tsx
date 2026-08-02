@@ -64,25 +64,25 @@ export function SearchBar() {
 
   const handleSelectResult = (result: SearchResult) => {
     if (result.type === 'system') {
-      const system = systems.find(s => s.id === result.id);
+      const system = systems.find((s) => s.id === result.id);
       if (system) {
         setSelectedSystem(system.id);
         setInfoPanelData({ type: 'system', data: system });
       }
     } else if (result.type === 'planet') {
       const system =
-        (result.parentSystemId ? systems.find((s) => s.id === result.parentSystemId) : null)
-        ?? (result.parentName ? systems.find((s) => s.name === result.parentName) : null);
+        (result.parentSystemId ? systems.find((s) => s.id === result.parentSystemId) : null) ??
+        (result.parentName ? systems.find((s) => s.name === result.parentName) : null);
       if (system) {
         setSelectedSystem(system.id);
-        const planet = system.planets.find(p => p.id === result.id);
+        const planet = system.planets.find((p) => p.id === result.id);
         if (planet) {
           setSelectedPlanet(planet.id);
           setInfoPanelData({ type: 'planet', data: planet });
         }
       }
     } else if (result.type === 'fleet') {
-      const fleet = fleets.find(f => f.id === result.id);
+      const fleet = fleets.find((f) => f.id === result.id);
       if (fleet) {
         setSelectedFleet(fleet.id);
         setInfoPanelData({ type: 'fleet', data: fleet });
@@ -109,19 +109,19 @@ export function SearchBar() {
             Search Nav
           </span>
         </label>
-        
+
         <div className="holo-search-wrapper">
-            <Search className="holo-search-icon" aria-hidden="true" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onFocus={() => setIsSearchFocused(true)}
-              placeholder="System, planet, fleet..."
-              className="holo-input w-full py-2 text-[13px]"
-              autoFocus
-            />
-          </div>
+          <Search className="holo-search-icon" aria-hidden="true" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={() => setIsSearchFocused(true)}
+            placeholder="System, planet, fleet..."
+            className="holo-input w-full py-2 text-[13px]"
+            autoFocus
+          />
+        </div>
       </div>
 
       <AnimatePresence>
@@ -140,17 +140,21 @@ export function SearchBar() {
                   onClick={() => handleSelectResult(result)}
                   className="w-full px-4 py-3 text-left hover:bg-amber-500/5 transition-colors flex items-center gap-3 border-b border-amber-500/10 last:border-0"
                 >
-                  <span className={`text-[10px] font-semibold px-2 py-0.5 holo-badge holo-label-orbitron ${
-                    result.type === 'system'
-                      ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
-                      : result.type === 'fleet'
-                      ? 'bg-red-500/15 text-red-400 border border-red-500/30'
-                      : 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/30'
-                  }`}>
+                  <span
+                    className={`text-[10px] font-semibold px-2 py-0.5 holo-badge holo-label-orbitron ${
+                      result.type === 'system'
+                        ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
+                        : result.type === 'fleet'
+                          ? 'bg-red-500/15 text-red-400 border border-red-500/30'
+                          : 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/30'
+                    }`}
+                  >
                     {result.type === 'system' ? 'LOC' : result.type === 'fleet' ? 'FLT' : 'PLN'}
                   </span>
                   <div className="flex flex-col">
-                    <span className="text-gray-100 text-[14px] font-medium holo-body-text">{result.name}</span>
+                    <span className="text-gray-100 text-[14px] font-medium holo-body-text">
+                      {result.name}
+                    </span>
                     {result.parentName && (
                       <span className="text-gray-500 text-[12px]">in {result.parentName}</span>
                     )}

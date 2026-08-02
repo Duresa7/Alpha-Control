@@ -70,30 +70,34 @@ export function ArticleDashboardPage() {
     });
   }, []);
 
-  useEffect(() => { loadAll(); }, [loadAll]);
-
-  const handleToggle = useCallback(async (id: string, field: 'published' | 'isFeatured' | 'isTrending', current: boolean) => {
-    setArticles((prev) =>
-      prev.map((a) => (a.id === id ? { ...a, [field]: !current } : a)),
-    );
-    try {
-      await updateArticle(id, { [field]: !current });
-    } catch {
-      setArticles((prev) =>
-        prev.map((a) => (a.id === id ? { ...a, [field]: current } : a)),
-      );
-    }
-  }, []);
-
-  const handleDeleteArticle = useCallback(async (id: string, title: string) => {
-    if (!window.confirm(`Delete "${title}"? This cannot be undone.`)) return;
-    setArticles((prev) => prev.filter((a) => a.id !== id));
-    try {
-      await deleteArticle(id);
-    } catch {
-      loadAll();
-    }
+  useEffect(() => {
+    loadAll();
   }, [loadAll]);
+
+  const handleToggle = useCallback(
+    async (id: string, field: 'published' | 'isFeatured' | 'isTrending', current: boolean) => {
+      setArticles((prev) => prev.map((a) => (a.id === id ? { ...a, [field]: !current } : a)));
+      try {
+        await updateArticle(id, { [field]: !current });
+      } catch {
+        setArticles((prev) => prev.map((a) => (a.id === id ? { ...a, [field]: current } : a)));
+      }
+    },
+    [],
+  );
+
+  const handleDeleteArticle = useCallback(
+    async (id: string, title: string) => {
+      if (!window.confirm(`Delete "${title}"? This cannot be undone.`)) return;
+      setArticles((prev) => prev.filter((a) => a.id !== id));
+      try {
+        await deleteArticle(id);
+      } catch {
+        loadAll();
+      }
+    },
+    [loadAll],
+  );
 
   const openAddEntry = () => {
     setEditingEntryId(null);
@@ -157,45 +161,56 @@ export function ArticleDashboardPage() {
     }
   };
 
-  const handleDeleteFeedback = useCallback(async (id: string) => {
-    if (!window.confirm('Delete this feedback? This cannot be undone.')) return;
-    setFeedback((prev) => prev.filter((f) => f.id !== id));
-    try {
-      await deleteFeedback(id);
-    } catch {
-      loadAll();
-    }
-  }, [loadAll]);
+  const handleDeleteFeedback = useCallback(
+    async (id: string) => {
+      if (!window.confirm('Delete this feedback? This cannot be undone.')) return;
+      setFeedback((prev) => prev.filter((f) => f.id !== id));
+      try {
+        await deleteFeedback(id);
+      } catch {
+        loadAll();
+      }
+    },
+    [loadAll],
+  );
 
-  const handleNotify = useCallback(async (
-    type: 'article' | 'update', title: string, href: string, message?: string,
-  ) => {
-    if (!window.confirm(`Send notification for "${title}"?`)) return;
-    const ok = await createNotification(type, title, href, message);
-    alert(ok ? 'Notification sent.' : 'Failed to send notification.');
-  }, []);
+  const handleNotify = useCallback(
+    async (type: 'article' | 'update', title: string, href: string, message?: string) => {
+      if (!window.confirm(`Send notification for "${title}"?`)) return;
+      const ok = await createNotification(type, title, href, message);
+      alert(ok ? 'Notification sent.' : 'Failed to send notification.');
+    },
+    [],
+  );
 
   const setField = (field: keyof EntryForm, value: string) =>
     setEntryForm((prev) => ({ ...prev, [field]: value }));
 
   const articleTotalPages = Math.max(1, Math.ceil(articles.length / DASH_PAGE_SIZE));
-  const pagedArticles = articles.slice(articlePage * DASH_PAGE_SIZE, (articlePage + 1) * DASH_PAGE_SIZE);
+  const pagedArticles = articles.slice(
+    articlePage * DASH_PAGE_SIZE,
+    (articlePage + 1) * DASH_PAGE_SIZE,
+  );
 
   const entryTotalPages = Math.max(1, Math.ceil(entries.length / DASH_PAGE_SIZE));
   const pagedEntries = entries.slice(entryPage * DASH_PAGE_SIZE, (entryPage + 1) * DASH_PAGE_SIZE);
 
   const feedbackTotalPages = Math.max(1, Math.ceil(feedback.length / DASH_PAGE_SIZE));
-  const pagedFeedback = feedback.slice(feedbackPage * DASH_PAGE_SIZE, (feedbackPage + 1) * DASH_PAGE_SIZE);
+  const pagedFeedback = feedback.slice(
+    feedbackPage * DASH_PAGE_SIZE,
+    (feedbackPage + 1) * DASH_PAGE_SIZE,
+  );
 
   return (
     <NewsShell>
       <div className="article-dash">
-
         {/* ── Articles ── */}
         <header className="article-dash__header">
           <div>
             <h1 className="article-dash__title">Article Dashboard</h1>
-            <p className="article-dash__subtitle">{articles.length} article{articles.length !== 1 ? 's' : ''}</p>
+            <p className="article-dash__subtitle">
+              {articles.length} article{articles.length !== 1 ? 's' : ''}
+            </p>
           </div>
           <Link to="/news/editor" className="news-btn news-btn--primary">
             New Post
@@ -269,7 +284,9 @@ export function ArticleDashboardPage() {
                       <button
                         type="button"
                         className="news-btn news-btn--small"
-                        onClick={() => handleNotify('article', 'New Blog Post', `/news/${a.slug}`, a.title)}
+                        onClick={() =>
+                          handleNotify('article', 'New Blog Post', `/news/${a.slug}`, a.title)
+                        }
                       >
                         Notify
                       </button>
@@ -286,9 +303,18 @@ export function ArticleDashboardPage() {
             </table>
             {articleTotalPages > 1 && (
               <div className="article-dash__pagination">
-                <button disabled={articlePage === 0} onClick={() => setArticlePage(p => p - 1)}>Prev</button>
-                <span>Page {articlePage + 1} of {articleTotalPages}</span>
-                <button disabled={articlePage + 1 >= articleTotalPages} onClick={() => setArticlePage(p => p + 1)}>Next</button>
+                <button disabled={articlePage === 0} onClick={() => setArticlePage((p) => p - 1)}>
+                  Prev
+                </button>
+                <span>
+                  Page {articlePage + 1} of {articleTotalPages}
+                </span>
+                <button
+                  disabled={articlePage + 1 >= articleTotalPages}
+                  onClick={() => setArticlePage((p) => p + 1)}
+                >
+                  Next
+                </button>
               </div>
             )}
           </div>
@@ -359,7 +385,9 @@ export function ArticleDashboardPage() {
                   className="article-editor__textarea"
                   value={entryForm.expandedContent}
                   onChange={(e) => setField('expandedContent', e.target.value)}
-                  placeholder={"Full details shown when the entry is expanded.\n\nUse markdown for paragraphs, lists, links, and headings.\n- Bullet item\n- Another item"}
+                  placeholder={
+                    'Full details shown when the entry is expanded.\n\nUse markdown for paragraphs, lists, links, and headings.\n- Bullet item\n- Another item'
+                  }
                   rows={6}
                   maxLength={2000}
                 />
@@ -396,8 +424,14 @@ export function ArticleDashboardPage() {
                   <div key={e.id} className="article-dash__entry-row">
                     <div className="article-dash__entry-row-info">
                       <div className="article-dash__entry-row-meta">
-                        <span className={`article-dash__entry-type article-dash__entry-type--${e.type}`}>{e.type}</span>
-                        <span className="article-dash__entry-row-date">{formatDate(e.timestamp)}</span>
+                        <span
+                          className={`article-dash__entry-type article-dash__entry-type--${e.type}`}
+                        >
+                          {e.type}
+                        </span>
+                        <span className="article-dash__entry-row-date">
+                          {formatDate(e.timestamp)}
+                        </span>
                         {hasExpandedDetails && (
                           <span className="article-dash__entry-row-pill">Expandable details</span>
                         )}
@@ -411,16 +445,15 @@ export function ArticleDashboardPage() {
                       )}
                     </div>
                     <div className="article-dash__td--actions article-dash__entry-row-actions">
-                      <button
-                        className="news-btn news-btn--small"
-                        onClick={() => openEditEntry(e)}
-                      >
+                      <button className="news-btn news-btn--small" onClick={() => openEditEntry(e)}>
                         Edit
                       </button>
                       <button
                         type="button"
                         className="news-btn news-btn--small"
-                        onClick={() => handleNotify('update', `New Update: ${e.title}`, '/services')}
+                        onClick={() =>
+                          handleNotify('update', `New Update: ${e.title}`, '/services')
+                        }
                       >
                         Notify
                       </button>
@@ -436,9 +469,18 @@ export function ArticleDashboardPage() {
               })}
               {entryTotalPages > 1 && (
                 <div className="article-dash__pagination">
-                  <button disabled={entryPage === 0} onClick={() => setEntryPage(p => p - 1)}>Prev</button>
-                  <span>Page {entryPage + 1} of {entryTotalPages}</span>
-                  <button disabled={entryPage + 1 >= entryTotalPages} onClick={() => setEntryPage(p => p + 1)}>Next</button>
+                  <button disabled={entryPage === 0} onClick={() => setEntryPage((p) => p - 1)}>
+                    Prev
+                  </button>
+                  <span>
+                    Page {entryPage + 1} of {entryTotalPages}
+                  </span>
+                  <button
+                    disabled={entryPage + 1 >= entryTotalPages}
+                    onClick={() => setEntryPage((p) => p + 1)}
+                  >
+                    Next
+                  </button>
                 </div>
               )}
             </div>
@@ -449,7 +491,9 @@ export function ArticleDashboardPage() {
         <div className="article-dash__section">
           <div className="article-dash__section-header">
             <h2 className="article-dash__section-title">Feedback</h2>
-            <span className="article-dash__subtitle">{feedback.length} submission{feedback.length !== 1 ? 's' : ''}</span>
+            <span className="article-dash__subtitle">
+              {feedback.length} submission{feedback.length !== 1 ? 's' : ''}
+            </span>
           </div>
 
           {!loading && feedback.length === 0 && (
@@ -477,12 +521,14 @@ export function ArticleDashboardPage() {
                           {f.category === 'feature_request'
                             ? 'Feature Request'
                             : f.category === 'bug'
-                            ? 'Bug'
-                            : f.other_label ?? 'Other'}
+                              ? 'Bug'
+                              : (f.other_label ?? 'Other')}
                         </span>
                       </td>
                       <td className="article-dash__td article-dash__td--title">{f.message}</td>
-                      <td className="article-dash__td article-dash__td--date">{formatDate(f.created_at)}</td>
+                      <td className="article-dash__td article-dash__td--date">
+                        {formatDate(f.created_at)}
+                      </td>
                       <td className="article-dash__td article-dash__td--actions">
                         <button
                           className="news-btn news-btn--small news-btn--danger"
@@ -497,15 +543,26 @@ export function ArticleDashboardPage() {
               </table>
               {feedbackTotalPages > 1 && (
                 <div className="article-dash__pagination">
-                  <button disabled={feedbackPage === 0} onClick={() => setFeedbackPage(p => p - 1)}>Prev</button>
-                  <span>Page {feedbackPage + 1} of {feedbackTotalPages}</span>
-                  <button disabled={feedbackPage + 1 >= feedbackTotalPages} onClick={() => setFeedbackPage(p => p + 1)}>Next</button>
+                  <button
+                    disabled={feedbackPage === 0}
+                    onClick={() => setFeedbackPage((p) => p - 1)}
+                  >
+                    Prev
+                  </button>
+                  <span>
+                    Page {feedbackPage + 1} of {feedbackTotalPages}
+                  </span>
+                  <button
+                    disabled={feedbackPage + 1 >= feedbackTotalPages}
+                    onClick={() => setFeedbackPage((p) => p + 1)}
+                  >
+                    Next
+                  </button>
                 </div>
               )}
             </div>
           )}
         </div>
-
       </div>
     </NewsShell>
   );

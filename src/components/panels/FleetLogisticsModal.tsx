@@ -54,7 +54,14 @@ function ShipCardPreview({ modelType }: ShipCardPreviewProps) {
 }
 
 interface FleetLogisticsModalProps {
-  onConfirm: (data: { name: string; faction: string; shipCount: number; modelType: ShipModelType; commander?: string; composition: FleetShipEntry[] }) => void;
+  onConfirm: (data: {
+    name: string;
+    faction: string;
+    shipCount: number;
+    modelType: ShipModelType;
+    commander?: string;
+    composition: FleetShipEntry[];
+  }) => void;
   onCancel: () => void;
 }
 
@@ -77,13 +84,17 @@ export function FleetLogisticsModal({ onConfirm, onCancel }: FleetLogisticsModal
     setHangar((prev) => {
       const existing = prev.find((e) => e.catalogId === ship.id);
       if (existing) {
-        return prev.map((e) =>
-          e.catalogId === ship.id ? { ...e, quantity: e.quantity + 1 } : e,
-        );
+        return prev.map((e) => (e.catalogId === ship.id ? { ...e, quantity: e.quantity + 1 } : e));
       }
       return [
         ...prev,
-        { catalogId: ship.id, name: ship.name, shipClass: ship.shipClass, modelType: ship.modelType, quantity: 1 },
+        {
+          catalogId: ship.id,
+          name: ship.name,
+          shipClass: ship.shipClass,
+          modelType: ship.modelType,
+          quantity: 1,
+        },
       ];
     });
   };
@@ -95,19 +106,19 @@ export function FleetLogisticsModal({ onConfirm, onCancel }: FleetLogisticsModal
       if (existing.quantity <= 1) {
         return prev.filter((e) => e.catalogId !== catalogId);
       }
-      return prev.map((e) =>
-        e.catalogId === catalogId ? { ...e, quantity: e.quantity - 1 } : e,
-      );
+      return prev.map((e) => (e.catalogId === catalogId ? { ...e, quantity: e.quantity - 1 } : e));
     });
   };
 
   const addCustomShipToHangar = () => {
     if (!customShipName.trim()) return;
-    setHangar((prev) => addOrIncrementCustomShipEntry(prev, {
-      name: customShipName,
-      shipClass: customShipClass,
-      quantityToAdd: customShipQuantity,
-    }));
+    setHangar((prev) =>
+      addOrIncrementCustomShipEntry(prev, {
+        name: customShipName,
+        shipClass: customShipClass,
+        quantityToAdd: customShipQuantity,
+      }),
+    );
     setCustomShipName('');
     setCustomShipQuantity(CUSTOM_SHIP_QUANTITY_MIN);
   };
@@ -119,8 +130,9 @@ export function FleetLogisticsModal({ onConfirm, onCancel }: FleetLogisticsModal
       if (!selected || entry.quantity > selected.quantity) return entry;
       return selected;
     }, null);
-    const modelType: ShipModelType = primaryShip?.modelType as ShipModelType
-      ?? (faction === 'sith_empire' ? 'sith' : 'republic');
+    const modelType: ShipModelType =
+      (primaryShip?.modelType as ShipModelType) ??
+      (faction === 'sith_empire' ? 'sith' : 'republic');
     onConfirm({
       name: fleetName.trim(),
       faction,
@@ -156,10 +168,7 @@ export function FleetLogisticsModal({ onConfirm, onCancel }: FleetLogisticsModal
                   <div className="fleet-ship-card-info">
                     <h3 className="fleet-ship-card-name">{ship.name}</h3>
                     <p className="fleet-ship-card-desc">{ship.description}</p>
-                    <button
-                      className="fleet-ship-add-btn"
-                      onClick={() => addShipToHangar(ship)}
-                    >
+                    <button className="fleet-ship-add-btn" onClick={() => addShipToHangar(ship)}>
                       Add to Fleet
                     </button>
                   </div>
@@ -185,7 +194,9 @@ export function FleetLogisticsModal({ onConfirm, onCancel }: FleetLogisticsModal
                     className="holo-input fleet-custom-class-select"
                   >
                     {CUSTOM_SHIP_CLASSES.map((c) => (
-                      <option key={c} value={c}>{c}</option>
+                      <option key={c} value={c}>
+                        {c}
+                      </option>
                     ))}
                   </select>
                   <CustomShipQuantityControl

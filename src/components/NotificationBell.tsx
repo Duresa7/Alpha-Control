@@ -2,11 +2,7 @@ import { useState, useEffect, useCallback, useContext } from 'react';
 import { Link } from 'react-router';
 import { Bell, FileText, Megaphone } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { NewsThemeContext } from '@/components/news/theme/newsTheme';
 import { formatRelativeTime } from '@/utils/format';
 import type { NotificationItem } from '@/types';
@@ -51,27 +47,31 @@ export function NotificationBell({ variant = 'landing' }: NotificationBellProps)
     };
   }, [userId, loadUnreadCount]);
 
-  const handleOpenChange = useCallback(async (open: boolean) => {
-    setIsOpen(open);
+  const handleOpenChange = useCallback(
+    async (open: boolean) => {
+      setIsOpen(open);
 
-    if (open && userId) {
-      const items = await fetchNotifications(userId);
-      setNotifications(items);
-      setUnreadCount(items.filter((n) => !n.read).length);
-    }
-  }, [userId]);
+      if (open && userId) {
+        const items = await fetchNotifications(userId);
+        setNotifications(items);
+        setUnreadCount(items.filter((n) => !n.read).length);
+      }
+    },
+    [userId],
+  );
 
-  const handleNotificationClick = useCallback(async (notifId: string) => {
-    if (!userId) return;
+  const handleNotificationClick = useCallback(
+    async (notifId: string) => {
+      if (!userId) return;
 
-    setNotifications((prev) =>
-      prev.map((n) => (n.id === notifId ? { ...n, read: true } : n)),
-    );
-    setUnreadCount((prev) => Math.max(0, prev - 1));
-    setIsOpen(false);
+      setNotifications((prev) => prev.map((n) => (n.id === notifId ? { ...n, read: true } : n)));
+      setUnreadCount((prev) => Math.max(0, prev - 1));
+      setIsOpen(false);
 
-    await markNotificationRead(userId, notifId);
-  }, [userId]);
+      await markNotificationRead(userId, notifId);
+    },
+    [userId],
+  );
 
   if (!session) return null;
 
@@ -87,9 +87,7 @@ export function NotificationBell({ variant = 'landing' }: NotificationBellProps)
         >
           <Bell size={isLanding ? 16 : 18} strokeWidth={2} />
           {unreadCount > 0 && (
-            <span className="notification-badge">
-              {unreadCount > 99 ? '99+' : unreadCount}
-            </span>
+            <span className="notification-badge">{unreadCount > 99 ? '99+' : unreadCount}</span>
           )}
         </button>
       </PopoverTrigger>
@@ -103,9 +101,7 @@ export function NotificationBell({ variant = 'landing' }: NotificationBellProps)
       >
         <div className="max-h-96 overflow-y-auto">
           {notifications.length === 0 ? (
-            <div className="notification-popover__empty">
-              No new notifications
-            </div>
+            <div className="notification-popover__empty">No new notifications</div>
           ) : (
             <ul className="notification-popover__list">
               {notifications.map((item) => (
@@ -114,11 +110,7 @@ export function NotificationBell({ variant = 'landing' }: NotificationBellProps)
                   className={`notification-popover__item${item.read ? ' notification-popover__item--read' : ''}`}
                 >
                   <span className="notification-popover__icon">
-                    {item.type === 'article' ? (
-                      <FileText size={20} />
-                    ) : (
-                      <Megaphone size={20} />
-                    )}
+                    {item.type === 'article' ? <FileText size={20} /> : <Megaphone size={20} />}
                   </span>
                   <div className="notification-popover__content">
                     <Link
@@ -135,9 +127,7 @@ export function NotificationBell({ variant = 'landing' }: NotificationBellProps)
                       {formatRelativeTime(item.createdAt)}
                     </span>
                   </div>
-                  {!item.read && (
-                    <span className="notification-popover__unread-dot" />
-                  )}
+                  {!item.read && <span className="notification-popover__unread-dot" />}
                 </li>
               ))}
             </ul>

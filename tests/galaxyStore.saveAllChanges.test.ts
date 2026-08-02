@@ -94,11 +94,13 @@ describe('useGalaxyDataStore.saveAllChanges', () => {
     mocks.loadCustomFleets.mockResolvedValue([]);
     mocks.loadSetting.mockResolvedValue(null);
     mocks.getAuthenticatedUserId.mockResolvedValue('user-1');
-    (mocks.batchUpsertSystems as ReturnType<typeof vi.fn>).mockImplementation(async (systems: StarSystem[]) => {
-      if (systems.some(s => s.id === 'system-fail')) {
-        throw new Error('failed write');
-      }
-    });
+    (mocks.batchUpsertSystems as ReturnType<typeof vi.fn>).mockImplementation(
+      async (systems: StarSystem[]) => {
+        if (systems.some((s) => s.id === 'system-fail')) {
+          throw new Error('failed write');
+        }
+      },
+    );
     mocks.batchUpsertFleets.mockResolvedValue(undefined);
     mocks.updateSetting.mockResolvedValue(undefined);
     mocks.logAction.mockResolvedValue(undefined);
@@ -142,9 +144,9 @@ describe('useGalaxyDataStore.saveAllChanges', () => {
       hasPendingChanges: false,
     });
 
-    useGalaxyDataStore
-      .getState()
-      .updatePlanetStats('system-ok', 'system-ok-prime', { hyperlanes: ['Hydian Way', 'Perlemian Trade Route'] });
+    useGalaxyDataStore.getState().updatePlanetStats('system-ok', 'system-ok-prime', {
+      hyperlanes: ['Hydian Way', 'Perlemian Trade Route'],
+    });
 
     let state = useGalaxyDataStore.getState();
     expect(state.dirtySystemIds.has('system-ok')).toBe(true);
@@ -215,8 +217,12 @@ describe('useGalaxyDataStore.saveAllChanges', () => {
     useGalaxyDataStore.getState().updateFleetMarkerSize('fleet-ok', -10);
 
     const state = useGalaxyDataStore.getState();
-    expect(state.systems.find((system) => system.id === 'system-ok')?.markerSize).toBe(TOPDOWN_MARKER_MAX_SIZE);
-    expect(state.fleets.find((fleet) => fleet.id === 'fleet-ok')?.markerSize).toBe(TOPDOWN_MARKER_MIN_SIZE);
+    expect(state.systems.find((system) => system.id === 'system-ok')?.markerSize).toBe(
+      TOPDOWN_MARKER_MAX_SIZE,
+    );
+    expect(state.fleets.find((fleet) => fleet.id === 'fleet-ok')?.markerSize).toBe(
+      TOPDOWN_MARKER_MIN_SIZE,
+    );
   });
 
   it('keeps the timeline dirty when saving the year fails', async () => {
@@ -256,13 +262,21 @@ describe('useGalaxyDataStore.saveAllChanges', () => {
 
     await useGalaxyDataStore.getState().initializeData();
 
-    useGalaxyDataStore.getState().updateCustomSystemPosition('system-fail', new THREE.Vector3(10, 0, 10));
-    useGalaxyDataStore.getState().updateCustomFleetPosition('fleet-ok', new THREE.Vector3(20, 0, 20));
+    useGalaxyDataStore
+      .getState()
+      .updateCustomSystemPosition('system-fail', new THREE.Vector3(10, 0, 10));
+    useGalaxyDataStore
+      .getState()
+      .updateCustomFleetPosition('fleet-ok', new THREE.Vector3(20, 0, 20));
 
     await useGalaxyDataStore.getState().saveAllChanges();
 
-    useGalaxyDataStore.getState().updateCustomSystemPosition('system-fail', new THREE.Vector3(30, 0, 30));
-    useGalaxyDataStore.getState().updateCustomFleetPosition('fleet-ok', new THREE.Vector3(40, 0, 40));
+    useGalaxyDataStore
+      .getState()
+      .updateCustomSystemPosition('system-fail', new THREE.Vector3(30, 0, 30));
+    useGalaxyDataStore
+      .getState()
+      .updateCustomFleetPosition('fleet-ok', new THREE.Vector3(40, 0, 40));
 
     await useGalaxyDataStore.getState().discardAllChanges();
 

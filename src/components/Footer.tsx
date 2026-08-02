@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link } from 'react-router';
 
 export function Footer() {
   return (
@@ -22,8 +22,7 @@ export function Footer() {
           </Link>
         </div>
         <p className="site-footer__copy">
-          &copy; {new Date().getFullYear()} AlphaSec United. All rights
-          reserved.
+          &copy; {new Date().getFullYear()} AlphaSec United. All rights reserved.
         </p>
         <p className="site-footer__copy">Made by Duresa Kadi</p>
       </div>

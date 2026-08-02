@@ -139,11 +139,7 @@ export async function fetchArticles(opts?: {
 export async function fetchArticleBySlug(slug: string): Promise<Article | null> {
   if (!supabaseConfigured) return null;
 
-  const { data, error } = await supabase
-    .from('articles')
-    .select('*')
-    .eq('slug', slug)
-    .single();
+  const { data, error } = await supabase.from('articles').select('*').eq('slug', slug).single();
 
   if (error || !data) {
     if (error && error.code !== 'PGRST116') {
@@ -156,7 +152,10 @@ export async function fetchArticleBySlug(slug: string): Promise<Article | null> 
 
   const [profileRes, likesCountRes, userLikesRes] = await Promise.all([
     supabase.from('profiles').select('display_name').eq('id', row.author_id).single(),
-    supabase.from('article_likes').select('*', { count: 'exact', head: true }).eq('article_id', row.id),
+    supabase
+      .from('article_likes')
+      .select('*', { count: 'exact', head: true })
+      .eq('article_id', row.id),
     getCurrentUserLikes([row.id]),
   ]);
 
@@ -169,11 +168,7 @@ export async function fetchArticleBySlug(slug: string): Promise<Article | null> 
 export async function fetchArticleById(id: string): Promise<Article | null> {
   if (!supabaseConfigured) return null;
 
-  const { data, error } = await supabase
-    .from('articles')
-    .select('*')
-    .eq('id', id)
-    .single();
+  const { data, error } = await supabase.from('articles').select('*').eq('id', id).single();
 
   if (error || !data) return null;
 
@@ -228,7 +223,8 @@ export async function updateArticle(id: string, input: Partial<ArticleInput>): P
   if (input.excerpt !== undefined) updates.excerpt = input.excerpt;
   if (input.content !== undefined) updates.content = sanitizeArticleHtml(input.content);
   if (input.category !== undefined) updates.category = input.category;
-  if (input.readingTimeMinutes !== undefined) updates.reading_time_minutes = input.readingTimeMinutes;
+  if (input.readingTimeMinutes !== undefined)
+    updates.reading_time_minutes = input.readingTimeMinutes;
   if (input.isFeatured !== undefined) updates.is_featured = input.isFeatured;
   if (input.isTrending !== undefined) updates.is_trending = input.isTrending;
   if (input.published !== undefined) updates.published = input.published;
@@ -285,15 +281,9 @@ export async function toggleLike(articleId: string): Promise<{ liked: boolean; c
     .maybeSingle();
 
   if (existing) {
-    await supabase
-      .from('article_likes')
-      .delete()
-      .eq('article_id', articleId)
-      .eq('user_id', userId);
+    await supabase.from('article_likes').delete().eq('article_id', articleId).eq('user_id', userId);
   } else {
-    await supabase
-      .from('article_likes')
-      .insert({ article_id: articleId, user_id: userId });
+    await supabase.from('article_likes').insert({ article_id: articleId, user_id: userId });
   }
 
   const { count } = await supabase
@@ -387,10 +377,7 @@ export async function addComment(articleId: string, body: string): Promise<Artic
 export async function deleteComment(commentId: string): Promise<void> {
   if (!supabaseConfigured) return;
 
-  const { error } = await supabase
-    .from('article_comments')
-    .delete()
-    .eq('id', commentId);
+  const { error } = await supabase.from('article_comments').delete().eq('id', commentId);
 
   if (error) {
     logger.error('Failed to delete comment:', error);

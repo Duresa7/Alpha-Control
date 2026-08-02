@@ -51,25 +51,26 @@ export function ArticlePage() {
     setLoading(true);
     setNotFound(false);
 
-    Promise.all([
-      fetchArticleBySlug(slug ?? ''),
-      fetchArticles({ limit: 4 }),
-    ]).then(([data, all]) => {
-      if (cancelled) return;
-      if (!data) {
-        setNotFound(true);
+    Promise.all([fetchArticleBySlug(slug ?? ''), fetchArticles({ limit: 4 })]).then(
+      ([data, all]) => {
+        if (cancelled) return;
+        if (!data) {
+          setNotFound(true);
+          setLoading(false);
+          return;
+        }
+        setArticle(data);
+        const others = all.filter((a) => a.slug !== data.slug);
+        const sameCat = others.filter((a) => a.category === data.category);
+        const backfill = others.filter((a) => a.category !== data.category);
+        setRelated([...sameCat, ...backfill].slice(0, 3));
         setLoading(false);
-        return;
-      }
-      setArticle(data);
-      const others = all.filter(a => a.slug !== data.slug);
-      const sameCat = others.filter(a => a.category === data.category);
-      const backfill = others.filter(a => a.category !== data.category);
-      setRelated([...sameCat, ...backfill].slice(0, 3));
-      setLoading(false);
-    });
+      },
+    );
 
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [slug]);
 
   const handleDelete = async () => {
@@ -116,7 +117,8 @@ export function ArticlePage() {
             <div className="article-read__author-info">
               <span className="article-read__author-name">{article.authorName}</span>
               <span className="article-read__date-row">
-                {formatDate(article.createdAt, 'long')} &middot; {article.readingTimeMinutes} min read
+                {formatDate(article.createdAt, 'long')} &middot; {article.readingTimeMinutes} min
+                read
               </span>
             </div>
           </div>
@@ -150,17 +152,14 @@ export function ArticlePage() {
             />
           </div>
 
-          <CommentSection
-            articleId={article.id}
-            onAuthRequired={() => setAuthOpen(true)}
-          />
+          <CommentSection articleId={article.id} onAuthRequired={() => setAuthOpen(true)} />
         </div>
 
         {related.length > 0 && (
           <section className="article-read__related">
             <h2 className="article-read__related-title">More from AlphaSec United</h2>
             <div className="article-read__related-grid">
-              {related.map(a => (
+              {related.map((a) => (
                 <RelatedCard key={a.slug} article={a} />
               ))}
             </div>

@@ -1,5 +1,5 @@
-import type { ReactNode } from "react";
-import { NewsShell } from "@/components/news/NewsShell";
+import type { ReactNode } from 'react';
+import { NewsShell } from '@/components/news/NewsShell';
 
 interface LegalShellProps {
   children: ReactNode;

@@ -57,7 +57,9 @@ export function IconRail() {
               {mod.icon}
             </button>
             <div className="holo-rail-tooltip">
-              <span className="text-[11px] uppercase tracking-wider holo-label-orbitron">{mod.label}</span>
+              <span className="text-[11px] uppercase tracking-wider holo-label-orbitron">
+                {mod.label}
+              </span>
             </div>
           </motion.div>
         );

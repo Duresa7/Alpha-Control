@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
-import { Link, useLocation } from "react-router";
+import { useEffect, useRef, useState } from 'react';
+import { Link, useLocation } from 'react-router';
 
-import { useAuth } from "@/hooks/useAuth";
-import { getUserIdentity } from "@/utils/getUserIdentity";
+import { useAuth } from '@/hooks/useAuth';
+import { getUserIdentity } from '@/utils/getUserIdentity';
 
 export function NewsProfileMenu() {
   const { pathname } = useLocation();
@@ -27,17 +27,17 @@ export function NewsProfileMenu() {
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
+      if (event.key === 'Escape') {
         setIsOpen(false);
       }
     };
 
-    document.addEventListener("pointerdown", handlePointerDown);
-    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener('pointerdown', handlePointerDown);
+    document.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      document.removeEventListener("pointerdown", handlePointerDown);
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener('pointerdown', handlePointerDown);
+      document.removeEventListener('keydown', handleKeyDown);
     };
   }, [isOpen]);
 
@@ -49,7 +49,7 @@ export function NewsProfileMenu() {
   return (
     <div className="news-profile-menu" ref={menuRef}>
       <button
-        className={`news-nav__icon-btn${isOpen ? " news-nav__icon-btn--active" : ""}`}
+        className={`news-nav__icon-btn${isOpen ? ' news-nav__icon-btn--active' : ''}`}
         aria-label="Profile menu"
         aria-haspopup="menu"
         aria-expanded={isOpen}
@@ -83,9 +83,7 @@ export function NewsProfileMenu() {
           <div className="news-profile-menu__header">
             <p className="news-profile-menu__label">Signed in as</p>
             <p className="news-profile-menu__identity">{displayName}</p>
-            {email && email !== displayName && (
-              <p className="news-profile-menu__meta">{email}</p>
-            )}
+            {email && email !== displayName && <p className="news-profile-menu__meta">{email}</p>}
           </div>
 
           <div className="news-profile-menu__items">

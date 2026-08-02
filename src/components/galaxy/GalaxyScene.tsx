@@ -34,12 +34,8 @@ function GalaxyContent() {
     const timer = setTimeout(() => setIsLoading(false), 1500);
     return () => clearTimeout(timer);
   }, [setIsLoading]);
-  const selectedSystem = selectedSystemId
-    ? systems.find(s => s.id === selectedSystemId)
-    : null;
-  const selectedFleet = selectedFleetId
-    ? fleets.find(f => f.id === selectedFleetId)
-    : null;
+  const selectedSystem = selectedSystemId ? systems.find((s) => s.id === selectedSystemId) : null;
+  const selectedFleet = selectedFleetId ? fleets.find((f) => f.id === selectedFleetId) : null;
   const isSystemView = viewMode === 'system';
   const ambientConfig = isSystemView ? AMBIENT_LIGHT.system : AMBIENT_LIGHT.galaxy;
   const hemisphereConfig = isSystemView ? HEMISPHERE_LIGHT.system : HEMISPHERE_LIGHT.galaxy;
@@ -116,16 +112,18 @@ function TopDownView() {
         region: 'unknown_regions' as const,
         isCustom: true,
         customColor: pendingCustomPlanet.color,
-        planets: [{
-          id: `${uniqueId}-prime`,
-          name: pendingCustomPlanet.name,
-          type: 'terrestrial' as const,
-          position: new THREE.Vector3(0, 0, 0),
-          radius: 1,
-          faction: pendingCustomPlanet.faction,
-          description: `Custom planet: ${pendingCustomPlanet.name}`,
-          systemId: uniqueId,
-        }],
+        planets: [
+          {
+            id: `${uniqueId}-prime`,
+            name: pendingCustomPlanet.name,
+            type: 'terrestrial' as const,
+            position: new THREE.Vector3(0, 0, 0),
+            radius: 1,
+            faction: pendingCustomPlanet.faction,
+            description: `Custom planet: ${pendingCustomPlanet.name}`,
+            systemId: uniqueId,
+          },
+        ],
       });
       return;
     }

@@ -21,7 +21,8 @@ export const shipCatalog: ShipCatalogEntry[] = [
     name: 'Valor-class Cruiser',
     shipClass: 'Cruiser',
     modelType: 'valor',
-    description: 'Republic Valor-class cruiser adapted for frontline fleet actions and rapid-response command roles.',
+    description:
+      'Republic Valor-class cruiser adapted for frontline fleet actions and rapid-response command roles.',
   },
   {
     id: 'sith-dreadnought',
@@ -35,6 +36,7 @@ export const shipCatalog: ShipCatalogEntry[] = [
     name: 'Terminus-class Destroyer',
     shipClass: 'Destroyer',
     modelType: 'terminus',
-    description: 'Sith Empire Terminus-class destroyer serving as the backbone of the Imperial fleet for frontline engagements.',
+    description:
+      'Sith Empire Terminus-class destroyer serving as the backbone of the Imperial fleet for frontline engagements.',
   },
 ];

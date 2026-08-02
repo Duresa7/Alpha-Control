@@ -23,7 +23,7 @@ const CIVILIAN_TRANSPORT_PATH = '/models/ships/civilian_transport.glb';
 
 const SHIP_VARIANTS = [
   { path: CIVILIAN_FREIGHTER_PATH, scale: 0.65 },
-  { path: CIVILIAN_CORVETTE_PATH, scale: 0.50 },
+  { path: CIVILIAN_CORVETTE_PATH, scale: 0.5 },
   { path: CIVILIAN_TRANSPORT_PATH, scale: 0.45 },
 ];
 
@@ -195,7 +195,9 @@ export function CivilianTrafficLayer() {
 
       const matchesName = system.name.toLowerCase().includes(query);
       const matchesRegion = system.region.replace('_', ' ').toLowerCase().includes(query);
-      const matchesPlanets = system.planets.some((planet) => planet.name.toLowerCase().includes(query));
+      const matchesPlanets = system.planets.some((planet) =>
+        planet.name.toLowerCase().includes(query),
+      );
       return matchesName || matchesRegion || matchesPlanets;
     });
   }, [allSystems, factionFilters, searchQuery]);
@@ -231,46 +233,54 @@ export function CivilianTrafficLayer() {
     };
   }, [routeAnchors]);
 
-  const rebalanceShips = useCallback((current: RuntimeTrafficShip[]): RuntimeTrafficShip[] => {
-    if (!showCivilianTraffic || routeAnchors.length < 2) return [];
+  const rebalanceShips = useCallback(
+    (current: RuntimeTrafficShip[]): RuntimeTrafficShip[] => {
+      if (!showCivilianTraffic || routeAnchors.length < 2) return [];
 
-    let nextShips = current;
-    if (nextShips.length > DEFAULT_CIVILIAN_TRAFFIC_SETTINGS.maxConcurrent) {
-      nextShips = nextShips.slice(nextShips.length - DEFAULT_CIVILIAN_TRAFFIC_SETTINGS.maxConcurrent);
-    }
+      let nextShips = current;
+      if (nextShips.length > DEFAULT_CIVILIAN_TRAFFIC_SETTINGS.maxConcurrent) {
+        nextShips = nextShips.slice(
+          nextShips.length - DEFAULT_CIVILIAN_TRAFFIC_SETTINGS.maxConcurrent,
+        );
+      }
 
-    const { spawnCount, trimCount } = calculateDensityPlan(
-      nextShips.length,
-      DEFAULT_CIVILIAN_TRAFFIC_SETTINGS,
-    );
+      const { spawnCount, trimCount } = calculateDensityPlan(
+        nextShips.length,
+        DEFAULT_CIVILIAN_TRAFFIC_SETTINGS,
+      );
 
-    if (trimCount > 0) {
-      nextShips = nextShips.slice(trimCount);
-    }
+      if (trimCount > 0) {
+        nextShips = nextShips.slice(trimCount);
+      }
 
-    if (spawnCount <= 0) return nextShips;
+      if (spawnCount <= 0) return nextShips;
 
-    const additions: RuntimeTrafficShip[] = [];
-    for (let i = 0; i < spawnCount; i++) {
-      const ship = createTrafficShip();
-      if (!ship) break;
-      additions.push(ship);
-    }
+      const additions: RuntimeTrafficShip[] = [];
+      for (let i = 0; i < spawnCount; i++) {
+        const ship = createTrafficShip();
+        if (!ship) break;
+        additions.push(ship);
+      }
 
-    if (additions.length === 0) return nextShips;
-    return [...nextShips, ...additions];
-  }, [createTrafficShip, routeAnchors.length, showCivilianTraffic]);
+      if (additions.length === 0) return nextShips;
+      return [...nextShips, ...additions];
+    },
+    [createTrafficShip, routeAnchors.length, showCivilianTraffic],
+  );
 
   useEffect(() => {
     setShips((current) => rebalanceShips(current));
   }, [rebalanceShips]);
 
-  const handleShipComplete = useCallback((shipId: string) => {
-    setShips((current) => {
-      const remaining = current.filter((ship) => ship.id !== shipId);
-      return rebalanceShips(remaining);
-    });
-  }, [rebalanceShips]);
+  const handleShipComplete = useCallback(
+    (shipId: string) => {
+      setShips((current) => {
+        const remaining = current.filter((ship) => ship.id !== shipId);
+        return rebalanceShips(remaining);
+      });
+    },
+    [rebalanceShips],
+  );
 
   if (!showCivilianTraffic || routeAnchors.length < 2 || ships.length === 0) {
     return null;

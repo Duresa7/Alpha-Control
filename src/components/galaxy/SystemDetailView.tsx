@@ -25,7 +25,6 @@ export function SystemDetailView({ system }: SystemDetailViewProps) {
 
   return (
     <group>
-
       <StaticPlanet
         planet={planet}
         showLabels={showLabels}
@@ -61,7 +60,6 @@ function StaticPlanet({ planet, showLabels, isDetailView, customColor }: StaticP
     };
   }, [appearance, customColor, planet.customColor]);
 
-
   const handleClick = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
     setSelectedPlanet(planet.id);
@@ -91,25 +89,21 @@ function StaticPlanet({ planet, showLabels, isDetailView, customColor }: StaticP
       onPointerOver={handlePointerOver}
       onPointerOut={handlePointerOut}
     >
-
       {hasGLBModel ? (
-        <Suspense fallback={
-          <mesh scale={viewScale * planetSize}>
-            <sphereGeometry args={[1, 32, 32]} />
-            <meshStandardMaterial color={planetMaterial.color} />
-          </mesh>
-        }>
+        <Suspense
+          fallback={
+            <mesh scale={viewScale * planetSize}>
+              <sphereGeometry args={[1, 32, 32]} />
+              <meshStandardMaterial color={planetMaterial.color} />
+            </mesh>
+          }
+        >
           <group scale={viewScale * planetSize}>
-            <PlanetModel
-              planetId={planet.id}
-              position={new THREE.Vector3(0, 0, 0)}
-              scale={1}
-            />
+            <PlanetModel planetId={planet.id} position={new THREE.Vector3(0, 0, 0)} scale={1} />
           </group>
         </Suspense>
       ) : (
         <>
-
           <mesh scale={viewScale}>
             <sphereGeometry args={[planetSize, 64, 64]} />
             <meshStandardMaterial
@@ -121,19 +115,17 @@ function StaticPlanet({ planet, showLabels, isDetailView, customColor }: StaticP
         </>
       )}
 
-
       {(hovered || isSelected) && (
         <mesh rotation={[Math.PI / 2, 0, 0]} scale={viewScale}>
           <ringGeometry args={[planetSize * 1.2, planetSize * 1.25, 64]} />
           <meshBasicMaterial
-            color={isSelected ? "#00FF00" : "#00BFFF"}
+            color={isSelected ? '#00FF00' : '#00BFFF'}
             transparent
             opacity={0.8}
             side={THREE.DoubleSide}
           />
         </mesh>
       )}
-
 
       {showLabels && (
         <Html
@@ -144,9 +136,7 @@ function StaticPlanet({ planet, showLabels, isDetailView, customColor }: StaticP
           style={{ pointerEvents: 'none', userSelect: 'none' }}
         >
           <div className="text-center whitespace-nowrap holo-tooltip">
-            <div className="text-sm font-medium text-white">
-              {planet.name}
-            </div>
+            <div className="text-sm font-medium text-white">{planet.name}</div>
           </div>
         </Html>
       )}

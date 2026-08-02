@@ -104,7 +104,10 @@ export function FleetInfo({ fleet, editable }: { fleet: Fleet; editable: boolean
   const [addCustomQuantity, setAddCustomQuantity] = useState(CUSTOM_SHIP_QUANTITY_MIN);
 
   const markerSize = fleet.markerSize ?? DEFAULT_TOPDOWN_FLEET_MARKER_SIZE;
-  const filledSegments = Math.min(Math.ceil(fleet.shipCount / FLEET_STRENGTH_DIVISOR), FLEET_STRENGTH_SEGMENTS);
+  const filledSegments = Math.min(
+    Math.ceil(fleet.shipCount / FLEET_STRENGTH_DIVISOR),
+    FLEET_STRENGTH_SEGMENTS,
+  );
   const segmentColor = getFactionBarColor(fleet.faction);
 
   const composition = fleet.composition;
@@ -137,7 +140,16 @@ export function FleetInfo({ fleet, editable }: { fleet: Fleet; editable: boolean
         e.catalogId === ship.id ? { ...e, quantity: e.quantity + 1 } : e,
       );
     } else {
-      updated = [...current, { catalogId: ship.id, name: ship.name, shipClass: ship.shipClass, modelType: ship.modelType, quantity: 1 }];
+      updated = [
+        ...current,
+        {
+          catalogId: ship.id,
+          name: ship.name,
+          shipClass: ship.shipClass,
+          modelType: ship.modelType,
+          quantity: 1,
+        },
+      ];
     }
     const newTotal = updated.reduce((sum, e) => sum + e.quantity, 0);
     updateFleetStats(fleet.id, { composition: updated, shipCount: newTotal });
@@ -161,7 +173,6 @@ export function FleetInfo({ fleet, editable }: { fleet: Fleet; editable: boolean
 
   return (
     <div className="space-y-4">
-
       <div className="pb-3">
         <div className="flex items-center gap-2 mb-2">
           <div
@@ -204,7 +215,8 @@ export function FleetInfo({ fleet, editable }: { fleet: Fleet; editable: boolean
               onStartEdit={() => nameField.startEdit(fleet.name)}
               onDraftChange={nameField.setDraft}
               onSave={() => {
-                if (nameField.draft.trim()) updateFleetStats(fleet.id, { name: nameField.draft.trim() });
+                if (nameField.draft.trim())
+                  updateFleetStats(fleet.id, { name: nameField.draft.trim() });
                 nameField.stopEditing();
               }}
               onCancel={nameField.cancel}
@@ -250,7 +262,9 @@ export function FleetInfo({ fleet, editable }: { fleet: Fleet; editable: boolean
                 style={{ padding: '2px 6px', fontSize: '12px' }}
               >
                 {allFactions.map((f) => (
-                  <option key={f.id} value={f.id}>{f.label}</option>
+                  <option key={f.id} value={f.id}>
+                    {f.label}
+                  </option>
                 ))}
               </select>
             </div>
@@ -258,12 +272,16 @@ export function FleetInfo({ fleet, editable }: { fleet: Fleet; editable: boolean
               <span className="holo-label-inline">Model</span>
               <select
                 value={fleet.modelType}
-                onChange={(e) => updateFleetStats(fleet.id, { modelType: e.target.value as ShipModelType })}
+                onChange={(e) =>
+                  updateFleetStats(fleet.id, { modelType: e.target.value as ShipModelType })
+                }
                 className="holo-input text-right"
                 style={{ padding: '2px 6px', fontSize: '12px' }}
               >
                 {(Object.keys(MODEL_TYPE_LABELS) as ShipModelType[]).map((m) => (
-                  <option key={m} value={m}>{MODEL_TYPE_LABELS[m]}</option>
+                  <option key={m} value={m}>
+                    {MODEL_TYPE_LABELS[m]}
+                  </option>
                 ))}
               </select>
             </div>
@@ -281,7 +299,9 @@ export function FleetInfo({ fleet, editable }: { fleet: Fleet; editable: boolean
 
       {composition && composition.length > 0 && (
         <div>
-          <label className="holo-label" style={{ marginBottom: '8px' }}>Fleet Composition</label>
+          <label className="holo-label" style={{ marginBottom: '8px' }}>
+            Fleet Composition
+          </label>
           <div className="fleet-composition-list">
             {composition.map((entry) => (
               <CompositionEntry
@@ -298,10 +318,16 @@ export function FleetInfo({ fleet, editable }: { fleet: Fleet; editable: boolean
             <div className="fleet-composition-add-section">
               {!addMode && (
                 <div className="fleet-composition-add-buttons">
-                  <button className="fleet-composition-add-btn" onClick={() => setAddMode('catalog')}>
+                  <button
+                    className="fleet-composition-add-btn"
+                    onClick={() => setAddMode('catalog')}
+                  >
                     + Catalog Ship
                   </button>
-                  <button className="fleet-composition-add-btn" onClick={() => setAddMode('custom')}>
+                  <button
+                    className="fleet-composition-add-btn"
+                    onClick={() => setAddMode('custom')}
+                  >
                     + Custom Ship
                   </button>
                 </div>
@@ -315,12 +341,21 @@ export function FleetInfo({ fleet, editable }: { fleet: Fleet; editable: boolean
                     style={{ fontSize: '11px', padding: '3px 6px' }}
                   >
                     {shipCatalog.map((s) => (
-                      <option key={s.id} value={s.id}>{s.name}</option>
+                      <option key={s.id} value={s.id}>
+                        {s.name}
+                      </option>
                     ))}
                   </select>
                   <div className="fleet-composition-add-form-actions">
-                    <button className="fleet-composition-add-confirm" onClick={addCatalogEntry}>Add</button>
-                    <button className="fleet-composition-add-cancel" onClick={() => setAddMode(null)}>Cancel</button>
+                    <button className="fleet-composition-add-confirm" onClick={addCatalogEntry}>
+                      Add
+                    </button>
+                    <button
+                      className="fleet-composition-add-cancel"
+                      onClick={() => setAddMode(null)}
+                    >
+                      Cancel
+                    </button>
                   </div>
                 </div>
               )}
@@ -342,7 +377,9 @@ export function FleetInfo({ fleet, editable }: { fleet: Fleet; editable: boolean
                     style={{ fontSize: '11px', padding: '3px 6px' }}
                   >
                     {CUSTOM_SHIP_CLASSES.map((c) => (
-                      <option key={c} value={c}>{c}</option>
+                      <option key={c} value={c}>
+                        {c}
+                      </option>
                     ))}
                   </select>
                   <CustomShipQuantityControl
@@ -354,8 +391,19 @@ export function FleetInfo({ fleet, editable }: { fleet: Fleet; editable: boolean
                     value={addCustomQuantity}
                   />
                   <div className="fleet-composition-add-form-actions">
-                    <button className="fleet-composition-add-confirm" onClick={addCustomEntry} disabled={!addCustomName.trim()}>Add</button>
-                    <button className="fleet-composition-add-cancel" onClick={() => setAddMode(null)}>Cancel</button>
+                    <button
+                      className="fleet-composition-add-confirm"
+                      onClick={addCustomEntry}
+                      disabled={!addCustomName.trim()}
+                    >
+                      Add
+                    </button>
+                    <button
+                      className="fleet-composition-add-cancel"
+                      onClick={() => setAddMode(null)}
+                    >
+                      Cancel
+                    </button>
                   </div>
                 </div>
               )}
@@ -366,7 +414,9 @@ export function FleetInfo({ fleet, editable }: { fleet: Fleet; editable: boolean
 
       {editable && viewMode === 'topdown' && (
         <div>
-          <label className="holo-label" style={{ marginBottom: '8px' }}>Top-Down Marker Size</label>
+          <label className="holo-label" style={{ marginBottom: '8px' }}>
+            Top-Down Marker Size
+          </label>
           <div className="flex items-center gap-2">
             <input
               type="range"
@@ -377,7 +427,10 @@ export function FleetInfo({ fleet, editable }: { fleet: Fleet; editable: boolean
               onChange={(e) => updateFleetMarkerSize(fleet.id, parseFloat(e.target.value))}
               className="holo-slider flex-1"
             />
-            <span className="holo-label-orbitron" style={{ color: 'var(--holo-text-primary)', width: '24px', textAlign: 'right' }}>
+            <span
+              className="holo-label-orbitron"
+              style={{ color: 'var(--holo-text-primary)', width: '24px', textAlign: 'right' }}
+            >
               {markerSize.toFixed(1)}
             </span>
           </div>
@@ -385,7 +438,9 @@ export function FleetInfo({ fleet, editable }: { fleet: Fleet; editable: boolean
       )}
 
       <div>
-        <label className="holo-label" style={{ marginBottom: '8px' }}>Fleet Strength</label>
+        <label className="holo-label" style={{ marginBottom: '8px' }}>
+          Fleet Strength
+        </label>
         <div className="flex gap-1 mt-2">
           {Array.from({ length: FLEET_STRENGTH_SEGMENTS }).map((_, i) => (
             <div
@@ -400,8 +455,16 @@ export function FleetInfo({ fleet, editable }: { fleet: Fleet; editable: boolean
             />
           ))}
         </div>
-        <div className="text-xs mt-1 text-right holo-label-orbitron" style={{ color: 'var(--holo-text-muted)', fontSize: '11px' }}>
-          {fleet.shipCount < FLEET_STRENGTH_LIGHT_THRESHOLD ? 'Light' : fleet.shipCount < FLEET_STRENGTH_HEAVY_THRESHOLD ? 'Medium' : 'Heavy'} Task Force
+        <div
+          className="text-xs mt-1 text-right holo-label-orbitron"
+          style={{ color: 'var(--holo-text-muted)', fontSize: '11px' }}
+        >
+          {fleet.shipCount < FLEET_STRENGTH_LIGHT_THRESHOLD
+            ? 'Light'
+            : fleet.shipCount < FLEET_STRENGTH_HEAVY_THRESHOLD
+              ? 'Medium'
+              : 'Heavy'}{' '}
+          Task Force
         </div>
       </div>
 

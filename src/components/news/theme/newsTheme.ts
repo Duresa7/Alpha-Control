@@ -5,31 +5,26 @@ import {
   useState,
   type Dispatch,
   type SetStateAction,
-} from "react";
+} from 'react';
 
-export type NewsTheme = "light" | "dark";
-export type NewsThemeStorage =
-  | Pick<Storage, "getItem" | "setItem">
-  | null
-  | undefined;
+export type NewsTheme = 'light' | 'dark';
+export type NewsThemeStorage = Pick<Storage, 'getItem' | 'setItem'> | null | undefined;
 
 export interface NewsThemeContextValue {
   theme: NewsTheme;
   setTheme: Dispatch<SetStateAction<NewsTheme>>;
 }
 
-export const NEWS_THEME_STORAGE_KEY = "news-theme";
+export const NEWS_THEME_STORAGE_KEY = 'news-theme';
 
-export const NewsThemeContext = createContext<NewsThemeContextValue | null>(
-  null,
-);
+export const NewsThemeContext = createContext<NewsThemeContextValue | null>(null);
 
 function isNewsTheme(value: string | null): value is NewsTheme {
-  return value === "light" || value === "dark";
+  return value === 'light' || value === 'dark';
 }
 
 function getDefaultStorage(): NewsThemeStorage {
-  if (typeof window === "undefined") {
+  if (typeof window === 'undefined') {
     return null;
   }
 
@@ -54,7 +49,7 @@ export function readStoredNewsTheme(
 export function resolveInitialNewsTheme(
   storage: NewsThemeStorage = getDefaultStorage(),
 ): NewsTheme {
-  return readStoredNewsTheme(storage) ?? "light";
+  return readStoredNewsTheme(storage) ?? 'light';
 }
 
 export function persistNewsTheme(
@@ -89,7 +84,7 @@ export function useNewsThemeContext() {
   const value = useContext(NewsThemeContext);
 
   if (!value) {
-    throw new Error("useNewsThemeContext must be used within NewsShell.");
+    throw new Error('useNewsThemeContext must be used within NewsShell.');
   }
 
   return value;

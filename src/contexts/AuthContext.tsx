@@ -76,12 +76,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     } finally {
       if (mode === 'initial') {
-        profileInitialRequestsInFlightRef.current = Math.max(0, profileInitialRequestsInFlightRef.current - 1);
+        profileInitialRequestsInFlightRef.current = Math.max(
+          0,
+          profileInitialRequestsInFlightRef.current - 1,
+        );
         if (profileInitialRequestsInFlightRef.current === 0) {
           setProfileLoadingInitial(false);
         }
       } else {
-        profileRefreshRequestsInFlightRef.current = Math.max(0, profileRefreshRequestsInFlightRef.current - 1);
+        profileRefreshRequestsInFlightRef.current = Math.max(
+          0,
+          profileRefreshRequestsInFlightRef.current - 1,
+        );
         if (profileRefreshRequestsInFlightRef.current === 0) {
           setProfileRefreshing(false);
         }
@@ -91,36 +97,36 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const refreshProfile = useCallback(async () => {
     if (session?.user?.id) {
-      const mode =
-        resolvedProfileUserIdRef.current === session.user.id
-          ? 'background'
-          : 'initial';
+      const mode = resolvedProfileUserIdRef.current === session.user.id ? 'background' : 'initial';
       await fetchProfile(session.user.id, mode);
     }
   }, [session, fetchProfile]);
 
-  const finalizePendingGoogleAuth = useCallback(async (newSession: Session | null) => {
-    const userId = newSession?.user?.id ?? null;
-    if (!userId || googleIntentSyncInFlightRef.current === userId) {
-      return;
-    }
+  const finalizePendingGoogleAuth = useCallback(
+    async (newSession: Session | null) => {
+      const userId = newSession?.user?.id ?? null;
+      if (!userId || googleIntentSyncInFlightRef.current === userId) {
+        return;
+      }
 
-    googleIntentSyncInFlightRef.current = userId;
+      googleIntentSyncInFlightRef.current = userId;
 
-    try {
-      await syncPendingGoogleAuthSession({
-        session: newSession,
-        supabaseConfigured,
-        supabase,
-        resolvedProfileUserId: resolvedProfileUserIdRef.current,
-        fetchProfile,
-        authOperationTimeoutMs: AUTH_OPERATION_TIMEOUT_MS,
-        logger,
-      });
-    } finally {
-      googleIntentSyncInFlightRef.current = null;
-    }
-  }, [fetchProfile]);
+      try {
+        await syncPendingGoogleAuthSession({
+          session: newSession,
+          supabaseConfigured,
+          supabase,
+          resolvedProfileUserId: resolvedProfileUserIdRef.current,
+          fetchProfile,
+          authOperationTimeoutMs: AUTH_OPERATION_TIMEOUT_MS,
+          logger,
+        });
+      } finally {
+        googleIntentSyncInFlightRef.current = null;
+      }
+    },
+    [fetchProfile],
+  );
 
   useEffect(() => {
     if (!supabaseConfigured) return;
@@ -158,11 +164,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     };
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, newSession) => {
-        resolveAuthState(newSession, event);
-      }
-    );
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, newSession) => {
+      resolveAuthState(newSession, event);
+    });
 
     void withTimeout(
       supabase.auth.getSession(),
@@ -196,53 +202,66 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => clearInterval(interval);
   }, [session, fetchProfile]);
 
-  const signUp = useCallback(async (email: string, password: string, displayName: string, galaxyMapRequested?: boolean) => {
-    if (!supabaseConfigured) return { error: 'Supabase is not configured' };
-    try {
-      const { error } = await withTimeout(
-        supabase.auth.signUp({
-          email,
-          password,
-          options: { data: { display_name: displayName, galaxy_map_requested: galaxyMapRequested ?? false } },
-        }),
-        AUTH_OPERATION_TIMEOUT_MS,
-        'Sign-up timed out. Please try again.',
-      );
-      if (error) return { error: error.message };
-      return { error: null };
-    } catch (error) {
-      return { error: error instanceof Error ? error.message : 'Unable to sign up. Please try again.' };
-    }
-  }, []);
-
-  const signIn = useCallback(async (email: string, password: string) => {
-    if (!supabaseConfigured) return { error: 'Supabase is not configured' };
-    try {
-      const { data, error } = await withTimeout(
-        supabase.auth.signInWithPassword({ email, password }),
-        AUTH_OPERATION_TIMEOUT_MS,
-        'Sign-in timed out. Please try again.',
-      );
-      if (error) return { error: error.message };
-
-      if (data.session) {
-        setSession(data.session);
-        if (data.session.user?.id) {
-          sessionUserIdRef.current = data.session.user.id;
-          const mode =
-            resolvedProfileUserIdRef.current === data.session.user.id
-              ? 'background'
-              : 'initial';
-          void fetchProfile(data.session.user.id, mode);
-        }
+  const signUp = useCallback(
+    async (email: string, password: string, displayName: string, galaxyMapRequested?: boolean) => {
+      if (!supabaseConfigured) return { error: 'Supabase is not configured' };
+      try {
+        const { error } = await withTimeout(
+          supabase.auth.signUp({
+            email,
+            password,
+            options: {
+              data: {
+                display_name: displayName,
+                galaxy_map_requested: galaxyMapRequested ?? false,
+              },
+            },
+          }),
+          AUTH_OPERATION_TIMEOUT_MS,
+          'Sign-up timed out. Please try again.',
+        );
+        if (error) return { error: error.message };
+        return { error: null };
+      } catch (error) {
+        return {
+          error: error instanceof Error ? error.message : 'Unable to sign up. Please try again.',
+        };
       }
-      setLoading(false);
-      setAuthResolved(true);
-      return { error: null };
-    } catch (error) {
-      return { error: error instanceof Error ? error.message : 'Unable to sign in. Please try again.' };
-    }
-  }, [fetchProfile]);
+    },
+    [],
+  );
+
+  const signIn = useCallback(
+    async (email: string, password: string) => {
+      if (!supabaseConfigured) return { error: 'Supabase is not configured' };
+      try {
+        const { data, error } = await withTimeout(
+          supabase.auth.signInWithPassword({ email, password }),
+          AUTH_OPERATION_TIMEOUT_MS,
+          'Sign-in timed out. Please try again.',
+        );
+        if (error) return { error: error.message };
+
+        if (data.session) {
+          setSession(data.session);
+          if (data.session.user?.id) {
+            sessionUserIdRef.current = data.session.user.id;
+            const mode =
+              resolvedProfileUserIdRef.current === data.session.user.id ? 'background' : 'initial';
+            void fetchProfile(data.session.user.id, mode);
+          }
+        }
+        setLoading(false);
+        setAuthResolved(true);
+        return { error: null };
+      } catch (error) {
+        return {
+          error: error instanceof Error ? error.message : 'Unable to sign in. Please try again.',
+        };
+      }
+    },
+    [fetchProfile],
+  );
 
   const signInWithGoogle = useCallback(async (options: GoogleSignInOptions) => {
     return startGoogleSignIn({
@@ -291,7 +310,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (error) return { error: error.message };
       return { error: null };
     } catch (error) {
-      return { error: error instanceof Error ? error.message : 'Unable to update email. Please try again.' };
+      return {
+        error: error instanceof Error ? error.message : 'Unable to update email. Please try again.',
+      };
     }
   }, []);
 
@@ -306,7 +327,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (error) return { error: error.message };
       return { error: null };
     } catch (error) {
-      return { error: error instanceof Error ? error.message : 'Unable to update password. Please try again.' };
+      return {
+        error:
+          error instanceof Error ? error.message : 'Unable to update password. Please try again.',
+      };
     }
   }, []);
 
@@ -324,13 +348,36 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setProfileError(null);
       resolvedProfileUserIdRef.current = null;
       sessionUserIdRef.current = null;
-      try { await supabase.auth.signOut({ scope: 'local' }); } catch { /* best-effort */ }
+      try {
+        await supabase.auth.signOut({ scope: 'local' });
+      } catch {
+        /* best-effort */
+      }
     }
     return result;
   }, [session]);
 
   return (
-    <AuthContext.Provider value={{ session, profile, loading, authResolved, profileLoadingInitial, profileRefreshing, profileError, supabaseConfigured, signUp, signIn, signInWithGoogle, signOut, refreshProfile, updateEmail, updatePassword, deleteAccount }}>
+    <AuthContext.Provider
+      value={{
+        session,
+        profile,
+        loading,
+        authResolved,
+        profileLoadingInitial,
+        profileRefreshing,
+        profileError,
+        supabaseConfigured,
+        signUp,
+        signIn,
+        signInWithGoogle,
+        signOut,
+        refreshProfile,
+        updateEmail,
+        updatePassword,
+        deleteAccount,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

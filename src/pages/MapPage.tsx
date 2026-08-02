@@ -33,7 +33,6 @@ import { useRole } from '@/hooks/useRole';
 import { supabase, supabaseConfigured } from '@/lib/supabase';
 import { getUserIdentity } from '@/utils/getUserIdentity';
 
-
 const TOUR_STORAGE_KEY = 'onboarding_tour_completed';
 
 function drawLabelToCanvas(
@@ -189,7 +188,8 @@ export function MapPage() {
   const [tourReady, setTourReady] = useState(false);
   const realtimeRefreshTimeoutRef = useRef<number | null>(null);
   const factionRefreshTimeoutRef = useRef<number | null>(null);
-  const viewLabel = viewMode === 'topdown' ? 'Galaxy Map' : viewMode === 'system' ? 'Planet View' : 'Fleet View';
+  const viewLabel =
+    viewMode === 'topdown' ? 'Galaxy Map' : viewMode === 'system' ? 'Planet View' : 'Fleet View';
 
   const handleDownloadMap = useCallback(() => {
     const canvas = document.querySelector('canvas');
@@ -322,9 +322,11 @@ export function MapPage() {
           text={uiHidden ? 'Show UI' : 'Hide UI'}
           onClick={() => setUiHidden((prev) => !prev)}
           icon={
-            uiHidden
-              ? <EyeOff className="w-5 h-5" aria-hidden="true" />
-              : <Eye className="w-5 h-5" aria-hidden="true" />
+            uiHidden ? (
+              <EyeOff className="w-5 h-5" aria-hidden="true" />
+            ) : (
+              <Eye className="w-5 h-5" aria-hidden="true" />
+            )
           }
         />
 
@@ -334,9 +336,7 @@ export function MapPage() {
               size="sm"
               text="Download Map"
               onClick={handleDownloadMap}
-              icon={
-                <Download className="w-5 h-5" aria-hidden="true" />
-              }
+              icon={<Download className="w-5 h-5" aria-hidden="true" />}
             />
           </span>
         )}
@@ -346,9 +346,7 @@ export function MapPage() {
             size="sm"
             text="Feedback"
             onClick={() => navigate('/feedback')}
-            icon={
-              <MessageSquareText className="w-5 h-5" aria-hidden="true" />
-            }
+            icon={<MessageSquareText className="w-5 h-5" aria-hidden="true" />}
           />
         )}
 
@@ -360,9 +358,7 @@ export function MapPage() {
               setTourReady(true);
               setTourRunning(true);
             }}
-            icon={
-              <HelpCircle className="w-5 h-5" aria-hidden="true" />
-            }
+            icon={<HelpCircle className="w-5 h-5" aria-hidden="true" />}
           />
         )}
       </div>
@@ -499,14 +495,14 @@ export function MapPage() {
               <div className="holo-account-shell">
                 <span
                   className="px-3 py-1 text-[10px] font-semibold tracking-[0.1em] uppercase"
-                  style={{ fontFamily: 'Oxanium, Orbitron, monospace', color: 'rgba(255, 255, 255, 0.55)' }}
+                  style={{
+                    fontFamily: 'Oxanium, Orbitron, monospace',
+                    color: 'rgba(255, 255, 255, 0.55)',
+                  }}
                 >
                   {displayName}
                 </span>
-                <button
-                  onClick={() => signOut()}
-                  className="holo-account-action"
-                >
+                <button onClick={() => signOut()} className="holo-account-action">
                   Sign Out
                 </button>
               </div>
@@ -532,7 +528,12 @@ export function MapPage() {
               </h1>
 
               <div className="flex items-center justify-center gap-3">
-                <div className="h-px w-12" style={{ background: 'linear-gradient(90deg, transparent, rgba(200, 170, 110, 0.3))' }} />
+                <div
+                  className="h-px w-12"
+                  style={{
+                    background: 'linear-gradient(90deg, transparent, rgba(200, 170, 110, 0.3))',
+                  }}
+                />
                 <div className="flex items-center gap-2">
                   <div
                     className="w-1.5 h-1.5 rounded-full"
@@ -552,7 +553,12 @@ export function MapPage() {
                     style={{ backgroundColor: 'var(--holo-amber)', opacity: 0.5 }}
                   />
                 </div>
-                <div className="h-px w-12" style={{ background: 'linear-gradient(90deg, rgba(200, 170, 110, 0.3), transparent)' }} />
+                <div
+                  className="h-px w-12"
+                  style={{
+                    background: 'linear-gradient(90deg, rgba(200, 170, 110, 0.3), transparent)',
+                  }}
+                />
               </div>
             </div>
           </motion.div>

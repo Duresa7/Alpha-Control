@@ -153,7 +153,12 @@ describe('route guards', () => {
       vi.useFakeTimers();
       authState.value.loading = true;
 
-      renderRoute('/guard', <ProtectedRoute><div>allowed</div></ProtectedRoute>);
+      renderRoute(
+        '/guard',
+        <ProtectedRoute>
+          <div>allowed</div>
+        </ProtectedRoute>,
+      );
 
       expect(screen.getByText('Authenticating...')).toBeTruthy();
     });
@@ -162,7 +167,12 @@ describe('route guards', () => {
       vi.useFakeTimers();
       authState.value.loading = true;
 
-      renderRoute('/guard', <ProtectedRoute><div>allowed</div></ProtectedRoute>);
+      renderRoute(
+        '/guard',
+        <ProtectedRoute>
+          <div>allowed</div>
+        </ProtectedRoute>,
+      );
 
       act(() => {
         vi.advanceTimersByTime(8_000);
@@ -174,7 +184,12 @@ describe('route guards', () => {
     it('renders children for authenticated users', () => {
       authState.value.session = { user: { id: 'user-1' } } as never;
 
-      renderRoute('/guard', <ProtectedRoute><div>allowed</div></ProtectedRoute>);
+      renderRoute(
+        '/guard',
+        <ProtectedRoute>
+          <div>allowed</div>
+        </ProtectedRoute>,
+      );
 
       expect(screen.getByText('allowed')).toBeTruthy();
     });
@@ -185,7 +200,12 @@ describe('route guards', () => {
       vi.useFakeTimers();
       authState.value.loading = true;
 
-      renderRoute('/guard', <GalaxyRoute><div>map</div></GalaxyRoute>);
+      renderRoute(
+        '/guard',
+        <GalaxyRoute>
+          <div>map</div>
+        </GalaxyRoute>,
+      );
 
       expect(screen.getByLabelText('Verifying clearance')).toBeTruthy();
     });
@@ -193,7 +213,12 @@ describe('route guards', () => {
     it('shows access denied for authenticated users without galaxy access', () => {
       authState.value.session = { user: { id: 'user-1' } } as never;
 
-      renderRoute('/guard', <GalaxyRoute><div>map</div></GalaxyRoute>);
+      renderRoute(
+        '/guard',
+        <GalaxyRoute>
+          <div>map</div>
+        </GalaxyRoute>,
+      );
 
       expect(screen.getByText('Access Restricted')).toBeTruthy();
     });
@@ -202,7 +227,12 @@ describe('route guards', () => {
       authState.value.session = { user: { id: 'user-1' } } as never;
       roleState.value.canAccessGalaxy = true;
 
-      renderRoute('/guard', <GalaxyRoute><div>map</div></GalaxyRoute>);
+      renderRoute(
+        '/guard',
+        <GalaxyRoute>
+          <div>map</div>
+        </GalaxyRoute>,
+      );
 
       expect(screen.getByText('map')).toBeTruthy();
     });
@@ -213,7 +243,12 @@ describe('route guards', () => {
       vi.useFakeTimers();
       authState.value.authResolved = false;
 
-      renderRoute('/guard', <AdminRoute><div>admin</div></AdminRoute>);
+      renderRoute(
+        '/guard',
+        <AdminRoute>
+          <div>admin</div>
+        </AdminRoute>,
+      );
 
       expect(screen.getByText('Verifying Access...')).toBeTruthy();
     });
@@ -221,7 +256,12 @@ describe('route guards', () => {
     it('redirects authenticated non-admin users to the map', () => {
       authState.value.session = { user: { id: 'user-1' } } as never;
 
-      renderRoute('/guard', <AdminRoute><div>admin</div></AdminRoute>);
+      renderRoute(
+        '/guard',
+        <AdminRoute>
+          <div>admin</div>
+        </AdminRoute>,
+      );
 
       expect(screen.getByTestId('route-probe').textContent).toBe('/map');
     });
@@ -230,7 +270,12 @@ describe('route guards', () => {
       authState.value.session = { user: { id: 'user-1' } } as never;
       roleState.value.isAdmin = true;
 
-      renderRoute('/guard', <AdminRoute><div>admin</div></AdminRoute>);
+      renderRoute(
+        '/guard',
+        <AdminRoute>
+          <div>admin</div>
+        </AdminRoute>,
+      );
 
       expect(screen.getByText('admin')).toBeTruthy();
     });
@@ -241,7 +286,12 @@ describe('route guards', () => {
       vi.useFakeTimers();
       authState.value.authResolved = false;
 
-      renderRoute('/guard', <BossmanRoute fallbackTo="/news"><div>boss</div></BossmanRoute>);
+      renderRoute(
+        '/guard',
+        <BossmanRoute fallbackTo="/news">
+          <div>boss</div>
+        </BossmanRoute>,
+      );
 
       act(() => {
         vi.advanceTimersByTime(8_000);
@@ -253,7 +303,12 @@ describe('route guards', () => {
     it('redirects authenticated non-bossman users to the configured fallback', () => {
       authState.value.session = { user: { id: 'user-1' } } as never;
 
-      renderRoute('/guard', <BossmanRoute fallbackTo="/news"><div>boss</div></BossmanRoute>);
+      renderRoute(
+        '/guard',
+        <BossmanRoute fallbackTo="/news">
+          <div>boss</div>
+        </BossmanRoute>,
+      );
 
       expect(screen.getByTestId('route-probe').textContent).toBe('/news');
     });
@@ -262,7 +317,12 @@ describe('route guards', () => {
       authState.value.session = { user: { id: 'user-1' } } as never;
       roleState.value.isBossman = true;
 
-      renderRoute('/guard', <BossmanRoute fallbackTo="/news"><div>boss</div></BossmanRoute>);
+      renderRoute(
+        '/guard',
+        <BossmanRoute fallbackTo="/news">
+          <div>boss</div>
+        </BossmanRoute>,
+      );
 
       expect(screen.getByText('boss')).toBeTruthy();
     });

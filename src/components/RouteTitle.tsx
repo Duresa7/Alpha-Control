@@ -24,9 +24,7 @@ const ROUTE_TITLES = [
 ] as const;
 
 function getRouteTitle(pathname: string): string {
-  const route = ROUTE_TITLES.find(({ path }) =>
-    matchPath({ path, end: true }, pathname),
-  );
+  const route = ROUTE_TITLES.find(({ path }) => matchPath({ path, end: true }, pathname));
 
   return route ? `${SITE_TITLE} | ${route.title}` : SITE_TITLE;
 }

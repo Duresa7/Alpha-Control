@@ -55,8 +55,6 @@ export function ShipModel({ type, position, scale = 0.5, rotation = [0, 0, 0] }:
   );
 }
 
-
-
 interface PlanetModelProps {
   planetId: string;
   position: THREE.Vector3;
@@ -64,7 +62,12 @@ interface PlanetModelProps {
   rotation?: [number, number, number];
 }
 
-export function PlanetModel({ planetId, position, scale = 1, rotation = [0, 0, 0] }: PlanetModelProps) {
+export function PlanetModel({
+  planetId,
+  position,
+  scale = 1,
+  rotation = [0, 0, 0],
+}: PlanetModelProps) {
   const groupRef = useRef<THREE.Group>(null);
 
   const modelPath = getPlanetModelPath(planetId);

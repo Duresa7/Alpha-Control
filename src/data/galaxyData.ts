@@ -9,7 +9,8 @@ export const starSystems: StarSystem[] = [
     faction: 'galactic_republic',
     starType: 'yellow',
     importance: 'major',
-    description: 'Ancient birthplace of the Jedi Order. Home to the Jedi Temple and training grounds.',
+    description:
+      'Ancient birthplace of the Jedi Order. Home to the Jedi Temple and training grounds.',
     region: 'deep_core',
     planets: [
       {
@@ -23,7 +24,7 @@ export const starSystems: StarSystem[] = [
         climate: 'Temperate',
         terrain: 'Mountains, forests, ruins',
         systemId: 'tython',
-      }
+      },
     ],
   },
   {
@@ -48,7 +49,7 @@ export const starSystems: StarSystem[] = [
         terrain: 'Urban cityscape',
         nativeInhabitants: 'Humans',
         systemId: 'coruscant',
-      }
+      },
     ],
   },
   {
@@ -72,7 +73,7 @@ export const starSystems: StarSystem[] = [
         climate: 'Temperate',
         terrain: 'Mountains, grasslands',
         systemId: 'alderaan',
-      }
+      },
     ],
   },
   {
@@ -96,7 +97,7 @@ export const starSystems: StarSystem[] = [
         climate: 'Temperate',
         terrain: 'Urban regions, plains',
         systemId: 'corellia',
-      }
+      },
     ],
   },
   {
@@ -120,7 +121,7 @@ export const starSystems: StarSystem[] = [
         climate: 'Varied',
         terrain: 'Factories, war zones',
         systemId: 'balmorra',
-      }
+      },
     ],
   },
   {
@@ -144,7 +145,7 @@ export const starSystems: StarSystem[] = [
         climate: 'Frigid',
         terrain: 'Ice fields, prisons',
         systemId: 'belsavis',
-      }
+      },
     ],
   },
   {
@@ -169,7 +170,7 @@ export const starSystems: StarSystem[] = [
         terrain: 'Jungles, swamps',
         nativeInhabitants: 'Sith Purebloods',
         systemId: 'dromund-kaas',
-      }
+      },
     ],
   },
   {
@@ -194,7 +195,7 @@ export const starSystems: StarSystem[] = [
         terrain: 'Desert, tombs, canyons',
         nativeInhabitants: 'Sith species',
         systemId: 'korriban',
-      }
+      },
     ],
   },
   {
@@ -218,7 +219,7 @@ export const starSystems: StarSystem[] = [
         climate: 'Frigid',
         terrain: 'Ice, tundra',
         systemId: 'hoth',
-      }
+      },
     ],
   },
   {
@@ -243,7 +244,7 @@ export const starSystems: StarSystem[] = [
         terrain: 'Swamps, industrial waste',
         nativeInhabitants: 'Hutts',
         systemId: 'hutta',
-      }
+      },
     ],
   },
   {
@@ -267,7 +268,7 @@ export const starSystems: StarSystem[] = [
         climate: 'Frigid',
         terrain: 'Ice caverns, glaciers',
         systemId: 'ilum',
-      }
+      },
     ],
   },
   {
@@ -291,7 +292,7 @@ export const starSystems: StarSystem[] = [
         climate: 'Varied',
         terrain: 'Plateaus, oceans',
         systemId: 'makeb',
-      }
+      },
     ],
   },
   {
@@ -301,7 +302,8 @@ export const starSystems: StarSystem[] = [
     faction: 'galactic_republic',
     starType: 'yellow',
     importance: 'minor',
-    description: 'Mirial is a green-gray world of dark basins and pale cloud bands aligned with the Galactic Republic.',
+    description:
+      'Mirial is a green-gray world of dark basins and pale cloud bands aligned with the Galactic Republic.',
     region: 'unknown_regions',
     markerSize: 1.3,
     customColor: '#0505a7',
@@ -321,7 +323,7 @@ export const starSystems: StarSystem[] = [
           galactic_republic: 100,
         },
         customColor: '#0000ff',
-      }
+      },
     ],
   },
   {
@@ -331,7 +333,7 @@ export const starSystems: StarSystem[] = [
     faction: 'hutt_cartel',
     starType: 'yellow',
     importance: 'major',
-    description: 'The Smuggler\'s Moon. A lawless ecumenopolis controlled by the Hutts.',
+    description: "The Smuggler's Moon. A lawless ecumenopolis controlled by the Hutts.",
     region: 'mid_rim',
     planets: [
       {
@@ -346,7 +348,7 @@ export const starSystems: StarSystem[] = [
         terrain: 'Urban, industrial',
         nativeInhabitants: 'Evocii',
         systemId: 'nar-shaddaa',
-      }
+      },
     ],
   },
   {
@@ -370,7 +372,7 @@ export const starSystems: StarSystem[] = [
         climate: 'Temperate',
         terrain: 'Scrapyards, plains',
         systemId: 'ord-mantell',
-      }
+      },
     ],
   },
   {
@@ -394,7 +396,7 @@ export const starSystems: StarSystem[] = [
         climate: 'Toxic',
         terrain: 'Industrial zones',
         systemId: 'quesh',
-      }
+      },
     ],
   },
   {
@@ -418,7 +420,7 @@ export const starSystems: StarSystem[] = [
         climate: 'Temperate',
         terrain: 'Urban ruins',
         systemId: 'taris',
-      }
+      },
     ],
   },
   {
@@ -443,7 +445,7 @@ export const starSystems: StarSystem[] = [
         terrain: 'Desert, canyons',
         nativeInhabitants: 'Jawas, Tusken Raiders',
         systemId: 'tatooine',
-      }
+      },
     ],
   },
   {
@@ -468,7 +470,7 @@ export const starSystems: StarSystem[] = [
         terrain: 'Forests, plateaus',
         nativeInhabitants: 'Voss, Gormak',
         systemId: 'voss',
-      }
+      },
     ],
   },
 ];

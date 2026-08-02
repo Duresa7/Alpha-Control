@@ -11,27 +11,24 @@ export function TermsPage() {
         <h2>1. Agreement to Terms</h2>
         <p>
           These Terms of Service (&quot;Terms&quot;) govern your access to and use of the web
-          application operated by {LEGAL_ENTITY_NAME} (referred to in these Terms as
-          &quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) (the &quot;Application&quot;).
-          {LEGAL_ENTITY_NAME} is an unincorporated personal project operated by an individual
-          based in the State of Maryland, United States. The Application is provided entirely
-          free of charge. No services are sold, no subscriptions or paid tiers exist, no fees
-          of any kind are charged for access or use, and the Application is not operated for
-          profit in any form.
+          application operated by {LEGAL_ENTITY_NAME} (referred to in these Terms as &quot;we,&quot;
+          &quot;us,&quot; or &quot;our&quot;) (the &quot;Application&quot;).
+          {LEGAL_ENTITY_NAME} is an unincorporated personal project operated by an individual based
+          in the State of Maryland, United States. The Application is provided entirely free of
+          charge. No services are sold, no subscriptions or paid tiers exist, no fees of any kind
+          are charged for access or use, and the Application is not operated for profit in any form.
         </p>
         <p>
-          By accessing or using the Application in any way, including creating an account,
-          browsing the Application, or interacting with any of its features, you agree that
-          you have read, understood, and consent to be bound by these Terms. If you do not
-          agree to these Terms in their entirety, you must immediately stop using the
-          Application.
+          By accessing or using the Application in any way, including creating an account, browsing
+          the Application, or interacting with any of its features, you agree that you have read,
+          understood, and consent to be bound by these Terms. If you do not agree to these Terms in
+          their entirety, you must immediately stop using the Application.
         </p>
         <p>
-          You must be at least 13 years of age to use the Application. By using the
-          Application, you represent and warrant that you are at least 13 years old and
-          have the legal capacity to enter into a binding agreement. If you are between 13
-          and 18 years of age, you represent that your parent or legal guardian has reviewed
-          and agreed to these Terms on your behalf.
+          You must be at least 13 years of age to use the Application. By using the Application, you
+          represent and warrant that you are at least 13 years old and have the legal capacity to
+          enter into a binding agreement. If you are between 13 and 18 years of age, you represent
+          that your parent or legal guardian has reviewed and agreed to these Terms on your behalf.
         </p>
       </section>
 
@@ -44,18 +41,17 @@ export function TermsPage() {
           additionally create, edit, and manage custom content within the Application.
         </p>
         <p>
-          The Application is provided free of charge and is operated strictly as a
-          non-commercial, non-profit fan project for entertainment and educational purposes
-          only. No services or goods are sold in connection with the Application. No
-          subscriptions, paid tiers, premium features, or access fees of any kind exist. No
-          profit is generated, sought, or received from the operation of the Application. The
-          Application is not affiliated with, endorsed by, licensed by, or sponsored by
-          Lucasfilm Ltd. or The Walt Disney Company. See Section 3 for a full intellectual
-          property disclaimer.
+          The Application is provided free of charge and is operated strictly as a non-commercial,
+          non-profit fan project for entertainment and educational purposes only. No services or
+          goods are sold in connection with the Application. No subscriptions, paid tiers, premium
+          features, or access fees of any kind exist. No profit is generated, sought, or received
+          from the operation of the Application. The Application is not affiliated with, endorsed
+          by, licensed by, or sponsored by Lucasfilm Ltd. or The Walt Disney Company. See Section 3
+          for a full intellectual property disclaimer.
         </p>
         <p>
-          We reserve the right to modify, suspend, or discontinue any aspect of the
-          Application at any time, with or without notice, and without liability to you.
+          We reserve the right to modify, suspend, or discontinue any aspect of the Application at
+          any time, with or without notice, and without liability to you.
         </p>
       </section>
 
@@ -63,29 +59,29 @@ export function TermsPage() {
         <h2>3. Star Wars Intellectual Property Disclaimer</h2>
         <p>
           Star Wars and all related names, characters, planet names, ship names, faction names,
-          titles, symbols, and related intellectual property are trademarks and/or copyrights
-          of Lucasfilm Ltd., a wholly owned subsidiary of The Walt Disney Company. All rights
-          reserved by Lucasfilm Ltd. and The Walt Disney Company.
+          titles, symbols, and related intellectual property are trademarks and/or copyrights of
+          Lucasfilm Ltd., a wholly owned subsidiary of The Walt Disney Company. All rights reserved
+          by Lucasfilm Ltd. and The Walt Disney Company.
         </p>
         <p>
           This Application is an independent, non-commercial fan project created solely for
           entertainment and educational purposes. It is not produced, approved, endorsed, or
-          licensed by Lucasfilm Ltd., The Walt Disney Company, or any of their subsidiaries
-          or affiliates. {LEGAL_ENTITY_NAME} has no formal affiliation, partnership,
-          sponsorship arrangement, or business relationship of any kind with Lucasfilm Ltd.
-          or The Walt Disney Company.
+          licensed by Lucasfilm Ltd., The Walt Disney Company, or any of their subsidiaries or
+          affiliates. {LEGAL_ENTITY_NAME} has no formal affiliation, partnership, sponsorship
+          arrangement, or business relationship of any kind with Lucasfilm Ltd. or The Walt Disney
+          Company.
         </p>
         <p>
           No revenue is generated by this Application through the use or display of Star Wars
-          intellectual property. No challenge to Lucasfilm&apos;s or Disney&apos;s ownership
-          of the Star Wars intellectual property is intended or implied by the operation of
-          this Application.
+          intellectual property. No challenge to Lucasfilm&apos;s or Disney&apos;s ownership of the
+          Star Wars intellectual property is intended or implied by the operation of this
+          Application.
         </p>
         <p>
-          If you are a representative of Lucasfilm Ltd. or The Walt Disney Company and have
-          concerns about this Application, please contact us at{' '}
-          <a href={`mailto:${LEGAL_CONTACT_EMAIL}`}>{LEGAL_CONTACT_EMAIL}</a> and we will
-          respond promptly.
+          If you are a representative of Lucasfilm Ltd. or The Walt Disney Company and have concerns
+          about this Application, please contact us at{' '}
+          <a href={`mailto:${LEGAL_CONTACT_EMAIL}`}>{LEGAL_CONTACT_EMAIL}</a> and we will respond
+          promptly.
         </p>
       </section>
 
@@ -95,134 +91,132 @@ export function TermsPage() {
         <h3>Our Original Content</h3>
         <p>
           The Application&apos;s original source code, user interface design, visual layout,
-          graphics, and any content that is not derived from Star Wars intellectual property
-          are owned by {LEGAL_ENTITY_NAME} and are protected by applicable copyright and
-          intellectual property laws. You may not reproduce, copy, distribute, sell, modify,
-          create derivative works from, or otherwise exploit our original content without our
-          prior written permission.
+          graphics, and any content that is not derived from Star Wars intellectual property are
+          owned by {LEGAL_ENTITY_NAME} and are protected by applicable copyright and intellectual
+          property laws. You may not reproduce, copy, distribute, sell, modify, create derivative
+          works from, or otherwise exploit our original content without our prior written
+          permission.
         </p>
 
         <h3>Third-Party 3D Models</h3>
         <p>
-          Certain 3D models used in the Application were created by third parties and are
-          used under Creative Commons Attribution licenses. Attribution for these models is
-          provided on the{' '}
+          Certain 3D models used in the Application were created by third parties and are used under
+          Creative Commons Attribution licenses. Attribution for these models is provided on the{' '}
           <a href="/credits">Credits page</a>.
         </p>
 
         <h3>User-Generated Content</h3>
         <p>
-          If you are an authorized administrator and create content within the Application
-          (such as custom planets, custom fleets, or map annotations), you retain ownership
-          of the intellectual property in that content to the extent it is your original work.
-          By creating content within the Application, you grant {LEGAL_ENTITY_NAME} a
-          limited, non-exclusive, royalty-free, worldwide license to store, display, and make
-          available that content within the Application for its intended purpose. This license
-          terminates when you request deletion of your account and associated content.
+          If you are an authorized administrator and create content within the Application (such as
+          custom planets, custom fleets, or map annotations), you retain ownership of the
+          intellectual property in that content to the extent it is your original work. By creating
+          content within the Application, you grant {LEGAL_ENTITY_NAME} a limited, non-exclusive,
+          royalty-free, worldwide license to store, display, and make available that content within
+          the Application for its intended purpose. This license terminates when you request
+          deletion of your account and associated content.
         </p>
       </section>
 
       <section className="legal-page__section">
         <h2>5. User Accounts</h2>
         <p>
-          To access certain features of the Application, you must register for an account.
-          By registering, you agree to the following:
+          To access certain features of the Application, you must register for an account. By
+          registering, you agree to the following:
         </p>
         <ul>
           <li>
-            You will provide accurate, current, and complete information during registration
-            and keep that information up to date.
+            You will provide accurate, current, and complete information during registration and
+            keep that information up to date.
           </li>
           <li>
-            You will not create more than one account without our express prior permission.
-            Creating multiple accounts to circumvent a suspension or for any other reason is
-            a violation of these Terms.
+            You will not create more than one account without our express prior permission. Creating
+            multiple accounts to circumvent a suspension or for any other reason is a violation of
+            these Terms.
           </li>
           <li>
-            You are solely responsible for maintaining the confidentiality and security of
-            your account credentials, including your password. You agree not to share your
-            credentials with any other person.
+            You are solely responsible for maintaining the confidentiality and security of your
+            account credentials, including your password. You agree not to share your credentials
+            with any other person.
           </li>
           <li>
-            You are solely responsible for all activity that occurs under your account,
-            whether or not you authorized it.
+            You are solely responsible for all activity that occurs under your account, whether or
+            not you authorized it.
           </li>
           <li>
             You will notify us immediately at{' '}
-            <a href={`mailto:${LEGAL_CONTACT_EMAIL}`}>{LEGAL_CONTACT_EMAIL}</a> if you
-            believe your account has been accessed without authorization or your credentials
-            have been compromised.
+            <a href={`mailto:${LEGAL_CONTACT_EMAIL}`}>{LEGAL_CONTACT_EMAIL}</a> if you believe your
+            account has been accessed without authorization or your credentials have been
+            compromised.
           </li>
         </ul>
         <p>
-          We reserve the right to suspend or terminate your account at any time, with or
-          without prior notice, for any reason we deem appropriate in our sole discretion,
-          including but not limited to a violation of these Terms or a reasonable belief that
-          your account poses a security risk to the Application or other users.
+          We reserve the right to suspend or terminate your account at any time, with or without
+          prior notice, for any reason we deem appropriate in our sole discretion, including but not
+          limited to a violation of these Terms or a reasonable belief that your account poses a
+          security risk to the Application or other users.
         </p>
       </section>
 
       <section className="legal-page__section">
         <h2>6. Prohibited Conduct</h2>
         <p>
-          By using the Application, you agree not to engage in any of the following
-          prohibited activities:
+          By using the Application, you agree not to engage in any of the following prohibited
+          activities:
         </p>
         <ul>
           <li>
-            Using the Application for any purpose that is illegal under applicable federal,
-            state, or local law, or in violation of any regulation.
+            Using the Application for any purpose that is illegal under applicable federal, state,
+            or local law, or in violation of any regulation.
           </li>
           <li>
-            Attempting to gain unauthorized access to any part of the Application, its
-            servers, databases, or infrastructure, including through exploitation of
-            vulnerabilities, brute force, or social engineering.
+            Attempting to gain unauthorized access to any part of the Application, its servers,
+            databases, or infrastructure, including through exploitation of vulnerabilities, brute
+            force, or social engineering.
           </li>
           <li>
-            Circumventing, disabling, bypassing, or otherwise interfering with any security
-            feature, access control, or authentication mechanism of the Application.
+            Circumventing, disabling, bypassing, or otherwise interfering with any security feature,
+            access control, or authentication mechanism of the Application.
           </li>
           <li>
             Introducing, uploading, or transmitting any malware, viruses, worms, trojans,
             ransomware, spyware, or any other malicious or harmful code or content.
           </li>
           <li>
-            Using automated tools, scripts, bots, crawlers, scrapers, or any other automated
-            means to access, collect, or interact with the Application without our express
+            Using automated tools, scripts, bots, crawlers, scrapers, or any other automated means
+            to access, collect, or interact with the Application without our express prior written
+            permission.
+          </li>
+          <li>
+            Reverse engineering, decompiling, disassembling, or otherwise attempting to derive the
+            source code or underlying algorithms of the Application.
+          </li>
+          <li>
+            Impersonating any person or entity, misrepresenting your identity, or falsely claiming
+            an affiliation with any person, entity, or organization.
+          </li>
+          <li>
+            Harassing, threatening, intimidating, or abusing other users, administrators, or any
+            person associated with the Application.
+          </li>
+          <li>
+            Distributing, uploading, or displaying content that infringes the intellectual property
+            rights of any third party, including copyrights, trademarks, and patents.
+          </li>
+          <li>
+            Interfering with, disrupting, or overloading the Application, its servers, or associated
+            networks, including through denial-of-service attacks or excessive automated requests.
+          </li>
+          <li>
+            Misusing or abusing administrator privileges, including creating, modifying, or deleting
+            content outside the scope of your authorized role.
+          </li>
+          <li>
+            Attempting to access, read, modify, or delete data belonging to other users without
+            authorization.
+          </li>
+          <li>
+            Creating accounts for automated access, data harvesting, or any non-personal use without
             prior written permission.
-          </li>
-          <li>
-            Reverse engineering, decompiling, disassembling, or otherwise attempting to
-            derive the source code or underlying algorithms of the Application.
-          </li>
-          <li>
-            Impersonating any person or entity, misrepresenting your identity, or falsely
-            claiming an affiliation with any person, entity, or organization.
-          </li>
-          <li>
-            Harassing, threatening, intimidating, or abusing other users, administrators,
-            or any person associated with the Application.
-          </li>
-          <li>
-            Distributing, uploading, or displaying content that infringes the intellectual
-            property rights of any third party, including copyrights, trademarks, and patents.
-          </li>
-          <li>
-            Interfering with, disrupting, or overloading the Application, its servers, or
-            associated networks, including through denial-of-service attacks or excessive
-            automated requests.
-          </li>
-          <li>
-            Misusing or abusing administrator privileges, including creating, modifying, or
-            deleting content outside the scope of your authorized role.
-          </li>
-          <li>
-            Attempting to access, read, modify, or delete data belonging to other users
-            without authorization.
-          </li>
-          <li>
-            Creating accounts for automated access, data harvesting, or any non-personal use
-            without prior written permission.
           </li>
           <li>
             Using the Application in any manner that could damage the reputation of
@@ -230,37 +224,34 @@ export function TermsPage() {
           </li>
         </ul>
         <p>
-          Violation of any of the above may result in immediate suspension or permanent
-          termination of your account without notice, in addition to any other legal
-          remedies available to us.
+          Violation of any of the above may result in immediate suspension or permanent termination
+          of your account without notice, in addition to any other legal remedies available to us.
         </p>
       </section>
 
       <section className="legal-page__section">
         <h2>7. Administrator Roles and Responsibilities</h2>
         <p>
-          Certain users may be granted administrator access, which allows them to create,
-          edit, and delete custom content within the Application (such as custom planets,
-          fleet configurations, and map annotations). Administrator access is granted at our
-          sole discretion and may be revoked at any time, with or without notice, and for any
-          reason including but not limited to misuse of privileges or violation of these Terms.
+          Certain users may be granted administrator access, which allows them to create, edit, and
+          delete custom content within the Application (such as custom planets, fleet
+          configurations, and map annotations). Administrator access is granted at our sole
+          discretion and may be revoked at any time, with or without notice, and for any reason
+          including but not limited to misuse of privileges or violation of these Terms.
         </p>
-        <p>
-          As an administrator, you are responsible for:
-        </p>
+        <p>As an administrator, you are responsible for:</p>
         <ul>
           <li>
-            Ensuring that all content you create is accurate, appropriate, and consistent
-            with the purpose of the Application.
+            Ensuring that all content you create is accurate, appropriate, and consistent with the
+            purpose of the Application.
           </li>
           <li>
-            Not creating content that infringes the intellectual property rights of any third
-            party beyond the Star Wars intellectual property already referenced by the
-            Application under the fan project disclaimer in Section 3.
+            Not creating content that infringes the intellectual property rights of any third party
+            beyond the Star Wars intellectual property already referenced by the Application under
+            the fan project disclaimer in Section 3.
           </li>
           <li>
-            Not using your administrative access for any purpose beyond managing content within
-            the Application as intended.
+            Not using your administrative access for any purpose beyond managing content within the
+            Application as intended.
           </li>
           <li>
             Keeping your administrator credentials confidential and reporting any suspected
@@ -269,77 +260,77 @@ export function TermsPage() {
         </ul>
         <p>
           All administrative actions are logged in the Application&apos;s audit system for
-          accountability purposes. Abuse of administrator privileges is grounds for immediate
-          and permanent account termination.
+          accountability purposes. Abuse of administrator privileges is grounds for immediate and
+          permanent account termination.
         </p>
       </section>
 
       <section className="legal-page__section">
         <h2>8. Donations</h2>
         <p>
-          The Application includes a link to a voluntary donation page hosted and processed
-          by PayPal. Donations are entirely optional and are not required under any
-          circumstance. Making or not making a donation has absolutely no effect on your
-          access to the Application, the features available to you, or your standing as a
-          user.
+          The Application includes a link to a voluntary donation page hosted and processed by
+          PayPal. Donations are entirely optional and are not required under any circumstance.
+          Making or not making a donation has absolutely no effect on your access to the
+          Application, the features available to you, or your standing as a user.
         </p>
         <p>
-          No goods, services, premium features, enhanced access, or any other benefit of any
-          kind is provided in exchange for a donation. The Application does not operate on a
-          pay-to-access or pay-to-use model. Donations are purely voluntary, goodwill
-          contributions to support the ongoing costs of an entirely free, non-profit personal
-          project. Receipt of donations does not change the non-commercial nature of the
-          Application.
+          No goods, services, premium features, enhanced access, or any other benefit of any kind is
+          provided in exchange for a donation. The Application does not operate on a pay-to-access
+          or pay-to-use model. Donations are purely voluntary, goodwill contributions to support the
+          ongoing costs of an entirely free, non-profit personal project. Receipt of donations does
+          not change the non-commercial nature of the Application.
         </p>
         <p>
-          All donations are final and non-refundable. {LEGAL_ENTITY_NAME} does not
-          process, store, or have access to any payment information. All donation
-          transactions are processed exclusively by PayPal under PayPal&apos;s own Terms of
-          Service and Privacy Policy. Any questions about a donation transaction must be
-          directed to PayPal. {LEGAL_ENTITY_NAME} is not responsible for any issues,
-          errors, or disputes arising from the PayPal donation process.
+          All donations are final and non-refundable. {LEGAL_ENTITY_NAME} does not process, store,
+          or have access to any payment information. All donation transactions are processed
+          exclusively by PayPal under PayPal&apos;s own Terms of Service and Privacy Policy. Any
+          questions about a donation transaction must be directed to PayPal. {LEGAL_ENTITY_NAME} is
+          not responsible for any issues, errors, or disputes arising from the PayPal donation
+          process.
         </p>
       </section>
 
       <section className="legal-page__section">
         <h2>9. Third-Party Services</h2>
-        <p>
-          The Application relies on the following third-party services to function:
-        </p>
+        <p>The Application relies on the following third-party services to function:</p>
         <ul>
           <li>
-            <strong>Supabase:</strong> Provides user authentication, database storage, and
-            row-level security. Your account credentials and any data you create within the
-            Application are processed by Supabase. Use of Supabase is subject to{' '}
+            <strong>Supabase:</strong> Provides user authentication, database storage, and row-level
+            security. Your account credentials and any data you create within the Application are
+            processed by Supabase. Use of Supabase is subject to{' '}
             <a href="https://supabase.com/terms" target="_blank" rel="noopener noreferrer">
               Supabase&apos;s Terms of Service
-            </a>.
+            </a>
+            .
           </li>
           <li>
-            <strong>PayPal:</strong> Processes voluntary donations. Donations are governed
-            by{' '}
-            <a href="https://www.paypal.com/us/legalhub/useragreement-full" target="_blank" rel="noopener noreferrer">
+            <strong>PayPal:</strong> Processes voluntary donations. Donations are governed by{' '}
+            <a
+              href="https://www.paypal.com/us/legalhub/useragreement-full"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               PayPal&apos;s User Agreement
-            </a>.
+            </a>
+            .
           </li>
         </ul>
         <p>
-          We are not responsible for the availability, accuracy, security, or practices of
-          any third-party service. Each third-party service is governed by its own terms and
-          privacy policy, which you are encouraged to review. Links to third-party websites
-          or services within the Application are provided for convenience only; we do not
-          endorse those websites or services, and we are not responsible for their content
-          or practices.
+          We are not responsible for the availability, accuracy, security, or practices of any
+          third-party service. Each third-party service is governed by its own terms and privacy
+          policy, which you are encouraged to review. Links to third-party websites or services
+          within the Application are provided for convenience only; we do not endorse those websites
+          or services, and we are not responsible for their content or practices.
         </p>
       </section>
 
       <section className="legal-page__section">
         <h2>10. Disclaimers of Warranties</h2>
         <p>
-          The Application is provided on an &quot;as is&quot; and &quot;as available&quot;
-          basis, without warranty of any kind, express or implied. To the fullest extent
-          permitted by applicable law, {LEGAL_ENTITY_NAME} expressly disclaims all warranties,
-          including but not limited to:
+          The Application is provided on an &quot;as is&quot; and &quot;as available&quot; basis,
+          without warranty of any kind, express or implied. To the fullest extent permitted by
+          applicable law, {LEGAL_ENTITY_NAME} expressly disclaims all warranties, including but not
+          limited to:
         </p>
         <ul>
           <li>
@@ -347,24 +338,22 @@ export function TermsPage() {
             non-infringement.
           </li>
           <li>
-            Any warranty that the Application will be uninterrupted, error-free, secure, or
-            free from viruses or other harmful components.
+            Any warranty that the Application will be uninterrupted, error-free, secure, or free
+            from viruses or other harmful components.
           </li>
           <li>
-            Any warranty as to the accuracy, completeness, or reliability of any information
-            or content within the Application. All lore, galaxy data, fleet information, and
-            planet data are provided for entertainment purposes only and may not be
-            canonically accurate.
+            Any warranty as to the accuracy, completeness, or reliability of any information or
+            content within the Application. All lore, galaxy data, fleet information, and planet
+            data are provided for entertainment purposes only and may not be canonically accurate.
           </li>
           <li>
-            Any warranty that defects in the Application will be corrected, or that any
-            particular feature will remain available.
+            Any warranty that defects in the Application will be corrected, or that any particular
+            feature will remain available.
           </li>
         </ul>
         <p>
           Some jurisdictions do not permit the exclusion of implied warranties. In those
-          jurisdictions, the above exclusions apply only to the maximum extent permitted
-          by law.
+          jurisdictions, the above exclusions apply only to the maximum extent permitted by law.
         </p>
       </section>
 
@@ -372,9 +361,9 @@ export function TermsPage() {
         <h2>11. Limitation of Liability</h2>
         <p>
           To the fullest extent permitted by the laws of the State of Maryland and applicable
-          federal law, {LEGAL_ENTITY_NAME} and the individual operating this project shall
-          not be liable to you for any indirect, incidental, special, consequential, punitive,
-          or exemplary damages whatsoever, including but not limited to:
+          federal law, {LEGAL_ENTITY_NAME} and the individual operating this project shall not be
+          liable to you for any indirect, incidental, special, consequential, punitive, or exemplary
+          damages whatsoever, including but not limited to:
         </p>
         <ul>
           <li>Loss of data or corruption of data.</li>
@@ -382,172 +371,160 @@ export function TermsPage() {
           <li>Business interruption or loss of business opportunity.</li>
           <li>Loss of goodwill or reputation.</li>
           <li>
-            Damages arising from unauthorized access to or alteration of your account or
-            content.
+            Damages arising from unauthorized access to or alteration of your account or content.
           </li>
-          <li>
-            Damages arising from interruption, suspension, or termination of the Application.
-          </li>
+          <li>Damages arising from interruption, suspension, or termination of the Application.</li>
         </ul>
         <p>
           These limitations apply regardless of whether the claim is based on contract, tort
-          (including negligence), strict liability, or any other legal theory, and regardless
-          of whether we have been advised of the possibility of such damages.
+          (including negligence), strict liability, or any other legal theory, and regardless of
+          whether we have been advised of the possibility of such damages.
         </p>
         <p>
-          Because the Application is provided free of charge, our total aggregate liability
-          to you for any claim arising from or related to your use of the Application shall
-          not exceed zero United States Dollars (USD $0.00).
+          Because the Application is provided free of charge, our total aggregate liability to you
+          for any claim arising from or related to your use of the Application shall not exceed zero
+          United States Dollars (USD $0.00).
         </p>
         <p>
-          Some jurisdictions do not allow the exclusion or limitation of incidental or
-          consequential damages. In those jurisdictions, our liability is limited to the
-          minimum extent permitted by applicable law.
+          Some jurisdictions do not allow the exclusion or limitation of incidental or consequential
+          damages. In those jurisdictions, our liability is limited to the minimum extent permitted
+          by applicable law.
         </p>
       </section>
 
       <section className="legal-page__section">
         <h2>12. Indemnification</h2>
         <p>
-          You agree to indemnify, defend, and hold harmless {LEGAL_ENTITY_NAME} and the
-          individual operating this project from and against any and all claims, demands,
-          actions, damages, losses, costs, liabilities, and expenses (including reasonable
-          attorneys&apos; fees) arising out of or related to:
+          You agree to indemnify, defend, and hold harmless {LEGAL_ENTITY_NAME} and the individual
+          operating this project from and against any and all claims, demands, actions, damages,
+          losses, costs, liabilities, and expenses (including reasonable attorneys&apos; fees)
+          arising out of or related to:
         </p>
         <ul>
           <li>Your access to or use of the Application.</li>
           <li>Your violation of any provision of these Terms.</li>
           <li>
-            Your violation of any applicable law, regulation, or third-party right,
-            including intellectual property rights or privacy rights.
+            Your violation of any applicable law, regulation, or third-party right, including
+            intellectual property rights or privacy rights.
           </li>
           <li>
-            Any content you submit, create, or transmit through the Application as an
-            administrator.
+            Any content you submit, create, or transmit through the Application as an administrator.
           </li>
         </ul>
         <p>
-          We reserve the right to assume the exclusive defense and control of any matter
-          subject to indemnification by you, and you agree to cooperate fully with us in
-          asserting any available defenses.
+          We reserve the right to assume the exclusive defense and control of any matter subject to
+          indemnification by you, and you agree to cooperate fully with us in asserting any
+          available defenses.
         </p>
       </section>
 
       <section className="legal-page__section">
         <h2>13. Copyright and DMCA Policy</h2>
         <p>
-          We respect the intellectual property rights of third parties and expect users of
-          the Application to do the same. If you believe that content available within the
-          Application infringes your copyright, please send a written notice to us at{' '}
-          <a href={`mailto:${LEGAL_CONTACT_EMAIL}`}>{LEGAL_CONTACT_EMAIL}</a> containing
-          the following:
+          We respect the intellectual property rights of third parties and expect users of the
+          Application to do the same. If you believe that content available within the Application
+          infringes your copyright, please send a written notice to us at{' '}
+          <a href={`mailto:${LEGAL_CONTACT_EMAIL}`}>{LEGAL_CONTACT_EMAIL}</a> containing the
+          following:
         </p>
         <ul>
           <li>
-            A physical or electronic signature of the copyright owner or a person authorized
-            to act on their behalf.
+            A physical or electronic signature of the copyright owner or a person authorized to act
+            on their behalf.
+          </li>
+          <li>Identification of the copyrighted work you claim has been infringed.</li>
+          <li>
+            Identification of the specific content you believe is infringing and its location within
+            the Application, with enough detail for us to locate it.
+          </li>
+          <li>Your name, mailing address, telephone number, and email address.</li>
+          <li>
+            A statement that you have a good faith belief that the use of the material in the manner
+            complained of is not authorized by the copyright owner, its agent, or applicable law.
           </li>
           <li>
-            Identification of the copyrighted work you claim has been infringed.
-          </li>
-          <li>
-            Identification of the specific content you believe is infringing and its location
-            within the Application, with enough detail for us to locate it.
-          </li>
-          <li>
-            Your name, mailing address, telephone number, and email address.
-          </li>
-          <li>
-            A statement that you have a good faith belief that the use of the material in the
-            manner complained of is not authorized by the copyright owner, its agent, or
-            applicable law.
-          </li>
-          <li>
-            A statement, made under penalty of perjury, that the above information in your
-            notice is accurate and that you are the copyright owner or are authorized to act
-            on the copyright owner&apos;s behalf.
+            A statement, made under penalty of perjury, that the above information in your notice is
+            accurate and that you are the copyright owner or are authorized to act on the copyright
+            owner&apos;s behalf.
           </li>
         </ul>
         <p>
-          We will investigate all properly submitted DMCA notices and take appropriate action,
-          which may include removing or disabling access to the allegedly infringing content.
+          We will investigate all properly submitted DMCA notices and take appropriate action, which
+          may include removing or disabling access to the allegedly infringing content.
         </p>
       </section>
 
       <section className="legal-page__section">
         <h2>14. Governing Law and Jurisdiction</h2>
         <p>
-          These Terms of Service, and any dispute arising out of or related to them or your
-          use of the Application, shall be governed by and construed in accordance with the
-          laws of the State of Maryland and applicable United States federal law, without
-          regard to its conflict of laws provisions.
+          These Terms of Service, and any dispute arising out of or related to them or your use of
+          the Application, shall be governed by and construed in accordance with the laws of the
+          State of Maryland and applicable United States federal law, without regard to its conflict
+          of laws provisions.
         </p>
         <p>
-          You agree that any legal action or proceeding arising from or related to these Terms
-          or your use of the Application shall be brought exclusively in the state or federal
-          courts located in the State of Maryland. You hereby irrevocably consent to the
-          personal jurisdiction and venue of those courts and waive any objection to the
-          laying of venue in Maryland.
+          You agree that any legal action or proceeding arising from or related to these Terms or
+          your use of the Application shall be brought exclusively in the state or federal courts
+          located in the State of Maryland. You hereby irrevocably consent to the personal
+          jurisdiction and venue of those courts and waive any objection to the laying of venue in
+          Maryland.
         </p>
       </section>
 
       <section className="legal-page__section">
         <h2>15. Dispute Resolution</h2>
         <p>
-          Before initiating any formal legal proceeding, you and {LEGAL_ENTITY_NAME} agree
-          to attempt to resolve any dispute through good-faith negotiation. Either party
-          must provide written notice of the dispute to the other party, describing the
-          nature of the dispute and the relief sought. The parties will then have a period
-          of at least 30 calendar days from the date of that written notice to attempt to
-          resolve the dispute through informal negotiation.
+          Before initiating any formal legal proceeding, you and {LEGAL_ENTITY_NAME} agree to
+          attempt to resolve any dispute through good-faith negotiation. Either party must provide
+          written notice of the dispute to the other party, describing the nature of the dispute and
+          the relief sought. The parties will then have a period of at least 30 calendar days from
+          the date of that written notice to attempt to resolve the dispute through informal
+          negotiation.
         </p>
         <p>
           If the dispute cannot be resolved through informal negotiation within 30 days, either
-          party may pursue the legal remedies available to them in the courts identified in
-          Section 14 above. Nothing in this section prevents either party from seeking
-          emergency injunctive relief from a court of competent jurisdiction when necessary
-          to prevent irreparable harm.
+          party may pursue the legal remedies available to them in the courts identified in Section
+          14 above. Nothing in this section prevents either party from seeking emergency injunctive
+          relief from a court of competent jurisdiction when necessary to prevent irreparable harm.
         </p>
       </section>
 
       <section className="legal-page__section">
         <h2>16. Modifications to These Terms</h2>
         <p>
-          We reserve the right to modify these Terms of Service at any time and for any
-          reason. When we make changes, we will update the &quot;Last updated&quot; date at
-          the top of this page. Changes take effect immediately upon posting to the
-          Application.
+          We reserve the right to modify these Terms of Service at any time and for any reason. When
+          we make changes, we will update the &quot;Last updated&quot; date at the top of this page.
+          Changes take effect immediately upon posting to the Application.
         </p>
         <p>
           Your continued access to or use of the Application after any changes to these Terms
-          constitutes your acceptance of the modified Terms. If you do not agree with the
-          revised Terms, you must stop using the Application. We encourage you to review these
-          Terms periodically to stay informed of any updates.
+          constitutes your acceptance of the modified Terms. If you do not agree with the revised
+          Terms, you must stop using the Application. We encourage you to review these Terms
+          periodically to stay informed of any updates.
         </p>
       </section>
 
       <section className="legal-page__section">
         <h2>17. Termination</h2>
         <p>
-          We may terminate or suspend your access to the Application at any time, with or
-          without cause, and with or without prior notice, effective immediately. Grounds for
-          termination include but are not limited to: violation of these Terms, conduct that
-          we believe is harmful to the Application or its users, or any other reason at our
-          sole discretion.
+          We may terminate or suspend your access to the Application at any time, with or without
+          cause, and with or without prior notice, effective immediately. Grounds for termination
+          include but are not limited to: violation of these Terms, conduct that we believe is
+          harmful to the Application or its users, or any other reason at our sole discretion.
         </p>
         <p>
-          Upon termination, your right to access and use the Application immediately ceases.
-          Any licenses granted to you under these Terms are immediately revoked. You may
-          request deletion of your account and associated data by contacting us at{' '}
-          <a href={`mailto:${LEGAL_CONTACT_EMAIL}`}>{LEGAL_CONTACT_EMAIL}</a> in accordance
-          with our Privacy Policy.
+          Upon termination, your right to access and use the Application immediately ceases. Any
+          licenses granted to you under these Terms are immediately revoked. You may request
+          deletion of your account and associated data by contacting us at{' '}
+          <a href={`mailto:${LEGAL_CONTACT_EMAIL}`}>{LEGAL_CONTACT_EMAIL}</a> in accordance with our
+          Privacy Policy.
         </p>
         <p>
-          The following sections of these Terms survive termination and remain in full force
-          and effect: Section 3 (Star Wars IP Disclaimer), Section 4 (Intellectual Property
-          Rights), Section 10 (Disclaimers of Warranties), Section 11 (Limitation of
-          Liability), Section 12 (Indemnification), Section 14 (Governing Law), Section 18
-          (Severability), and Section 19 (Entire Agreement).
+          The following sections of these Terms survive termination and remain in full force and
+          effect: Section 3 (Star Wars IP Disclaimer), Section 4 (Intellectual Property Rights),
+          Section 10 (Disclaimers of Warranties), Section 11 (Limitation of Liability), Section 12
+          (Indemnification), Section 14 (Governing Law), Section 18 (Severability), and Section 19
+          (Entire Agreement).
         </p>
       </section>
 
@@ -555,47 +532,46 @@ export function TermsPage() {
         <h2>18. Severability</h2>
         <p>
           If any provision of these Terms is found by a court of competent jurisdiction to be
-          invalid, illegal, or unenforceable for any reason, that provision will be modified
-          to the minimum extent necessary to make it enforceable, or severed from these Terms
-          if modification is not possible. The invalidity or unenforceability of any one
-          provision will not affect the validity or enforceability of any other provision,
-          and the remaining provisions of these Terms will continue in full force and effect.
+          invalid, illegal, or unenforceable for any reason, that provision will be modified to the
+          minimum extent necessary to make it enforceable, or severed from these Terms if
+          modification is not possible. The invalidity or unenforceability of any one provision will
+          not affect the validity or enforceability of any other provision, and the remaining
+          provisions of these Terms will continue in full force and effect.
         </p>
       </section>
 
       <section className="legal-page__section">
         <h2>19. Entire Agreement</h2>
         <p>
-          These Terms of Service, together with our{' '}
-          <a href="/privacy">Privacy Policy</a>, constitute the entire agreement between you
-          and {LEGAL_ENTITY_NAME} with respect to your use of the Application and supersede
-          all prior and contemporaneous understandings, agreements, representations, and
-          warranties, both written and oral, regarding the Application.
+          These Terms of Service, together with our <a href="/privacy">Privacy Policy</a>,
+          constitute the entire agreement between you and {LEGAL_ENTITY_NAME} with respect to your
+          use of the Application and supersede all prior and contemporaneous understandings,
+          agreements, representations, and warranties, both written and oral, regarding the
+          Application.
         </p>
         <p>
-          No failure or delay by us in exercising any right under these Terms shall operate
-          as a waiver of that right. Any waiver by us of a breach of any provision of these
-          Terms will not be construed as a waiver of any subsequent breach of that or any
-          other provision.
+          No failure or delay by us in exercising any right under these Terms shall operate as a
+          waiver of that right. Any waiver by us of a breach of any provision of these Terms will
+          not be construed as a waiver of any subsequent breach of that or any other provision.
         </p>
       </section>
 
       <section className="legal-page__section">
         <h2>20. Contact Information</h2>
         <p>
-          If you have questions about these Terms of Service, wish to report a violation, or
-          need to submit a copyright notice, please contact us:
+          If you have questions about these Terms of Service, wish to report a violation, or need to
+          submit a copyright notice, please contact us:
         </p>
         <ul>
-          <li><strong>Project:</strong> {LEGAL_ENTITY_NAME}</li>
+          <li>
+            <strong>Project:</strong> {LEGAL_ENTITY_NAME}
+          </li>
           <li>
             <strong>Email:</strong>{' '}
             <a href={`mailto:${LEGAL_CONTACT_EMAIL}`}>{LEGAL_CONTACT_EMAIL}</a>
           </li>
         </ul>
-        <p>
-          We will make every reasonable effort to respond to your inquiry within 30 days.
-        </p>
+        <p>We will make every reasonable effort to respond to your inquiry within 30 days.</p>
       </section>
     </LegalShell>
   );

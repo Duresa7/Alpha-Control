@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 export type ViewMode = 'topdown' | 'system' | 'fleet';
 export type Faction = string;
-export type BuiltinFactionId = 'sith_empire' | 'galactic_republic' | 'neutral' | 'contested' | 'hutt_cartel';
+export type BuiltinFactionId =
+  'sith_empire' | 'galactic_republic' | 'neutral' | 'contested' | 'hutt_cartel';
 export type ShipModelType = 'sith' | 'republic' | 'valor' | 'terminus';
 export type FactionFilters = Record<string, boolean>;
 
@@ -209,14 +210,31 @@ export interface GalaxyUIStore {
   syncFactionFilters: (factionIds: string[]) => void;
   placementMode: boolean;
   pendingCustomPlanet: { name: string; color: string; faction: Faction } | null;
-  setPlacementMode: (mode: boolean, pending?: { name: string; color: string; faction: Faction } | null) => void;
+  setPlacementMode: (
+    mode: boolean,
+    pending?: { name: string; color: string; faction: Faction } | null,
+  ) => void;
   draggingCustomPlanet: boolean;
   setDraggingCustomPlanet: (dragging: boolean) => void;
   fleetPlacementMode: boolean;
-  pendingCustomFleet: { name: string; faction: Faction; shipCount: number; modelType: ShipModelType; commander?: string; composition?: FleetShipEntry[] } | null;
+  pendingCustomFleet: {
+    name: string;
+    faction: Faction;
+    shipCount: number;
+    modelType: ShipModelType;
+    commander?: string;
+    composition?: FleetShipEntry[];
+  } | null;
   setFleetPlacementMode: (
     mode: boolean,
-    pending?: { name: string; faction: Faction; shipCount: number; modelType: ShipModelType; commander?: string; composition?: FleetShipEntry[] } | null,
+    pending?: {
+      name: string;
+      faction: Faction;
+      shipCount: number;
+      modelType: ShipModelType;
+      commander?: string;
+      composition?: FleetShipEntry[];
+    } | null,
   ) => void;
   draggingCustomFleet: boolean;
   setDraggingCustomFleet: (dragging: boolean) => void;

@@ -1,8 +1,8 @@
-export type SettingsSectionKey = "account" | "theme";
+export type SettingsSectionKey = 'account' | 'theme';
 
 const SECTIONS: Array<{ key: SettingsSectionKey; label: string }> = [
-  { key: "account", label: "Account" },
-  { key: "theme", label: "Theme" },
+  { key: 'account', label: 'Account' },
+  { key: 'theme', label: 'Theme' },
 ];
 
 interface SettingsSectionNavProps {
@@ -10,17 +10,10 @@ interface SettingsSectionNavProps {
   onSectionChange: (section: SettingsSectionKey) => void;
 }
 
-export function SettingsSectionNav({
-  activeSection,
-  onSectionChange,
-}: SettingsSectionNavProps) {
+export function SettingsSectionNav({ activeSection, onSectionChange }: SettingsSectionNavProps) {
   return (
     <aside className="settings-page__sidecard">
-      <div
-        className="settings-page__sidecard-nav"
-        role="tablist"
-        aria-label="Settings sections"
-      >
+      <div className="settings-page__sidecard-nav" role="tablist" aria-label="Settings sections">
         {SECTIONS.map((section) => (
           <button
             key={section.key}
@@ -31,9 +24,7 @@ export function SettingsSectionNav({
             className="settings-page__sidecard-btn"
             onClick={() => onSectionChange(section.key)}
           >
-            <span className="settings-page__sidecard-btn-title">
-              {section.label}
-            </span>
+            <span className="settings-page__sidecard-btn-title">{section.label}</span>
           </button>
         ))}
       </div>

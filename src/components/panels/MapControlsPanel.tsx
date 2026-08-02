@@ -61,7 +61,12 @@ export function MapControlsPanel() {
           {activeTab === 'filters' ? (
             <div className="space-y-5">
               <div>
-                <span className="text-[11px] uppercase tracking-wider mb-2.5 block" style={{ color: 'var(--holo-text-muted)' }}>Factions</span>
+                <span
+                  className="text-[11px] uppercase tracking-wider mb-2.5 block"
+                  style={{ color: 'var(--holo-text-muted)' }}
+                >
+                  Factions
+                </span>
                 <div className="grid grid-cols-2 gap-[10px]">
                   {factions.map((f) => (
                     <FilterBox
@@ -78,10 +83,25 @@ export function MapControlsPanel() {
               <div className="holo-divider" />
 
               <div>
-                <span className="text-[11px] uppercase tracking-wider mb-2.5 block" style={{ color: 'var(--holo-text-muted)' }}>Layers</span>
+                <span
+                  className="text-[11px] uppercase tracking-wider mb-2.5 block"
+                  style={{ color: 'var(--holo-text-muted)' }}
+                >
+                  Layers
+                </span>
                 <div className="grid grid-cols-2 gap-[10px]">
-                  <FilterBox active={showFleets} onClick={toggleFleets} label="Fleets" color="red" />
-                  <FilterBox active={showLabels} onClick={toggleLabels} label="Labels" color="yellow" />
+                  <FilterBox
+                    active={showFleets}
+                    onClick={toggleFleets}
+                    label="Fleets"
+                    color="red"
+                  />
+                  <FilterBox
+                    active={showLabels}
+                    onClick={toggleLabels}
+                    label="Labels"
+                    color="yellow"
+                  />
                   <FilterBox
                     active={showCivilianTraffic}
                     onClick={toggleCivilianTraffic}

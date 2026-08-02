@@ -27,29 +27,34 @@ export function CommentSection({ articleId, onAuthRequired }: CommentSectionProp
         setLoading(false);
       }
     });
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [articleId, session?.user?.id]);
 
-  const handleSubmit = useCallback(async (e: FormEvent) => {
-    e.preventDefault();
-    if (!session) {
-      onAuthRequired();
-      return;
-    }
-    const trimmed = body.trim();
-    if (!trimmed || submitting) return;
+  const handleSubmit = useCallback(
+    async (e: FormEvent) => {
+      e.preventDefault();
+      if (!session) {
+        onAuthRequired();
+        return;
+      }
+      const trimmed = body.trim();
+      if (!trimmed || submitting) return;
 
-    setSubmitting(true);
-    try {
-      const comment = await addComment(articleId, trimmed);
-      setComments((prev) => [...prev, comment]);
-      setBody('');
-    } catch {
-      // optimistic UI — no rollback needed
-    } finally {
-      setSubmitting(false);
-    }
-  }, [session, body, submitting, articleId, onAuthRequired]);
+      setSubmitting(true);
+      try {
+        const comment = await addComment(articleId, trimmed);
+        setComments((prev) => [...prev, comment]);
+        setBody('');
+      } catch {
+        // optimistic UI — no rollback needed
+      } finally {
+        setSubmitting(false);
+      }
+    },
+    [session, body, submitting, articleId, onAuthRequired],
+  );
 
   const handleDelete = useCallback(async (commentId: string) => {
     try {
@@ -62,9 +67,7 @@ export function CommentSection({ articleId, onAuthRequired }: CommentSectionProp
 
   return (
     <section className="comment-section">
-      <h3 className="comment-section__title">
-        Responses ({comments.length})
-      </h3>
+      <h3 className="comment-section__title">Responses ({comments.length})</h3>
 
       <form className="comment-section__form" onSubmit={handleSubmit}>
         <textarea
@@ -72,7 +75,9 @@ export function CommentSection({ articleId, onAuthRequired }: CommentSectionProp
           placeholder={session ? 'What are your thoughts?' : 'Sign in to leave a response'}
           value={body}
           onChange={(e) => setBody(e.target.value)}
-          onFocus={() => { if (!session) onAuthRequired(); }}
+          onFocus={() => {
+            if (!session) onAuthRequired();
+          }}
           rows={3}
           maxLength={2000}
           disabled={!session}
@@ -91,7 +96,9 @@ export function CommentSection({ articleId, onAuthRequired }: CommentSectionProp
       <div className="comment-section__list">
         {loading && <p className="comment-section__empty">Loading responses...</p>}
         {!loading && comments.length === 0 && (
-          <p className="comment-section__empty">No responses yet. Be the first to share your thoughts.</p>
+          <p className="comment-section__empty">
+            No responses yet. Be the first to share your thoughts.
+          </p>
         )}
         {comments.map((c) => (
           <div key={c.id} className="comment-item">
@@ -107,7 +114,14 @@ export function CommentSection({ articleId, onAuthRequired }: CommentSectionProp
                   onClick={() => handleDelete(c.id)}
                   aria-label="Delete comment"
                 >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
                     <path d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>

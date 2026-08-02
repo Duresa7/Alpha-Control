@@ -1,7 +1,7 @@
-import type { ChangeEventHandler, FormEventHandler } from "react";
+import type { ChangeEventHandler, FormEventHandler } from 'react';
 
 export type SettingsMessage = {
-  type: "success" | "error";
+  type: 'success' | 'error';
   text: string;
 } | null;
 
@@ -40,9 +40,7 @@ function MessageBanner({ message }: { message: SettingsMessage }) {
   }
 
   return (
-    <div className={`settings-page__msg settings-page__msg--${message.type}`}>
-      {message.text}
-    </div>
+    <div className={`settings-page__msg settings-page__msg--${message.type}`}>{message.text}</div>
   );
 }
 
@@ -76,20 +74,12 @@ export function AccountSettingsSection({
 }: AccountSettingsSectionProps) {
   const passwordStrengthPercent = (passwordStrength / passwordRulesCount) * 100;
   const passwordStrengthColor =
-    passwordStrength <= 2
-      ? "#dc3545"
-      : passwordStrength <= 4
-        ? "#f0ad4e"
-        : "#5cb85c";
+    passwordStrength <= 2 ? '#dc3545' : passwordStrength <= 4 ? '#f0ad4e' : '#5cb85c';
   const passwordStrengthLabel =
-    passwordStrength <= 2 ? "Weak" : passwordStrength <= 4 ? "Fair" : "Strong";
+    passwordStrength <= 2 ? 'Weak' : passwordStrength <= 4 ? 'Fair' : 'Strong';
 
   return (
-    <section
-      id="settings-panel-account"
-      className="settings-page__group"
-      role="tabpanel"
-    >
+    <section id="settings-panel-account" className="settings-page__group" role="tabpanel">
       <div className="settings-page__group-header">
         <p className="settings-page__group-kicker">Account</p>
         <h2 className="settings-page__group-title">Account Settings</h2>
@@ -110,19 +100,15 @@ export function AccountSettingsSection({
               required
             />
           </div>
-          <button
-            type="submit"
-            disabled={displayNameSaving}
-            className="settings-page__submit"
-          >
-            {displayNameSaving ? "Saving..." : "Save Name"}
+          <button type="submit" disabled={displayNameSaving} className="settings-page__submit">
+            {displayNameSaving ? 'Saving...' : 'Save Name'}
           </button>
         </form>
       </div>
 
       <div className="settings-page__section">
         <h3 className="settings-page__section-title">Change Email</h3>
-        <p className="settings-page__hint">Current: {currentEmail ?? "Unknown"}</p>
+        <p className="settings-page__hint">Current: {currentEmail ?? 'Unknown'}</p>
         <MessageBanner message={emailMsg} />
         <form onSubmit={onEmailSubmit} className="settings-page__form">
           <div className="settings-page__field">
@@ -136,12 +122,8 @@ export function AccountSettingsSection({
               required
             />
           </div>
-          <button
-            type="submit"
-            disabled={emailSaving}
-            className="settings-page__submit"
-          >
-            {emailSaving ? "Updating..." : "Update Email"}
+          <button type="submit" disabled={emailSaving} className="settings-page__submit">
+            {emailSaving ? 'Updating...' : 'Update Email'}
           </button>
         </form>
       </div>
@@ -172,9 +154,7 @@ export function AccountSettingsSection({
                       }}
                     />
                   </div>
-                  <span className="settings-page__strength-label">
-                    {passwordStrengthLabel}
-                  </span>
+                  <span className="settings-page__strength-label">{passwordStrengthLabel}</span>
                 </div>
               )}
             </div>
@@ -189,12 +169,8 @@ export function AccountSettingsSection({
                 required
               />
             </div>
-            <button
-              type="submit"
-              disabled={passwordSaving}
-              className="settings-page__submit"
-            >
-              {passwordSaving ? "Updating..." : "Update Password"}
+            <button type="submit" disabled={passwordSaving} className="settings-page__submit">
+              {passwordSaving ? 'Updating...' : 'Update Password'}
             </button>
           </form>
         </div>
@@ -205,8 +181,7 @@ export function AccountSettingsSection({
           Delete Account
         </h3>
         <p className="settings-page__danger-text">
-          Permanently delete your account and all associated data. This action
-          cannot be undone.
+          Permanently delete your account and all associated data. This action cannot be undone.
         </p>
         <MessageBanner message={deleteMsg} />
         <div className="settings-page__field">
@@ -223,10 +198,10 @@ export function AccountSettingsSection({
         </div>
         <button
           onClick={onDeleteAccount}
-          disabled={deleteConfirm !== "DELETE" || deleting}
+          disabled={deleteConfirm !== 'DELETE' || deleting}
           className="settings-page__submit settings-page__submit--danger settings-page__danger-action"
         >
-          {deleting ? "Deleting..." : "Delete My Account"}
+          {deleting ? 'Deleting...' : 'Delete My Account'}
         </button>
       </div>
     </section>

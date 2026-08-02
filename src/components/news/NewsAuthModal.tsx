@@ -14,28 +14,32 @@ export function NewsAuthModal({ open, onClose }: NewsAuthModalProps) {
   return (
     <div className="news-auth__backdrop" onClick={onClose}>
       <div className="news-auth__card" onClick={(e) => e.stopPropagation()}>
-
         <button className="news-auth__close" onClick={onClose} aria-label="Close">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
             <path d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
 
         <p className="news-auth__eyebrow">AlphaSec United</p>
-        <h2 className="news-auth__title">{f.mode === 'login' ? 'Sign in to continue' : 'Create your account'}</h2>
+        <h2 className="news-auth__title">
+          {f.mode === 'login' ? 'Sign in to continue' : 'Create your account'}
+        </h2>
         <p className="news-auth__subtitle">
           {f.mode === 'login'
             ? 'Sign in to like articles and join the conversation.'
             : 'Join the community to interact with articles.'}
         </p>
 
-        {f.successMessage && (
-          <div className="news-auth__success">{f.successMessage}</div>
-        )}
+        {f.successMessage && <div className="news-auth__success">{f.successMessage}</div>}
 
-        {f.error && (
-          <div className="news-auth__error">{f.error}</div>
-        )}
+        {f.error && <div className="news-auth__error">{f.error}</div>}
 
         <GoogleAuthButton
           mode={f.mode}
@@ -84,7 +88,9 @@ export function NewsAuthModal({ open, onClose }: NewsAuthModalProps) {
               value={f.password}
               onChange={(e) => f.setPassword(e.target.value)}
               className="news-auth__input"
-              placeholder={f.mode === 'signup' ? 'Min 8 chars, mixed case, digit, special' : 'Your password'}
+              placeholder={
+                f.mode === 'signup' ? 'Min 8 chars, mixed case, digit, special' : 'Your password'
+              }
               required
             />
             {f.mode === 'signup' && f.password.length > 0 && (
@@ -94,7 +100,12 @@ export function NewsAuthModal({ open, onClose }: NewsAuthModalProps) {
                     className="news-auth__strength-fill"
                     style={{
                       width: `${(f.passwordStrength / PASSWORD_RULES.length) * 100}%`,
-                      background: f.passwordStrength <= 2 ? '#dc3545' : f.passwordStrength <= 4 ? '#f0ad4e' : '#1a73e8',
+                      background:
+                        f.passwordStrength <= 2
+                          ? '#dc3545'
+                          : f.passwordStrength <= 4
+                            ? '#f0ad4e'
+                            : '#1a73e8',
                     }}
                   />
                 </div>
@@ -130,9 +141,19 @@ export function NewsAuthModal({ open, onClose }: NewsAuthModalProps) {
 
         <p className="news-auth__switch">
           {f.mode === 'login' ? (
-            <>Don't have an account?{' '}<button type="button" onClick={() => f.switchMode('signup')}>Sign Up</button></>
+            <>
+              Don't have an account?{' '}
+              <button type="button" onClick={() => f.switchMode('signup')}>
+                Sign Up
+              </button>
+            </>
           ) : (
-            <>Already have an account?{' '}<button type="button" onClick={() => f.switchMode('login')}>Sign In</button></>
+            <>
+              Already have an account?{' '}
+              <button type="button" onClick={() => f.switchMode('login')}>
+                Sign In
+              </button>
+            </>
           )}
         </p>
       </div>

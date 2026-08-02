@@ -1,16 +1,12 @@
-import { useEffect, useState, type ReactNode } from "react";
-import { AlertTriangle, ShieldAlert, Sparkles, Wrench } from "lucide-react";
+import { useEffect, useState, type ReactNode } from 'react';
+import { AlertTriangle, ShieldAlert, Sparkles, Wrench } from 'lucide-react';
 
-import { NewsShell } from "@/components/news/NewsShell";
-import {
-  Timeline,
-  getTimelineContent,
-  type TimelineItem,
-} from "@/components/ui/timeline";
-import { fetchLiveStatuses } from "@/data/liveStatuses";
-import { fetchTimelineEntries } from "@/data/timelineStorage";
-import type { ServiceStatus } from "@/data/liveStatuses";
-import type { TimelineEntry, TimelineEntryType } from "@/data/timelineStorage";
+import { NewsShell } from '@/components/news/NewsShell';
+import { Timeline, getTimelineContent, type TimelineItem } from '@/components/ui/timeline';
+import { fetchLiveStatuses } from '@/data/liveStatuses';
+import { fetchTimelineEntries } from '@/data/timelineStorage';
+import type { ServiceStatus } from '@/data/liveStatuses';
+import type { TimelineEntry, TimelineEntryType } from '@/data/timelineStorage';
 
 function StatusCard({ status }: { status: ServiceStatus }) {
   return (
@@ -71,7 +67,9 @@ export function ServicesPage() {
         setEntries(e);
       }
     });
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   return (
@@ -85,16 +83,14 @@ export function ServicesPage() {
         </header>
 
         <div className="services-dash__grid">
-          {statuses.map(status => (
+          {statuses.map((status) => (
             <StatusCard key={status.id} status={status} />
           ))}
         </div>
 
         <section className="services-dash__timeline">
           <h2 className="services-dash__timeline-header">Latest Updates</h2>
-          {entries.length === 0 && (
-            <p className="article-dash__empty">No updates yet.</p>
-          )}
+          {entries.length === 0 && <p className="article-dash__empty">No updates yet.</p>}
           {entries.length > 0 && (
             <Timeline
               items={toTimelineItems(entries)}

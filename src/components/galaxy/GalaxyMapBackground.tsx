@@ -13,7 +13,6 @@ function ProceduralGalaxyMap() {
 
   return (
     <group ref={galaxyRef} rotation={[-Math.PI / 2, 0, 0]} position={[0, -5, 0]}>
-
       <SpiralGalaxy
         radius={GALAXY_RADIUS}
         arms={4}
@@ -26,9 +25,7 @@ function ProceduralGalaxyMap() {
         outerColor="#0c1e2e"
       />
 
-
       <StarField />
-
 
       <GridOverlay />
     </group>
@@ -92,7 +89,6 @@ function GridOverlay() {
 
   return (
     <group position={[0, 0, 0.2]}>
-
       {lineObjects.map((lineObj, i) => (
         <primitive key={i} object={lineObj} />
       ))}

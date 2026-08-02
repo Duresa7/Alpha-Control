@@ -15,7 +15,7 @@
 
 .settings-page__kicker {
   margin: 0 0 10px;
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -25,7 +25,7 @@
 
 .settings-page__name {
   margin: 0 0 8px;
-  font-family: "Source Serif 4", Georgia, serif;
+  font-family: 'Source Serif 4', Georgia, serif;
   font-size: clamp(2rem, 5vw, 2.75rem);
   font-weight: 700;
   line-height: 1.1;
@@ -34,7 +34,7 @@
 
 .settings-page__subtitle {
   margin: 0;
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: 14px;
   color: var(--news-text-muted);
 }
@@ -87,14 +87,14 @@
   color: var(--news-text);
 }
 
-.settings-page__sidecard-btn[aria-selected="true"] {
+.settings-page__sidecard-btn[aria-selected='true'] {
   border-color: rgba(var(--news-accent-rgb), 0.28);
   background: rgba(var(--news-accent-rgb), 0.08);
   color: var(--news-text);
 }
 
 .settings-page__sidecard-btn-title {
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: 14px;
   font-weight: 700;
   color: inherit;
@@ -119,7 +119,7 @@
 
 .settings-page__group-kicker {
   margin: 0 0 10px;
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -129,7 +129,7 @@
 
 .settings-page__group-title {
   margin: 0;
-  font-family: "Source Serif 4", Georgia, serif;
+  font-family: 'Source Serif 4', Georgia, serif;
   font-size: clamp(1.75rem, 3vw, 2.2rem);
   font-weight: 700;
   line-height: 1.1;
@@ -148,7 +148,7 @@
 
 .settings-page__section-title {
   margin: 0 0 20px;
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -162,14 +162,14 @@
 
 .settings-page__hint {
   margin: 0 0 16px;
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: 13px;
   color: var(--news-text-muted);
 }
 
 .settings-page__danger-text {
   margin: 0 0 20px;
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: 14px;
   line-height: 1.6;
   color: var(--news-text-secondary);
@@ -188,7 +188,7 @@
 }
 
 .settings-page__label {
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: 13px;
   font-weight: 600;
   color: var(--news-text-secondary);
@@ -200,12 +200,11 @@
   background: var(--news-surface);
   padding: 10px 14px;
   font-size: 14px;
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   color: var(--news-text);
   outline: none;
   border-radius: 0;
-  transition:
-    border-color 0.2s;
+  transition: border-color 0.2s;
   box-sizing: border-box;
 }
 
@@ -245,7 +244,7 @@
 }
 
 .settings-page__strength-label {
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -264,7 +263,7 @@
   padding: 0 20px;
   background: var(--news-text);
   color: #fff;
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.01em;
@@ -303,7 +302,7 @@
 .settings-page__msg {
   border-radius: 0;
   padding: 10px 14px;
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: 13px;
   line-height: 1.5;
   margin-bottom: 16px;
@@ -353,7 +352,7 @@
   color: var(--news-text);
 }
 
-.settings-page__theme-option[aria-pressed="true"] {
+.settings-page__theme-option[aria-pressed='true'] {
   border-color: rgba(var(--news-accent-rgb), 0.28);
   background: rgba(var(--news-accent-rgb), 0.08);
   color: var(--news-text);
@@ -369,51 +368,51 @@
 }
 
 .settings-page__theme-option-title {
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: 13px;
   font-weight: 600;
   color: inherit;
 }
 
-.news-page[data-news-theme="dark"] .settings-page__sidecard-btn {
+.news-page[data-news-theme='dark'] .settings-page__sidecard-btn {
   background: rgba(18, 26, 35, 0.78);
   color: var(--news-text-secondary);
 }
 
-.news-page[data-news-theme="dark"] .settings-page__sidecard-btn:hover {
+.news-page[data-news-theme='dark'] .settings-page__sidecard-btn:hover {
   background: rgba(23, 33, 45, 0.94);
   color: var(--news-text-secondary);
 }
 
-.news-page[data-news-theme="dark"] .settings-page__sidecard-btn[aria-selected="true"] {
+.news-page[data-news-theme='dark'] .settings-page__sidecard-btn[aria-selected='true'] {
   border-color: rgba(var(--news-accent-rgb), 0.34);
   background: rgba(var(--news-accent-rgb), 0.14);
   color: var(--news-accent-hover);
 }
 
-.news-page[data-news-theme="dark"] .settings-page__theme-option {
+.news-page[data-news-theme='dark'] .settings-page__theme-option {
   background: rgba(18, 26, 35, 0.78);
   color: var(--news-text-secondary);
 }
 
-.news-page[data-news-theme="dark"] .settings-page__theme-option:hover {
+.news-page[data-news-theme='dark'] .settings-page__theme-option:hover {
   background: rgba(23, 33, 45, 0.94);
   color: var(--news-text-secondary);
 }
 
-.news-page[data-news-theme="dark"] .settings-page__theme-option[aria-pressed="true"] {
+.news-page[data-news-theme='dark'] .settings-page__theme-option[aria-pressed='true'] {
   border-color: rgba(var(--news-accent-rgb), 0.34);
   background: rgba(var(--news-accent-rgb), 0.14);
   color: var(--news-accent-hover);
 }
 
-.news-page[data-news-theme="dark"] .settings-page__submit {
+.news-page[data-news-theme='dark'] .settings-page__submit {
   border-color: rgba(var(--news-accent-rgb), 0.4);
   background: var(--news-accent);
   color: #08111c;
 }
 
-.news-page[data-news-theme="dark"] .settings-page__submit:hover:not(:disabled) {
+.news-page[data-news-theme='dark'] .settings-page__submit:hover:not(:disabled) {
   background: var(--news-accent-hover);
   border-color: var(--news-accent-hover);
 }

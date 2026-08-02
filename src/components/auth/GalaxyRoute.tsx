@@ -43,9 +43,7 @@ export function GalaxyRoute({ children }: { children: React.ReactNode }) {
         <div className="galaxy-access-denied__card">
           <p className="galaxy-access-denied__eyebrow">Galaxy Map</p>
           <h2 className="galaxy-access-denied__title">Access Restricted</h2>
-          <p className="galaxy-access-denied__copy">
-            Galaxy Map access requires approval.
-          </p>
+          <p className="galaxy-access-denied__copy">Galaxy Map access requires approval.</p>
         </div>
       </div>
     );

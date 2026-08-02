@@ -68,7 +68,15 @@ export function FeedbackPage() {
           Share a feature request, report a bug, or send us anything else on your mind.
         </p>
         {!session && (
-          <div style={{ marginBottom: 24, display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+          <div
+            style={{
+              marginBottom: 24,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              flexWrap: 'wrap',
+            }}
+          >
             <p className="feedback-page__subtitle" style={{ margin: 0 }}>
               Sign in is required before you can send feedback.
             </p>
@@ -116,7 +124,12 @@ export function FeedbackPage() {
 
           <div className="article-editor__field">
             <label className="article-editor__label">
-              Message * {category !== 'other' && <span style={{ fontWeight: 400, opacity: 0.6 }}>— {getCategoryLabel(category)}</span>}
+              Message *{' '}
+              {category !== 'other' && (
+                <span style={{ fontWeight: 400, opacity: 0.6 }}>
+                  — {getCategoryLabel(category)}
+                </span>
+              )}
             </label>
             <textarea
               className="article-editor__textarea"
@@ -126,8 +139,8 @@ export function FeedbackPage() {
                 category === 'feature_request'
                   ? 'Describe the feature you would like to see...'
                   : category === 'bug'
-                  ? 'Describe what happened and how to reproduce it...'
-                  : 'Write your feedback here...'
+                    ? 'Describe what happened and how to reproduce it...'
+                    : 'Write your feedback here...'
               }
               rows={6}
               maxLength={2000}
@@ -146,9 +159,7 @@ export function FeedbackPage() {
           {success && (
             <p className="feedback-form__success">Your feedback has been sent. Thank you!</p>
           )}
-          {error && (
-            <p className="feedback-form__error">{error}</p>
-          )}
+          {error && <p className="feedback-form__error">{error}</p>}
         </form>
       </div>
       <NewsAuthModal open={authOpen} onClose={() => setAuthOpen(false)} />

@@ -91,7 +91,7 @@ const STAR_COLORS: [string, number][] = [
   ['#f8f7ff', 0.34],
   ['#cad7ff', 0.22],
   ['#ffffff', 0.16],
-  ['#aabfff', 0.10],
+  ['#aabfff', 0.1],
   ['#fff4ea', 0.09],
   ['#ffd2a1', 0.06],
   ['#9bb0ff', 0.02],
@@ -240,7 +240,5 @@ export function Starfield({
     }
   });
 
-  return (
-    <points ref={attachRef} geometry={geometry} material={material} frustumCulled={false} />
-  );
+  return <points ref={attachRef} geometry={geometry} material={material} frustumCulled={false} />;
 }

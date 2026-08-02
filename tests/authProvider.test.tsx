@@ -7,7 +7,10 @@ const mocks = vi.hoisted(() => {
     getSessionResult: Promise.resolve({ data: { session: null } }),
     signInResult: Promise.resolve({ data: { session: null }, error: null }),
     signOutResult: Promise.resolve({ error: null }),
-    profileResponses: new Map<string, Promise<{ data: unknown; error: unknown }> | { data: unknown; error: unknown }>(),
+    profileResponses: new Map<
+      string,
+      Promise<{ data: unknown; error: unknown }> | { data: unknown; error: unknown }
+    >(),
   };
 
   const subscription = {
@@ -87,7 +90,9 @@ vi.mock('@/utils/googleAuth', async () => {
 });
 
 vi.mock('@/contexts/authContextHelpers', async () => {
-  const actual = await vi.importActual<typeof import('@/contexts/authContextHelpers')>('@/contexts/authContextHelpers');
+  const actual = await vi.importActual<typeof import('@/contexts/authContextHelpers')>(
+    '@/contexts/authContextHelpers',
+  );
   return {
     ...actual,
     syncPendingGoogleAuthSession: mocks.syncPendingGoogleAuthSession,
@@ -182,14 +187,17 @@ describe('AuthProvider', () => {
     const firstProfile = deferred<{ data: unknown; error: unknown }>();
 
     mocks.state.profileResponses.set('user-1', firstProfile.promise);
-    mocks.state.profileResponses.set('user-2', Promise.resolve({
-      data: {
-        id: 'user-2',
-        display_name: 'Bo-Katan Kryze',
-        role: 'user',
-      },
-      error: null,
-    }));
+    mocks.state.profileResponses.set(
+      'user-2',
+      Promise.resolve({
+        data: {
+          id: 'user-2',
+          display_name: 'Bo-Katan Kryze',
+          role: 'user',
+        },
+        error: null,
+      }),
+    );
 
     render(
       <AuthProvider>
@@ -226,7 +234,10 @@ describe('AuthProvider', () => {
   it('updates state on sign-in and clears it immediately on sign-out', async () => {
     const signOutDeferred = deferred<{ error: null }>();
 
-    mocks.state.signInResult = Promise.resolve({ data: { session: session('user-1') }, error: null });
+    mocks.state.signInResult = Promise.resolve({
+      data: { session: session('user-1') },
+      error: null,
+    });
     mocks.state.signOutResult = signOutDeferred.promise;
     mocks.state.profileResponses.set('user-1', {
       data: {
@@ -288,11 +299,13 @@ describe('AuthProvider', () => {
     await waitFor(() => {
       expect(mocks.syncPendingGoogleAuthSession).toHaveBeenCalledTimes(1);
     });
-    expect(mocks.syncPendingGoogleAuthSession).toHaveBeenCalledWith(expect.objectContaining({
-      session: expect.objectContaining({
-        user: expect.objectContaining({ id: 'user-3' }),
+    expect(mocks.syncPendingGoogleAuthSession).toHaveBeenCalledWith(
+      expect.objectContaining({
+        session: expect.objectContaining({
+          user: expect.objectContaining({ id: 'user-3' }),
+        }),
+        supabaseConfigured: true,
       }),
-      supabaseConfigured: true,
-    }));
+    );
   });
 });

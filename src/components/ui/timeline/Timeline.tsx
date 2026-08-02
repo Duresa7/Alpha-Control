@@ -1,12 +1,12 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown } from "lucide-react";
-import { useMemo, useState, type ReactNode } from "react";
+import { AnimatePresence, motion } from 'framer-motion';
+import { ChevronDown } from 'lucide-react';
+import { useMemo, useState, type ReactNode } from 'react';
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
-import "./timeline.css";
+import './timeline.css';
 
-import { TimelineEntry } from "./TimelineEntry";
+import { TimelineEntry } from './TimelineEntry';
 
 export interface TimelineItem {
   id?: string;
@@ -36,8 +36,8 @@ export function Timeline({
   initialCount = 5,
   dateFormat,
   className,
-  showMoreText = "Show More",
-  showLessText = "Show Less",
+  showMoreText = 'Show More',
+  showLessText = 'Show Less',
   animationDuration = 0.3,
   animationDelay = 0.08,
   showAnimation = true,
@@ -46,10 +46,7 @@ export function Timeline({
   const [expandedIds, setExpandedIds] = useState<Record<string, boolean>>({});
 
   const sortedItems = useMemo(
-    () =>
-      [...items].sort(
-        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-      ),
+    () => [...items].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()),
     [items],
   );
 
@@ -88,14 +85,12 @@ export function Timeline({
   };
 
   return (
-    <div className={cn("timeline-shell", className)}>
+    <div className={cn('timeline-shell', className)}>
       <ul className="timeline-shell__list">
         {initialItems.map(renderItem)}
         <AnimatePresence initial={false}>
           {showAll
-            ? remainingItems.map((item, index) =>
-                renderItem(item, index + initialItems.length),
-              )
+            ? remainingItems.map((item, index) => renderItem(item, index + initialItems.length))
             : null}
         </AnimatePresence>
       </ul>

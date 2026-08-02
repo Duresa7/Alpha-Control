@@ -186,7 +186,10 @@ export function AddFactionControl({
       {available.map((f) => (
         <button
           key={f.id}
-          onClick={() => { onAdd(f.id); setOpen(false); }}
+          onClick={() => {
+            onAdd(f.id);
+            setOpen(false);
+          }}
           className="holo-badge text-[9px] cursor-pointer hover:bg-amber-500/10 transition-colors"
           style={{ borderColor: getFactionBarColor(f.id), color: getFactionBarColor(f.id) }}
         >

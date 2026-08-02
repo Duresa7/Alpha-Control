@@ -10,11 +10,46 @@ import {
 import { logger } from '@/utils/logger';
 
 const DEFAULT_FACTIONS: FactionConfig[] = [
-  { id: 'galactic_republic', label: 'Galactic Republic', markerColor: '#FFD700', barColor: '#C8AA6E', sortOrder: 0, isBuiltin: true },
-  { id: 'sith_empire',       label: 'Sith Empire',       markerColor: '#DC143C', barColor: '#DC143C', sortOrder: 1, isBuiltin: true },
-  { id: 'hutt_cartel',       label: 'Hutt Cartel',       markerColor: '#8B9A46', barColor: '#8B9A46', sortOrder: 2, isBuiltin: true },
-  { id: 'neutral',           label: 'Neutral',           markerColor: '#808080', barColor: '#808080', sortOrder: 3, isBuiltin: true },
-  { id: 'contested',         label: 'Contested',         markerColor: '#FF8C00', barColor: '#FF8C00', sortOrder: 4, isBuiltin: true },
+  {
+    id: 'galactic_republic',
+    label: 'Galactic Republic',
+    markerColor: '#FFD700',
+    barColor: '#C8AA6E',
+    sortOrder: 0,
+    isBuiltin: true,
+  },
+  {
+    id: 'sith_empire',
+    label: 'Sith Empire',
+    markerColor: '#DC143C',
+    barColor: '#DC143C',
+    sortOrder: 1,
+    isBuiltin: true,
+  },
+  {
+    id: 'hutt_cartel',
+    label: 'Hutt Cartel',
+    markerColor: '#8B9A46',
+    barColor: '#8B9A46',
+    sortOrder: 2,
+    isBuiltin: true,
+  },
+  {
+    id: 'neutral',
+    label: 'Neutral',
+    markerColor: '#808080',
+    barColor: '#808080',
+    sortOrder: 3,
+    isBuiltin: true,
+  },
+  {
+    id: 'contested',
+    label: 'Contested',
+    markerColor: '#FF8C00',
+    barColor: '#FF8C00',
+    sortOrder: 4,
+    isBuiltin: true,
+  },
 ];
 
 const FALLBACK_LABEL = 'Unknown';
@@ -30,7 +65,10 @@ interface FactionStore {
   getFactionIds: () => string[];
   getFactionById: (id: string) => FactionConfig | undefined;
   createFaction: (config: Omit<FactionConfig, 'sortOrder' | 'isBuiltin'>) => Promise<void>;
-  updateFaction: (id: string, updates: Partial<Pick<FactionConfig, 'label' | 'markerColor' | 'barColor'>>) => Promise<void>;
+  updateFaction: (
+    id: string,
+    updates: Partial<Pick<FactionConfig, 'label' | 'markerColor' | 'barColor'>>,
+  ) => Promise<void>;
   removeFaction: (id: string) => Promise<boolean>;
 }
 
@@ -66,7 +104,11 @@ export const useFactionStore = create<FactionStore>((set, get) => ({
   getFactionById: (id: string) => get()._map.get(id),
 
   createFaction: async (config) => {
-    const newFaction: FactionConfig = { ...config, sortOrder: get().factions.length, isBuiltin: false };
+    const newFaction: FactionConfig = {
+      ...config,
+      sortOrder: get().factions.length,
+      isBuiltin: false,
+    };
     const prev = get().factions;
     const next = [...prev, newFaction];
     set({ factions: next, _map: buildMap(next) });
@@ -83,9 +125,7 @@ export const useFactionStore = create<FactionStore>((set, get) => ({
   },
 
   updateFaction: async (id, updates) => {
-    const next = get().factions.map((f) =>
-      f.id === id ? { ...f, ...updates } : f,
-    );
+    const next = get().factions.map((f) => (f.id === id ? { ...f, ...updates } : f));
     set({ factions: next, _map: buildMap(next) });
     // Use upsert so builtins that were never persisted get created
     const updated = get()._map.get(id);
@@ -98,7 +138,9 @@ export const useFactionStore = create<FactionStore>((set, get) => ({
       }
     }
     const label = get()._map.get(id)?.label ?? id;
-    logAction('faction_updated', 'faction', id, label, { fields: Object.keys(updates) }).catch(() => {});
+    logAction('faction_updated', 'faction', id, label, { fields: Object.keys(updates) }).catch(
+      () => {},
+    );
   },
 
   removeFaction: async (id) => {

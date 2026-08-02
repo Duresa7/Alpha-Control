@@ -27,7 +27,10 @@ export function normalizeFactionControl({
     return { [editedFaction]: 100 };
   }
 
-  const totalOtherWeight = activeOtherFactions.reduce((sum, faction) => sum + (current[faction] ?? 0), 0);
+  const totalOtherWeight = activeOtherFactions.reduce(
+    (sum, faction) => sum + (current[faction] ?? 0),
+    0,
+  );
   if (totalOtherWeight <= 0) {
     return { [editedFaction]: 100 };
   }

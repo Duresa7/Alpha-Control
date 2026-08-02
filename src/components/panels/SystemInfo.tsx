@@ -4,9 +4,7 @@ import { useGalaxyDataStore } from '@/store/galaxyDataStore';
 import { useFactionStore } from '@/store/factionStore';
 import { InfoRow } from '@/components/panels/infoPanelShared';
 import { formatRegion, capitalizeFirst } from '@/utils/format';
-import {
-  DEFAULT_TOPDOWN_SYSTEM_MARKER_SIZE,
-} from '@/config/topDownMarkerConfig';
+import { DEFAULT_TOPDOWN_SYSTEM_MARKER_SIZE } from '@/config/topDownMarkerConfig';
 
 export function SystemInfo({ system, editable }: { system: StarSystem; editable: boolean }) {
   const removeCustomSystem = useGalaxyDataStore((s) => s.removeCustomSystem);
@@ -20,9 +18,10 @@ export function SystemInfo({ system, editable }: { system: StarSystem; editable:
 
   return (
     <div className="space-y-4">
-
       <div className="pb-3">
-        <h2 className="text-xl font-semibold mb-2 holo-heading holo-heading-accent">{system.name}</h2>
+        <h2 className="text-xl font-semibold mb-2 holo-heading holo-heading-accent">
+          {system.name}
+        </h2>
         <div className="flex items-center gap-2">
           <span
             className="holo-badge border"
@@ -52,7 +51,9 @@ export function SystemInfo({ system, editable }: { system: StarSystem; editable:
 
       {editable && viewMode === 'topdown' && (
         <div>
-          <label className="holo-label" style={{ marginBottom: '8px' }}>Marker Size</label>
+          <label className="holo-label" style={{ marginBottom: '8px' }}>
+            Marker Size
+          </label>
           <div className="flex items-center gap-2">
             <input
               type="range"
@@ -74,9 +75,11 @@ export function SystemInfo({ system, editable }: { system: StarSystem; editable:
 
       {system.planets.length > 0 && (
         <div>
-          <label className="holo-label" style={{ marginBottom: '8px' }}>Planets ({system.planets.length})</label>
+          <label className="holo-label" style={{ marginBottom: '8px' }}>
+            Planets ({system.planets.length})
+          </label>
           <div className="space-y-1 mt-2">
-            {system.planets.map(planet => (
+            {system.planets.map((planet) => (
               <div
                 key={planet.id}
                 className="holo-info-row group cursor-pointer hover:bg-amber-500/5 transition-colors"
@@ -85,8 +88,18 @@ export function SystemInfo({ system, editable }: { system: StarSystem; editable:
                   setInfoPanelData({ type: 'planet', data: planet });
                 }}
               >
-                <span className="text-[14px] group-hover:text-amber-200 transition-colors" style={{ color: 'var(--holo-text-primary)' }}>{planet.name}</span>
-                <span className="text-[12px] capitalize" style={{ color: 'var(--holo-text-muted)' }}>{planet.type.replace('_', ' ')}</span>
+                <span
+                  className="text-[14px] group-hover:text-amber-200 transition-colors"
+                  style={{ color: 'var(--holo-text-primary)' }}
+                >
+                  {planet.name}
+                </span>
+                <span
+                  className="text-[12px] capitalize"
+                  style={{ color: 'var(--holo-text-muted)' }}
+                >
+                  {planet.type.replace('_', ' ')}
+                </span>
               </div>
             ))}
           </div>
@@ -95,7 +108,9 @@ export function SystemInfo({ system, editable }: { system: StarSystem; editable:
 
       {system.planets.some((p) => p.notable && p.notable.length > 0) && (
         <div>
-          <label className="holo-label" style={{ marginBottom: '8px' }}>Notable Locations</label>
+          <label className="holo-label" style={{ marginBottom: '8px' }}>
+            Notable Locations
+          </label>
           <div className="flex flex-wrap gap-2 mt-2">
             {system.planets.flatMap((p) =>
               (p.notable ?? []).map((loc) => (
@@ -105,14 +120,17 @@ export function SystemInfo({ system, editable }: { system: StarSystem; editable:
                 >
                   {loc}
                 </span>
-              ))
+              )),
             )}
           </div>
         </div>
       )}
 
       {system.planets.length > 0 && (
-        <div className="text-xs text-center animate-pulse holo-label-orbitron" style={{ color: 'var(--holo-text-muted)', fontSize: '11px' }}>
+        <div
+          className="text-xs text-center animate-pulse holo-label-orbitron"
+          style={{ color: 'var(--holo-text-muted)', fontSize: '11px' }}
+        >
           Select a planet to open details
         </div>
       )}

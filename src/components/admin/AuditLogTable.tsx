@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from 'framer-motion';
 import {
   Check,
   ChevronDown,
@@ -8,8 +8,8 @@ import {
   ChevronsRight,
   Copy,
   ScrollText,
-} from "lucide-react";
-import { useState } from "react";
+} from 'lucide-react';
+import { useState } from 'react';
 import {
   ACTION_LABELS,
   ENTITY_LABELS,
@@ -17,12 +17,12 @@ import {
   formatFullTime,
   formatRelativeTime,
   getActionTone,
-} from "./adminMeta";
-import type { AuditLogEntry } from "@/types";
+} from './adminMeta';
+import type { AuditLogEntry } from '@/types';
 
 function formatDetailValue(value: unknown): string {
-  if (value === null || value === undefined) return "—";
-  if (typeof value === "object") return JSON.stringify(value);
+  if (value === null || value === undefined) return '—';
+  if (typeof value === 'object') return JSON.stringify(value);
   return String(value);
 }
 
@@ -51,10 +51,7 @@ function AuditLogRow({ log, expanded, onToggle }: AuditLogRowProps) {
   };
 
   return (
-    <li
-      className="adm-audit-row"
-      style={{ borderLeftColor: `${TONE_COLORS[tone]}77` }}
-    >
+    <li className="adm-audit-row" style={{ borderLeftColor: `${TONE_COLORS[tone]}77` }}>
       <button
         type="button"
         onClick={onToggle}
@@ -66,14 +63,14 @@ function AuditLogRow({ log, expanded, onToggle }: AuditLogRowProps) {
           animate={{ rotate: expanded ? 180 : 0 }}
           transition={{ duration: 0.18 }}
           className="inline-flex items-center justify-center"
-          style={{ color: "var(--adm-text-faint)" }}
+          style={{ color: 'var(--adm-text-faint)' }}
         >
           <ChevronDown size={14} />
         </motion.span>
 
         <time
           className="adm-audit-col-time adm-mono text-[11.5px]"
-          style={{ color: "var(--adm-text-dim)" }}
+          style={{ color: 'var(--adm-text-dim)' }}
           dateTime={log.created_at}
           title={formatFullTime(log.created_at)}
         >
@@ -86,19 +83,16 @@ function AuditLogRow({ log, expanded, onToggle }: AuditLogRowProps) {
 
         <span className="adm-audit-col-entity adm-label">{entityLabel}</span>
 
-        <span
-          className="truncate text-[13.5px]"
-          title={log.entity_name || undefined}
-        >
-          {log.entity_name || "—"}
+        <span className="truncate text-[13.5px]" title={log.entity_name || undefined}>
+          {log.entity_name || '—'}
         </span>
 
         <span
           className="adm-audit-col-user truncate text-[12.5px]"
-          style={{ color: "var(--adm-text-dim)" }}
-          title={log.display_name || "Unknown"}
+          style={{ color: 'var(--adm-text-dim)' }}
+          title={log.display_name || 'Unknown'}
         >
-          {log.display_name || "Unknown"}
+          {log.display_name || 'Unknown'}
         </span>
       </button>
 
@@ -107,7 +101,7 @@ function AuditLogRow({ log, expanded, onToggle }: AuditLogRowProps) {
           <motion.div
             key="details"
             initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
+            animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.2 }}
             className="overflow-hidden"
@@ -116,30 +110,28 @@ function AuditLogRow({ log, expanded, onToggle }: AuditLogRowProps) {
               <div className="grid grid-cols-2 gap-x-6 gap-y-3 lg:grid-cols-4">
                 <div>
                   <p className="adm-label mb-1">Operator</p>
-                  <p className="text-[13px]">{log.display_name || "Unknown"}</p>
+                  <p className="text-[13px]">{log.display_name || 'Unknown'}</p>
                 </div>
                 <div>
                   <p className="adm-label mb-1">Entity</p>
                   <p className="text-[13px]">
                     {entityLabel}
-                    {log.entity_name ? ` · ${log.entity_name}` : ""}
+                    {log.entity_name ? ` · ${log.entity_name}` : ''}
                   </p>
                 </div>
                 <div>
                   <p className="adm-label mb-1">Timestamp</p>
-                  <p className="adm-mono text-[12px]">
-                    {formatFullTime(log.created_at)}
-                  </p>
+                  <p className="adm-mono text-[12px]">{formatFullTime(log.created_at)}</p>
                 </div>
                 <div>
                   <p className="adm-label mb-1">Entity ID</p>
                   <p className="flex items-center gap-1.5">
                     <span
                       className="adm-mono truncate text-[12px]"
-                      style={{ color: "var(--adm-text-dim)" }}
+                      style={{ color: 'var(--adm-text-dim)' }}
                       title={log.entity_id || undefined}
                     >
-                      {log.entity_id || "—"}
+                      {log.entity_id || '—'}
                     </span>
                     {log.entity_id && (
                       <button
@@ -150,7 +142,7 @@ function AuditLogRow({ log, expanded, onToggle }: AuditLogRowProps) {
                         title="Copy entity ID"
                       >
                         {copied ? (
-                          <Check size={11} style={{ color: "var(--adm-success)" }} />
+                          <Check size={11} style={{ color: 'var(--adm-success)' }} />
                         ) : (
                           <Copy size={11} />
                         )}
@@ -168,7 +160,7 @@ function AuditLogRow({ log, expanded, onToggle }: AuditLogRowProps) {
                       <div className="adm-detail-item" key={key}>
                         <dt
                           className="adm-mono text-[11.5px]"
-                          style={{ color: "var(--adm-text-faint)" }}
+                          style={{ color: 'var(--adm-text-faint)' }}
                         >
                           {key}
                         </dt>
@@ -181,10 +173,7 @@ function AuditLogRow({ log, expanded, onToggle }: AuditLogRowProps) {
                 </div>
               )}
 
-              <p
-                className="adm-mono mt-4 text-[10.5px]"
-                style={{ color: "var(--adm-text-faint)" }}
-              >
+              <p className="adm-mono mt-4 text-[10.5px]" style={{ color: 'var(--adm-text-faint)' }}>
                 event:{log.action} · id:{log.id}
               </p>
             </div>
@@ -202,7 +191,7 @@ function SkeletonRows() {
         <div
           key={i}
           className="adm-audit-grid px-4 py-[13px]"
-          style={{ borderBottom: "1px solid var(--adm-line-soft)" }}
+          style={{ borderBottom: '1px solid var(--adm-line-soft)' }}
         >
           <span />
           <span className="adm-skeleton adm-audit-col-time h-3 w-12" />
@@ -260,20 +249,14 @@ export function AuditLogTable({
           <SkeletonRows />
         ) : logs.length === 0 ? (
           <div className="flex h-full min-h-[220px] flex-col items-center justify-center gap-3 px-6 text-center">
-            <ScrollText size={26} style={{ color: "var(--adm-text-faint)" }} />
-            <p
-              className="adm-label text-[11px]"
-              style={{ color: "var(--adm-text-dim)" }}
-            >
+            <ScrollText size={26} style={{ color: 'var(--adm-text-faint)' }} />
+            <p className="adm-label text-[11px]" style={{ color: 'var(--adm-text-dim)' }}>
               {isSearchActive || isFiltered
-                ? "No records match the current filters"
-                : "No records logged yet"}
+                ? 'No records match the current filters'
+                : 'No records logged yet'}
             </p>
             {(isSearchActive || isFiltered) && (
-              <p
-                className="max-w-[340px] text-[12.5px]"
-                style={{ color: "var(--adm-text-faint)" }}
-              >
+              <p className="max-w-[340px] text-[12.5px]" style={{ color: 'var(--adm-text-faint)' }}>
                 Adjust or clear the filters above to see more of the feed.
               </p>
             )}
@@ -285,11 +268,7 @@ export function AuditLogTable({
                 key={log.id}
                 log={log}
                 expanded={expandedId === log.id}
-                onToggle={() =>
-                  setExpandedId((current) =>
-                    current === log.id ? null : log.id,
-                  )
-                }
+                onToggle={() => setExpandedId((current) => (current === log.id ? null : log.id))}
               />
             ))}
           </ul>
@@ -298,13 +277,11 @@ export function AuditLogTable({
 
       <footer
         className="flex flex-wrap items-center justify-between gap-3 px-4 py-2.5"
-        style={{ borderTop: "1px solid var(--adm-line-soft)" }}
+        style={{ borderTop: '1px solid var(--adm-line-soft)' }}
       >
         <span className="adm-label">
-          {total === 0
-            ? "No records"
-            : `Showing ${rangeFrom}–${rangeTo} of ${total}`}
-          {isFiltered && total > 0 ? " · filtered" : ""}
+          {total === 0 ? 'No records' : `Showing ${rangeFrom}–${rangeTo} of ${total}`}
+          {isFiltered && total > 0 ? ' · filtered' : ''}
         </span>
         <div className="flex items-center gap-1.5">
           <button
@@ -325,7 +302,7 @@ export function AuditLogTable({
           >
             <ChevronLeft size={14} />
           </button>
-          <span className="adm-mono px-2 text-[11.5px]" style={{ color: "var(--adm-text-dim)" }}>
+          <span className="adm-mono px-2 text-[11.5px]" style={{ color: 'var(--adm-text-dim)' }}>
             {page + 1} / {totalPages}
           </span>
           <button

@@ -53,12 +53,7 @@ function SithEmblem({ color, size }: { color: string; size: number }) {
 
 function GenericEmblem({ color, size, initial }: { color: string; size: number; initial: string }) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 40 40"
-      width={size}
-      height={size}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width={size} height={size}>
       <circle cx="20" cy="20" r="18" fill="none" stroke={color} strokeWidth="2" opacity="0.6" />
       <circle cx="20" cy="20" r="14" fill={color} opacity="0.15" />
       <text
@@ -90,7 +85,16 @@ export function FactionEmblem({ factionId, size = 24, className }: FactionEmblem
   })();
 
   return (
-    <span className={`faction-emblem ${className ?? ''}`} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: size, height: size }}>
+    <span
+      className={`faction-emblem ${className ?? ''}`}
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: size,
+        height: size,
+      }}
+    >
       {inner}
     </span>
   );

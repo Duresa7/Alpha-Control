@@ -34,12 +34,14 @@ export function BossmanRoute({
     return <Navigate to="/" replace />;
   }
 
-  if (shouldShowAdminLoading({
-    authResolved,
-    authWaitExpired,
-    hasSession: !!session,
-    profileLoadingInitial,
-  })) {
+  if (
+    shouldShowAdminLoading({
+      authResolved,
+      authWaitExpired,
+      hasSession: !!session,
+      profileLoadingInitial,
+    })
+  ) {
     return (
       <div className="route-auth-loading">
         <div className="route-auth-loading__layer route-auth-loading__layer--base" />
@@ -49,7 +51,9 @@ export function BossmanRoute({
           <p className="route-auth-loading__eyebrow">AlphaSec News</p>
           <h2 className="route-auth-loading__title">Verifying Access...</h2>
           <p className="route-auth-loading__copy">Checking authorization level.</p>
-          <div className="route-auth-loading__bar"><span /></div>
+          <div className="route-auth-loading__bar">
+            <span />
+          </div>
         </div>
       </div>
     );

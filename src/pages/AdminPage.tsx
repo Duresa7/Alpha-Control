@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { NavLink, useLocation } from "react-router";
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { NavLink, useLocation } from 'react-router';
 import {
   ArrowLeft,
   Check,
@@ -13,68 +13,62 @@ import {
   Search,
   Users as UsersIcon,
   X,
-} from "lucide-react";
-import { useAuth } from "@/hooks/useAuth";
-import { useRole } from "@/hooks/useRole";
+} from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+import { useRole } from '@/hooks/useRole';
 import {
   fetchAuditLogPage,
   fetchAuditLogTotal,
   fetchUserManagementProfiles,
   updateUserRole,
-} from "@/data/supabaseStorage";
-import { AuditLogTable } from "@/components/admin/AuditLogTable";
-import { UserTable } from "@/components/admin/UserTable";
+} from '@/data/supabaseStorage';
+import { AuditLogTable } from '@/components/admin/AuditLogTable';
+import { UserTable } from '@/components/admin/UserTable';
 import {
   ACTION_GROUPS,
   ACTION_LABELS,
   ROLE_COLORS,
   ROLE_LABELS,
   getInitials,
-} from "@/components/admin/adminMeta";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-import type { AuditLogEntry, UserManagementProfile, UserRole } from "@/types";
+} from '@/components/admin/adminMeta';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { cn } from '@/lib/utils';
+import type { AuditLogEntry, UserManagementProfile, UserRole } from '@/types';
 
 const PAGE_SIZE = 40;
 
-type TimeFilter = "" | "24h" | "7d" | "30d";
+type TimeFilter = '' | '24h' | '7d' | '30d';
 
 const TIME_FILTER_LABELS: Record<TimeFilter, string> = {
-  "": "All time",
-  "24h": "24h",
-  "7d": "7d",
-  "30d": "30d",
+  '': 'All time',
+  '24h': '24h',
+  '7d': '7d',
+  '30d': '30d',
 };
 
 function getSinceTimestamp(filter: TimeFilter): string | null {
   if (!filter) return null;
   const now = new Date();
-  if (filter === "24h") now.setHours(now.getHours() - 24);
-  else if (filter === "7d") now.setDate(now.getDate() - 7);
-  else if (filter === "30d") now.setDate(now.getDate() - 30);
+  if (filter === '24h') now.setHours(now.getHours() - 24);
+  else if (filter === '7d') now.setDate(now.getDate() - 7);
+  else if (filter === '30d') now.setDate(now.getDate() - 30);
   return now.toISOString();
 }
 
 function matchesUser(user: UserManagementProfile, query: string): boolean {
   if (!query) return true;
-  return [user.display_name, ROLE_LABELS[user.role], user.email ?? ""]
-    .join(" ")
+  return [user.display_name, ROLE_LABELS[user.role], user.email ?? '']
+    .join(' ')
     .toLowerCase()
     .includes(query);
 }
 
 function getAssignableRoles(isBossman: boolean): UserRole[] {
-  return isBossman
-    ? ["user", "galaxy_user", "admin", "bossman"]
-    : ["user", "galaxy_user"];
+  return isBossman ? ['user', 'galaxy_user', 'admin', 'bossman'] : ['user', 'galaxy_user'];
 }
 
 function csvEscape(value: unknown): string {
-  const text = value === null || value === undefined ? "" : String(value);
+  const text = value === null || value === undefined ? '' : String(value);
   return /[",\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
 }
 
@@ -123,15 +117,15 @@ export function AdminPage() {
   const [usersLoading, setUsersLoading] = useState(true);
   const [roleUpdating, setRoleUpdating] = useState<string | null>(null);
 
-  const [searchInput, setSearchInput] = useState("");
-  const [debouncedAuditQuery, setDebouncedAuditQuery] = useState("");
-  const [timeFilter, setTimeFilter] = useState<TimeFilter>("");
-  const [actionFilter, setActionFilter] = useState("");
-  const [roleFilter, setRoleFilter] = useState<UserRole | "">("");
+  const [searchInput, setSearchInput] = useState('');
+  const [debouncedAuditQuery, setDebouncedAuditQuery] = useState('');
+  const [timeFilter, setTimeFilter] = useState<TimeFilter>('');
+  const [actionFilter, setActionFilter] = useState('');
+  const [roleFilter, setRoleFilter] = useState<UserRole | ''>('');
   const [actionMenuOpen, setActionMenuOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  const isUsersView = location.pathname.startsWith("/admin/users");
+  const isUsersView = location.pathname.startsWith('/admin/users');
   const isAuditView = !isUsersView;
 
   const loadUsers = useCallback(async () => {
@@ -148,8 +142,8 @@ export function AdminPage() {
     week.setDate(week.getDate() - 7);
     const [total, last24h, last7d] = await Promise.all([
       fetchAuditLogTotal(),
-      fetchAuditLogTotal("", day.toISOString()),
-      fetchAuditLogTotal("", week.toISOString()),
+      fetchAuditLogTotal('', day.toISOString()),
+      fetchAuditLogTotal('', week.toISOString()),
     ]);
     setAuditStats({ total, last24h, last7d });
   }, []);
@@ -164,7 +158,7 @@ export function AdminPage() {
 
   useEffect(() => {
     if (!isAuditView) {
-      setDebouncedAuditQuery("");
+      setDebouncedAuditQuery('');
       return;
     }
 
@@ -179,10 +173,7 @@ export function AdminPage() {
     return () => window.clearTimeout(timeoutId);
   }, [isAuditView, searchInput]);
 
-  const sinceTimestamp = useMemo(
-    () => getSinceTimestamp(timeFilter),
-    [timeFilter],
-  );
+  const sinceTimestamp = useMemo(() => getSinceTimestamp(timeFilter), [timeFilter]);
   const actionArg = actionFilter || null;
 
   useEffect(() => {
@@ -195,13 +186,7 @@ export function AdminPage() {
 
       if (logPage === 0) {
         const [fetchedLogs, total] = await Promise.all([
-          fetchAuditLogPage(
-            PAGE_SIZE,
-            offset,
-            debouncedAuditQuery,
-            sinceTimestamp,
-            actionArg,
-          ),
+          fetchAuditLogPage(PAGE_SIZE, offset, debouncedAuditQuery, sinceTimestamp, actionArg),
           fetchAuditLogTotal(debouncedAuditQuery, sinceTimestamp, actionArg),
         ]);
         if (!cancelled) {
@@ -234,18 +219,18 @@ export function AdminPage() {
   useEffect(() => {
     if (!isDrawerOpen) return;
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setIsDrawerOpen(false);
+      if (event.key === 'Escape') setIsDrawerOpen(false);
     };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
   }, [isDrawerOpen]);
 
   useEffect(() => {
-    setSearchInput("");
-    setDebouncedAuditQuery("");
-    setTimeFilter("");
-    setActionFilter("");
-    setRoleFilter("");
+    setSearchInput('');
+    setDebouncedAuditQuery('');
+    setTimeFilter('');
+    setActionFilter('');
+    setRoleFilter('');
     setLogPage(0);
     setIsDrawerOpen(false);
   }, [location.pathname]);
@@ -272,26 +257,19 @@ export function AdminPage() {
     setLogs(fetchedLogs);
     setLogTotal(total);
     setLogsLoading(false);
-  }, [
-    isAuditView,
-    logPage,
-    debouncedAuditQuery,
-    sinceTimestamp,
-    actionArg,
-    loadAuditStats,
-  ]);
+  }, [isAuditView, logPage, debouncedAuditQuery, sinceTimestamp, actionArg, loadAuditStats]);
 
   const handleExportCsv = useCallback(() => {
     if (logs.length === 0) return;
     const header = [
-      "id",
-      "timestamp",
-      "action",
-      "entity_type",
-      "entity_name",
-      "entity_id",
-      "operator",
-      "details",
+      'id',
+      'timestamp',
+      'action',
+      'entity_type',
+      'entity_name',
+      'entity_id',
+      'operator',
+      'details',
     ];
     const rows = logs.map((log) =>
       [
@@ -301,17 +279,17 @@ export function AdminPage() {
         log.entity_type,
         log.entity_name,
         log.entity_id,
-        log.display_name ?? "",
-        log.details ? JSON.stringify(log.details) : "",
+        log.display_name ?? '',
+        log.details ? JSON.stringify(log.details) : '',
       ]
         .map(csvEscape)
-        .join(","),
+        .join(','),
     );
-    const blob = new Blob([[header.join(","), ...rows].join("\n")], {
-      type: "text/csv;charset=utf-8",
+    const blob = new Blob([[header.join(','), ...rows].join('\n')], {
+      type: 'text/csv;charset=utf-8',
     });
     const url = URL.createObjectURL(blob);
-    const anchor = document.createElement("a");
+    const anchor = document.createElement('a');
     anchor.href = url;
     anchor.download = `audit-log-page-${logPage + 1}.csv`;
     anchor.click();
@@ -329,8 +307,7 @@ export function AdminPage() {
             ? {
                 ...u,
                 role: newRole,
-                galaxy_map_requested:
-                  newRole === "user" ? u.galaxy_map_requested : false,
+                galaxy_map_requested: newRole === 'user' ? u.galaxy_map_requested : false,
               }
             : u,
         ),
@@ -340,13 +317,9 @@ export function AdminPage() {
   };
 
   const usersToRender = users.filter(
-    (user) =>
-      matchesUser(user, searchQuery) &&
-      (!roleFilter || user.role === roleFilter),
+    (user) => matchesUser(user, searchQuery) && (!roleFilter || user.role === roleFilter),
   );
-  const pendingRequests = users.filter(
-    (u) => u.galaxy_map_requested && u.role === "user",
-  );
+  const pendingRequests = users.filter((u) => u.galaxy_map_requested && u.role === 'user');
   const assignableRoles = getAssignableRoles(isBossman);
 
   const roleCounts = useMemo(() => {
@@ -363,14 +336,8 @@ export function AdminPage() {
   const closeDrawer = () => setIsDrawerOpen(false);
 
   return (
-    <div
-      className={cn("admin-page", isDrawerOpen && "admin-page--drawer-open")}
-    >
-      <div
-        className="adm-overlay"
-        onClick={closeDrawer}
-        aria-hidden={!isDrawerOpen}
-      />
+    <div className={cn('admin-page', isDrawerOpen && 'admin-page--drawer-open')}>
+      <div className="adm-overlay" onClick={closeDrawer} aria-hidden={!isDrawerOpen} />
       <div className="adm-shell">
         <aside className="adm-sidebar">
           <div className="adm-brand">
@@ -384,29 +351,18 @@ export function AdminPage() {
           </div>
 
           <div className="adm-side-label">Console</div>
-          <nav
-            className="flex flex-col gap-0.5"
-            aria-label="Admin navigation"
-          >
-            <NavLink
-              to="/admin/audit"
-              className="adm-nav-item"
-              onClick={closeDrawer}
-            >
+          <nav className="flex flex-col gap-0.5" aria-label="Admin navigation">
+            <NavLink to="/admin/audit" className="adm-nav-item" onClick={closeDrawer}>
               <ScrollText size={15} />
               <span>Audit Feed</span>
             </NavLink>
-            <NavLink
-              to="/admin/users"
-              className="adm-nav-item"
-              onClick={closeDrawer}
-            >
+            <NavLink to="/admin/users" className="adm-nav-item" onClick={closeDrawer}>
               <UsersIcon size={15} />
               <span>Personnel</span>
               {pendingRequests.length > 0 && (
                 <span
                   className="adm-nav-badge"
-                  title={`${pendingRequests.length} pending galaxy access request${pendingRequests.length === 1 ? "" : "s"}`}
+                  title={`${pendingRequests.length} pending galaxy access request${pendingRequests.length === 1 ? '' : 's'}`}
                 >
                   {pendingRequests.length}
                 </span>
@@ -428,23 +384,14 @@ export function AdminPage() {
                   {getInitials(currentProfile.display_name)}
                 </span>
                 <div className="min-w-0">
-                  <p className="truncate text-[13px] font-medium">
-                    {currentProfile.display_name}
-                  </p>
-                  <p
-                    className="adm-label"
-                    style={{ color: ROLE_COLORS[currentProfile.role] }}
-                  >
+                  <p className="truncate text-[13px] font-medium">{currentProfile.display_name}</p>
+                  <p className="adm-label" style={{ color: ROLE_COLORS[currentProfile.role] }}>
                     {ROLE_LABELS[currentProfile.role]}
                   </p>
                 </div>
               </div>
             )}
-            <NavLink
-              to="/map"
-              className="adm-btn justify-center"
-              onClick={closeDrawer}
-            >
+            <NavLink to="/map" className="adm-btn justify-center" onClick={closeDrawer}>
               <ArrowLeft size={13} />
               Exit to Map
             </NavLink>
@@ -465,26 +412,20 @@ export function AdminPage() {
               </button>
               <div className="min-w-0">
                 <p className="adm-eyebrow">Holonet // Admin Control</p>
-                <h1 className="adm-title">
-                  {isUsersView ? "Personnel" : "Audit Feed"}
-                </h1>
+                <h1 className="adm-title">{isUsersView ? 'Personnel' : 'Audit Feed'}</h1>
               </div>
             </div>
             <div className="flex items-center gap-2">
               <button
                 type="button"
                 className="adm-btn"
-                onClick={() =>
-                  isAuditView ? void handleAuditRefresh() : void loadUsers()
-                }
+                onClick={() => (isAuditView ? void handleAuditRefresh() : void loadUsers())}
                 disabled={isAuditView ? logsLoading : usersLoading}
               >
                 <RefreshCw
                   size={13}
                   className={
-                    (isAuditView ? logsLoading : usersLoading)
-                      ? "animate-spin"
-                      : undefined
+                    (isAuditView ? logsLoading : usersLoading) ? 'animate-spin' : undefined
                   }
                 />
                 <span className="max-sm:hidden">Refresh</span>
@@ -512,25 +453,21 @@ export function AdminPage() {
                   <div className="adm-stat-strip">
                     <Stat
                       label="Feed Live"
-                      value={auditStats ? auditStats.total.toLocaleString() : "—"}
+                      value={auditStats ? auditStats.total.toLocaleString() : '—'}
                       live
                     />
                     <Stat
                       label="Last 24 Hours"
-                      value={
-                        auditStats ? auditStats.last24h.toLocaleString() : "—"
-                      }
+                      value={auditStats ? auditStats.last24h.toLocaleString() : '—'}
                     />
                     <Stat
                       label="Last 7 Days"
-                      value={
-                        auditStats ? auditStats.last7d.toLocaleString() : "—"
-                      }
+                      value={auditStats ? auditStats.last7d.toLocaleString() : '—'}
                     />
                     {isAuditFiltered && (
                       <Stat
                         label="Matching Filters"
-                        value={logsLoading ? "—" : logTotal.toLocaleString()}
+                        value={logsLoading ? '—' : logTotal.toLocaleString()}
                         accent="var(--adm-accent)"
                       />
                     )}
@@ -538,10 +475,7 @@ export function AdminPage() {
                 </section>
 
                 <div className="flex flex-wrap items-center gap-2.5">
-                  <label
-                    className="adm-input-wrap min-w-[200px] flex-1"
-                    htmlFor="admin-search"
-                  >
+                  <label className="adm-input-wrap min-w-[200px] flex-1" htmlFor="admin-search">
                     <Search size={14} />
                     <input
                       id="admin-search"
@@ -553,10 +487,10 @@ export function AdminPage() {
                     {searchInput && (
                       <button
                         type="button"
-                        onClick={() => setSearchInput("")}
+                        onClick={() => setSearchInput('')}
                         aria-label="Clear search"
                         className="inline-flex cursor-pointer items-center border-0 bg-transparent p-0"
-                        style={{ color: "var(--adm-text-faint)" }}
+                        style={{ color: 'var(--adm-text-faint)' }}
                       >
                         <X size={13} />
                       </button>
@@ -564,51 +498,38 @@ export function AdminPage() {
                   </label>
 
                   <div className="adm-seg" role="group" aria-label="Time range">
-                    {(Object.keys(TIME_FILTER_LABELS) as TimeFilter[]).map(
-                      (key) => (
-                        <button
-                          key={key}
-                          type="button"
-                          className={cn(
-                            "adm-seg-btn",
-                            timeFilter === key && "adm-seg-btn--active",
-                          )}
-                          onClick={() => {
-                            setTimeFilter(key);
-                            setLogPage(0);
-                          }}
-                        >
-                          {TIME_FILTER_LABELS[key]}
-                        </button>
-                      ),
-                    )}
+                    {(Object.keys(TIME_FILTER_LABELS) as TimeFilter[]).map((key) => (
+                      <button
+                        key={key}
+                        type="button"
+                        className={cn('adm-seg-btn', timeFilter === key && 'adm-seg-btn--active')}
+                        onClick={() => {
+                          setTimeFilter(key);
+                          setLogPage(0);
+                        }}
+                      >
+                        {TIME_FILTER_LABELS[key]}
+                      </button>
+                    ))}
                   </div>
 
                   <Popover open={actionMenuOpen} onOpenChange={setActionMenuOpen}>
                     <PopoverTrigger asChild>
                       <button
                         type="button"
-                        className={cn(
-                          "adm-btn h-[34px]",
-                          actionFilter && "adm-btn--primary",
-                        )}
+                        className={cn('adm-btn h-[34px]', actionFilter && 'adm-btn--primary')}
                       >
                         <ListFilter size={13} />
-                        {actionFilter
-                          ? ACTION_LABELS[actionFilter]
-                          : "All actions"}
+                        {actionFilter ? ACTION_LABELS[actionFilter] : 'All actions'}
                         <ChevronDown size={12} />
                       </button>
                     </PopoverTrigger>
                     <PopoverContent align="end" className="adm-menu">
                       <button
                         type="button"
-                        className={cn(
-                          "adm-menu-item",
-                          !actionFilter && "adm-menu-item--active",
-                        )}
+                        className={cn('adm-menu-item', !actionFilter && 'adm-menu-item--active')}
                         onClick={() => {
-                          setActionFilter("");
+                          setActionFilter('');
                           setLogPage(0);
                           setActionMenuOpen(false);
                         }}
@@ -624,9 +545,8 @@ export function AdminPage() {
                               key={action}
                               type="button"
                               className={cn(
-                                "adm-menu-item",
-                                actionFilter === action &&
-                                  "adm-menu-item--active",
+                                'adm-menu-item',
+                                actionFilter === action && 'adm-menu-item--active',
                               )}
                               onClick={() => {
                                 setActionFilter(action);
@@ -634,9 +554,7 @@ export function AdminPage() {
                                 setActionMenuOpen(false);
                               }}
                             >
-                              <span className="flex-1">
-                                {ACTION_LABELS[action]}
-                              </span>
+                              <span className="flex-1">{ACTION_LABELS[action]}</span>
                               {actionFilter === action && <Check size={13} />}
                             </button>
                           ))}
@@ -653,7 +571,7 @@ export function AdminPage() {
                         “{debouncedAuditQuery}”
                         <button
                           type="button"
-                          onClick={() => setSearchInput("")}
+                          onClick={() => setSearchInput('')}
                           aria-label="Clear search filter"
                         >
                           <X size={11} />
@@ -662,15 +580,15 @@ export function AdminPage() {
                     )}
                     {timeFilter && (
                       <span className="adm-chip">
-                        {timeFilter === "24h"
-                          ? "Last 24 hours"
-                          : timeFilter === "7d"
-                            ? "Last 7 days"
-                            : "Last 30 days"}
+                        {timeFilter === '24h'
+                          ? 'Last 24 hours'
+                          : timeFilter === '7d'
+                            ? 'Last 7 days'
+                            : 'Last 30 days'}
                         <button
                           type="button"
                           onClick={() => {
-                            setTimeFilter("");
+                            setTimeFilter('');
                             setLogPage(0);
                           }}
                           aria-label="Clear time filter"
@@ -685,7 +603,7 @@ export function AdminPage() {
                         <button
                           type="button"
                           onClick={() => {
-                            setActionFilter("");
+                            setActionFilter('');
                             setLogPage(0);
                           }}
                           aria-label="Clear action filter"
@@ -698,9 +616,9 @@ export function AdminPage() {
                       type="button"
                       className="adm-btn h-[26px] border-0 bg-transparent px-2"
                       onClick={() => {
-                        setSearchInput("");
-                        setTimeFilter("");
-                        setActionFilter("");
+                        setSearchInput('');
+                        setTimeFilter('');
+                        setActionFilter('');
                         setLogPage(0);
                       }}
                     >
@@ -731,48 +649,31 @@ export function AdminPage() {
                   <div className="adm-stat-strip">
                     <Stat
                       label="Personnel"
-                      value={usersLoading ? "—" : users.length.toLocaleString()}
+                      value={usersLoading ? '—' : users.length.toLocaleString()}
                       live
                     />
                     <Stat
                       label="Galaxy Users"
-                      value={
-                        usersLoading
-                          ? "—"
-                          : roleCounts.galaxy_user.toLocaleString()
-                      }
+                      value={usersLoading ? '—' : roleCounts.galaxy_user.toLocaleString()}
                     />
                     <Stat
                       label="Admins"
                       value={
                         usersLoading
-                          ? "—"
-                          : (
-                              roleCounts.admin + roleCounts.bossman
-                            ).toLocaleString()
+                          ? '—'
+                          : (roleCounts.admin + roleCounts.bossman).toLocaleString()
                       }
                     />
                     <Stat
                       label="Pending Requests"
-                      value={
-                        usersLoading
-                          ? "—"
-                          : pendingRequests.length.toLocaleString()
-                      }
-                      accent={
-                        pendingRequests.length > 0
-                          ? "var(--adm-gold)"
-                          : undefined
-                      }
+                      value={usersLoading ? '—' : pendingRequests.length.toLocaleString()}
+                      accent={pendingRequests.length > 0 ? 'var(--adm-gold)' : undefined}
                     />
                   </div>
                 </section>
 
                 <div className="flex flex-wrap items-center gap-2.5">
-                  <label
-                    className="adm-input-wrap min-w-[200px] flex-1"
-                    htmlFor="admin-search"
-                  >
+                  <label className="adm-input-wrap min-w-[200px] flex-1" htmlFor="admin-search">
                     <Search size={14} />
                     <input
                       id="admin-search"
@@ -784,10 +685,10 @@ export function AdminPage() {
                     {searchInput && (
                       <button
                         type="button"
-                        onClick={() => setSearchInput("")}
+                        onClick={() => setSearchInput('')}
                         aria-label="Clear search"
                         className="inline-flex cursor-pointer items-center border-0 bg-transparent p-0"
-                        style={{ color: "var(--adm-text-faint)" }}
+                        style={{ color: 'var(--adm-text-faint)' }}
                       >
                         <X size={13} />
                       </button>
@@ -797,11 +698,8 @@ export function AdminPage() {
                   <div className="adm-seg" role="group" aria-label="Role filter">
                     <button
                       type="button"
-                      className={cn(
-                        "adm-seg-btn",
-                        !roleFilter && "adm-seg-btn--active",
-                      )}
-                      onClick={() => setRoleFilter("")}
+                      className={cn('adm-seg-btn', !roleFilter && 'adm-seg-btn--active')}
+                      onClick={() => setRoleFilter('')}
                     >
                       All · {users.length}
                     </button>
@@ -809,13 +707,8 @@ export function AdminPage() {
                       <button
                         key={role}
                         type="button"
-                        className={cn(
-                          "adm-seg-btn",
-                          roleFilter === role && "adm-seg-btn--active",
-                        )}
-                        onClick={() =>
-                          setRoleFilter((prev) => (prev === role ? "" : role))
-                        }
+                        className={cn('adm-seg-btn', roleFilter === role && 'adm-seg-btn--active')}
+                        onClick={() => setRoleFilter((prev) => (prev === role ? '' : role))}
                       >
                         {ROLE_LABELS[role]} · {roleCounts[role]}
                       </button>

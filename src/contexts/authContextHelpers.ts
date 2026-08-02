@@ -1,9 +1,5 @@
 import { createContext } from 'react';
-import type {
-  AuthChangeEvent,
-  Session,
-  SupabaseClient,
-} from '@supabase/supabase-js';
+import type { AuthChangeEvent, Session, SupabaseClient } from '@supabase/supabase-js';
 import type { UserProfile } from '@/types';
 import { withTimeout } from '@/utils/withTimeout';
 import {
@@ -47,9 +43,7 @@ export interface AuthContextValue {
     galaxyMapRequested?: boolean,
   ) => Promise<{ error: string | null }>;
   signIn: (email: string, password: string) => Promise<{ error: string | null }>;
-  signInWithGoogle: (
-    options: GoogleSignInOptions,
-  ) => Promise<{ error: string | null }>;
+  signInWithGoogle: (options: GoogleSignInOptions) => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
   updateEmail: (newEmail: string) => Promise<{ error: string | null }>;
@@ -73,10 +67,7 @@ export function getProfileFetchMode({
   resolvedProfileUserId: string | null;
 }): ProfileFetchMode | null {
   if (!nextSessionUserId) return null;
-  if (
-    previousSessionUserId !== nextSessionUserId ||
-    resolvedProfileUserId !== nextSessionUserId
-  ) {
+  if (previousSessionUserId !== nextSessionUserId || resolvedProfileUserId !== nextSessionUserId) {
     return 'initial';
   }
   return 'background';

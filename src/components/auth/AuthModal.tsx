@@ -14,9 +14,15 @@ export function AuthModal({ open, onClose }: AuthModalProps) {
   return (
     <div className="auth-modal__backdrop" onClick={onClose}>
       <div className="auth-modal__card" onClick={(e) => e.stopPropagation()}>
-
         <button className="auth-modal__close" onClick={onClose} aria-label="Close">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
             <path d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
@@ -24,13 +30,9 @@ export function AuthModal({ open, onClose }: AuthModalProps) {
         <p className="auth-modal__eyebrow">Galaxy Map</p>
         <h2 className="auth-modal__title">{f.mode === 'login' ? 'Sign In' : 'Create Account'}</h2>
 
-        {f.successMessage && (
-          <div className="auth-modal__success">{f.successMessage}</div>
-        )}
+        {f.successMessage && <div className="auth-modal__success">{f.successMessage}</div>}
 
-        {f.error && (
-          <div className="auth-modal__error">{f.error}</div>
-        )}
+        {f.error && <div className="auth-modal__error">{f.error}</div>}
 
         <GoogleAuthButton
           mode={f.mode}
@@ -79,7 +81,9 @@ export function AuthModal({ open, onClose }: AuthModalProps) {
               value={f.password}
               onChange={(e) => f.setPassword(e.target.value)}
               className="auth-modal__input"
-              placeholder={f.mode === 'signup' ? 'Min 8 chars, mixed case, digit, special' : 'Your password'}
+              placeholder={
+                f.mode === 'signup' ? 'Min 8 chars, mixed case, digit, special' : 'Your password'
+              }
               required
             />
             {f.mode === 'signup' && f.password.length > 0 && (
@@ -89,7 +93,12 @@ export function AuthModal({ open, onClose }: AuthModalProps) {
                     className="auth-modal__strength-fill"
                     style={{
                       width: `${(f.passwordStrength / PASSWORD_RULES.length) * 100}%`,
-                      background: f.passwordStrength <= 2 ? '#dc3545' : f.passwordStrength <= 4 ? '#f0ad4e' : '#5cb85c',
+                      background:
+                        f.passwordStrength <= 2
+                          ? '#dc3545'
+                          : f.passwordStrength <= 4
+                            ? '#f0ad4e'
+                            : '#5cb85c',
                     }}
                   />
                 </div>
@@ -143,9 +152,19 @@ export function AuthModal({ open, onClose }: AuthModalProps) {
 
         <p className="auth-modal__switch">
           {f.mode === 'login' ? (
-            <>Don't have an account?{' '}<button type="button" onClick={() => f.switchMode('signup')}>Sign Up</button></>
+            <>
+              Don't have an account?{' '}
+              <button type="button" onClick={() => f.switchMode('signup')}>
+                Sign Up
+              </button>
+            </>
           ) : (
-            <>Already have an account?{' '}<button type="button" onClick={() => f.switchMode('login')}>Sign In</button></>
+            <>
+              Already have an account?{' '}
+              <button type="button" onClick={() => f.switchMode('login')}>
+                Sign In
+              </button>
+            </>
           )}
         </p>
       </div>

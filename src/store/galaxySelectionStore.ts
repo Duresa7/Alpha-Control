@@ -15,8 +15,7 @@ export const useGalaxySelectionStore = create<GalaxySelectionStore>((set) => ({
       viewMode: id ? 'system' : 'topdown',
     }),
 
-  setSelectedPlanet: (id: string | null) =>
-    set({ selectedPlanetId: id }),
+  setSelectedPlanet: (id: string | null) => set({ selectedPlanetId: id }),
 
   setSelectedFleet: (id: string | null) =>
     set({

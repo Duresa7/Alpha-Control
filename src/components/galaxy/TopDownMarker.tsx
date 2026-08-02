@@ -30,9 +30,10 @@ const TopDownMarker = memo(function TopDownMarker({ system }: TopDownMarkerProps
 
   const getFactionMarkerColor = useFactionStore((s) => s.getFactionMarkerColor);
   const primaryPlanetColor = system.planets[0]?.customColor;
-  const factionColor = primaryPlanetColor
-    || (system.isCustom && system.customColor ? system.customColor : null)
-    || getFactionMarkerColor(system.faction);
+  const factionColor =
+    primaryPlanetColor ||
+    (system.isCustom && system.customColor ? system.customColor : null) ||
+    getFactionMarkerColor(system.faction);
   const markerSize =
     system.markerSize ??
     TOPDOWN_SYSTEM_MARKER_SIZE_BY_IMPORTANCE[system.importance] ??
@@ -80,26 +81,24 @@ const TopDownMarker = memo(function TopDownMarker({ system }: TopDownMarkerProps
         onClick={handleClick}
         onDoubleClick={handleDoubleClick}
         onPointerDown={handlePointerDown}
-        onPointerOver={(e) => { basePointerOver(e); setHovered(true); }}
-        onPointerOut={() => { basePointerOut(); setHovered(false); }}
+        onPointerOver={(e) => {
+          basePointerOver(e);
+          setHovered(true);
+        }}
+        onPointerOut={() => {
+          basePointerOut();
+          setHovered(false);
+        }}
         rotation={[-Math.PI / 2, 0, 0]}
       >
         <circleGeometry args={[markerSize * (hovered ? 1.3 : 1), 16]} />
-        <meshBasicMaterial
-          color={factionColor}
-          transparent
-          opacity={hovered ? 1 : 0.9}
-        />
+        <meshBasicMaterial color={factionColor} transparent opacity={hovered ? 1 : 0.9} />
       </mesh>
 
       {system.isCustom && (
         <mesh rotation={[-Math.PI / 2, 0, 0]}>
           <ringGeometry args={[markerSize * 1.1, markerSize * 1.3, 32]} />
-          <meshBasicMaterial
-            color={factionColor}
-            transparent
-            opacity={0.3}
-          />
+          <meshBasicMaterial color={factionColor} transparent opacity={0.3} />
         </mesh>
       )}
 
@@ -138,14 +137,16 @@ export function TopDownMarkers() {
 
       const matchesName = system.name.toLowerCase().includes(query);
       const matchesRegion = system.region.replace('_', ' ').toLowerCase().includes(query);
-      const matchesPlanet = system.planets.some((planet) => planet.name.toLowerCase().includes(query));
+      const matchesPlanet = system.planets.some((planet) =>
+        planet.name.toLowerCase().includes(query),
+      );
       return matchesName || matchesRegion || matchesPlanet;
     });
   }, [allSystems, searchQuery, factionFilters]);
 
   return (
     <>
-      {systems.map(system => (
+      {systems.map((system) => (
         <TopDownMarker key={system.id} system={system} />
       ))}
     </>

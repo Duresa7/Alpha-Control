@@ -181,7 +181,9 @@ describe('supabaseStorage misc behavior', () => {
   it('parses audit totals from rpc results and normalizes query input', async () => {
     mocks.state.rpcData = [{ total_count: '12' }];
 
-    await expect(fetchAuditLogTotal('  faction  ', '2026-03-01', 'faction_updated')).resolves.toBe(12);
+    await expect(fetchAuditLogTotal('  faction  ', '2026-03-01', 'faction_updated')).resolves.toBe(
+      12,
+    );
     expect(mocks.rpc).toHaveBeenCalledWith('fetch_audit_logs_total', {
       p_query: 'faction',
       p_since: '2026-03-01',

@@ -43,11 +43,9 @@ const cloneFleet = (fleet: Fleet): Fleet => ({
   position: fleet.position.clone(),
 });
 
-const cloneSystems = (systems: StarSystem[]): StarSystem[] =>
-  systems.map((s) => cloneSystem(s));
+const cloneSystems = (systems: StarSystem[]): StarSystem[] => systems.map((s) => cloneSystem(s));
 
-const cloneFleets = (fleetArr: Fleet[]): Fleet[] =>
-  fleetArr.map((f) => cloneFleet(f));
+const cloneFleets = (fleetArr: Fleet[]): Fleet[] => fleetArr.map((f) => cloneFleet(f));
 
 let _systemsSnapshot: StarSystem[] = [];
 let _fleetsSnapshot: Fleet[] = [];
@@ -61,7 +59,7 @@ let _fleetsMap = new Map<string, Fleet>();
 function getSystemsMap(systems: StarSystem[]): Map<string, StarSystem> {
   if (systems !== _systemsArrRef) {
     _systemsArrRef = systems;
-    _systemsMap = new Map(systems.map(s => [s.id, s]));
+    _systemsMap = new Map(systems.map((s) => [s.id, s]));
   }
   return _systemsMap;
 }
@@ -69,11 +67,14 @@ function getSystemsMap(systems: StarSystem[]): Map<string, StarSystem> {
 function getFleetsMap(fleets: Fleet[]): Map<string, Fleet> {
   if (fleets !== _fleetsArrRef) {
     _fleetsArrRef = fleets;
-    _fleetsMap = new Map(fleets.map(f => [f.id, f]));
+    _fleetsMap = new Map(fleets.map((f) => [f.id, f]));
   }
   return _fleetsMap;
 }
-const _pendingPlanetAudits: Map<string, { systemId: string; planetName: string; fields: Set<string> }> = new Map();
+const _pendingPlanetAudits: Map<
+  string,
+  { systemId: string; planetName: string; fields: Set<string> }
+> = new Map();
 
 const shouldClearPanelForSystem = (panel: InfoPanelData | null, systemId: string): boolean => {
   if (!panel) return false;
@@ -86,13 +87,21 @@ const shouldClearPanelForFleet = (panel: InfoPanelData | null, fleetId: string):
   return panel?.type === 'fleet' && panel.data.id === fleetId;
 };
 
-const hasOwn = (obj: object, key: string): boolean => Object.prototype.hasOwnProperty.call(obj, key);
+const hasOwn = (obj: object, key: string): boolean =>
+  Object.prototype.hasOwnProperty.call(obj, key);
 
-const clampMarkerSize = (value: number): number => clamp(value, TOPDOWN_MARKER_MIN_SIZE, TOPDOWN_MARKER_MAX_SIZE);
+const clampMarkerSize = (value: number): number =>
+  clamp(value, TOPDOWN_MARKER_MIN_SIZE, TOPDOWN_MARKER_MAX_SIZE);
 
 const NULLABLE_PATCH_FIELDS = [
-  'hyperlanes', 'climate', 'terrain', 'notable',
-  'nativeInhabitants', 'factionControl', 'customColor', 'customType',
+  'hyperlanes',
+  'climate',
+  'terrain',
+  'notable',
+  'nativeInhabitants',
+  'factionControl',
+  'customColor',
+  'customType',
 ] as const;
 
 const applyPlanetStatsPatch = (planet: Planet, updates: PlanetStatsUpdate): Planet => {
@@ -171,7 +180,8 @@ export const useGalaxyDataStore = create<GalaxyDataStore>((set, get) => ({
   isLoading: true,
   setIsLoading: (loading: boolean) => set({ isLoading: loading }),
   currentYear: DEFAULT_TIMELINE_YEAR,
-  setCurrentYear: (year: number) => set({ currentYear: year, dirtyTimeline: true, hasPendingChanges: true }),
+  setCurrentYear: (year: number) =>
+    set({ currentYear: year, dirtyTimeline: true, hasPendingChanges: true }),
 
   getFilteredSystems: () => {
     const state = get();
@@ -255,7 +265,9 @@ export const useGalaxyDataStore = create<GalaxyDataStore>((set, get) => ({
         if (!isTargetSystem) return s;
         return {
           ...s,
-          planets: s.planets.map((p) => (p.id === planetId ? applyPlanetStatsPatch(p, updates) : p)),
+          planets: s.planets.map((p) =>
+            p.id === planetId ? applyPlanetStatsPatch(p, updates) : p,
+          ),
         };
       }),
       dirtySystemIds: new Set(currentState.dirtySystemIds).add(resolvedSystem.id),
@@ -282,7 +294,9 @@ export const useGalaxyDataStore = create<GalaxyDataStore>((set, get) => ({
     useGalaxyUIStore.getState().setPlacementMode(false);
     getAuthenticatedUserId().then((uid) => {
       if (uid) {
-        insertCustomSystem(system, uid).catch((err) => logger.error('[galaxyDataStore] Failed to save system:', err));
+        insertCustomSystem(system, uid).catch((err) =>
+          logger.error('[galaxyDataStore] Failed to save system:', err),
+        );
         auditLog('system_created', 'system', system.id, system.name);
       }
     });
@@ -300,7 +314,9 @@ export const useGalaxyDataStore = create<GalaxyDataStore>((set, get) => ({
     if (shouldClearPanelForSystem(selStore.infoPanelData, id)) {
       selStore.setInfoPanelData(null);
     }
-    deleteSystemFromSupabase(id).catch((err) => logger.error('[galaxyDataStore] Failed to delete system:', err));
+    deleteSystemFromSupabase(id).catch((err) =>
+      logger.error('[galaxyDataStore] Failed to delete system:', err),
+    );
     if (systemToRemove) {
       auditLog('system_deleted', 'system', id, systemToRemove.name);
     }
@@ -319,7 +335,9 @@ export const useGalaxyDataStore = create<GalaxyDataStore>((set, get) => ({
 
     set((state) => ({
       systems: state.systems.map((s) =>
-        s.id === id ? { ...s, position: position.clone(), planets: s.planets.map((p) => ({ ...p })) } : s,
+        s.id === id
+          ? { ...s, position: position.clone(), planets: s.planets.map((p) => ({ ...p })) }
+          : s,
       ),
       dirtySystemIds: new Set(state.dirtySystemIds).add(id),
       hasPendingChanges: true,
@@ -344,7 +362,9 @@ export const useGalaxyDataStore = create<GalaxyDataStore>((set, get) => ({
     useGalaxyUIStore.getState().setFleetPlacementMode(false);
     getAuthenticatedUserId().then((uid) => {
       if (uid) {
-        insertCustomFleet(fleet, uid).catch((err) => logger.error('[galaxyDataStore] Failed to save fleet:', err));
+        insertCustomFleet(fleet, uid).catch((err) =>
+          logger.error('[galaxyDataStore] Failed to save fleet:', err),
+        );
         auditLog('fleet_created', 'fleet', fleet.id, fleet.name);
       }
     });
@@ -362,7 +382,9 @@ export const useGalaxyDataStore = create<GalaxyDataStore>((set, get) => ({
     if (shouldClearPanelForFleet(selStore.infoPanelData, id)) {
       selStore.setInfoPanelData(null);
     }
-    deleteFleetFromSupabase(id).catch((err) => logger.error('[galaxyDataStore] Failed to delete fleet:', err));
+    deleteFleetFromSupabase(id).catch((err) =>
+      logger.error('[galaxyDataStore] Failed to delete fleet:', err),
+    );
     if (fleetToRemove) {
       auditLog('fleet_deleted', 'fleet', id, fleetToRemove.name);
     }
@@ -407,7 +429,9 @@ export const useGalaxyDataStore = create<GalaxyDataStore>((set, get) => ({
       hasPendingChanges: true,
     }));
 
-    auditLog('fleet_updated', 'fleet', id, updates.name ?? existing.name, { fields: Object.keys(updates) });
+    auditLog('fleet_updated', 'fleet', id, updates.name ?? existing.name, {
+      fields: Object.keys(updates),
+    });
   },
 
   dirtySystemIds: new Set<string>(),
@@ -427,17 +451,19 @@ export const useGalaxyDataStore = create<GalaxyDataStore>((set, get) => ({
     const fltMap = getFleetsMap(state.fleets);
 
     const dirtySystems = [...state.dirtySystemIds]
-      .map(id => sysMap.get(id))
+      .map((id) => sysMap.get(id))
       .filter((s): s is StarSystem => !!s);
 
     const dirtyFleets = [...state.dirtyFleetIds]
-      .map(id => fltMap.get(id))
+      .map((id) => fltMap.get(id))
       .filter((f): f is Fleet => !!f);
 
     try {
       await batchUpsertSystems(dirtySystems, uid);
       for (const system of dirtySystems) {
-        const planetAudits = [..._pendingPlanetAudits.entries()].filter(([, v]) => v.systemId === system.id);
+        const planetAudits = [..._pendingPlanetAudits.entries()].filter(
+          ([, v]) => v.systemId === system.id,
+        );
         if (planetAudits.length > 0) {
           for (const [pId, audit] of planetAudits) {
             auditLog('planet_stats_updated', 'system', pId, audit.planetName, {
@@ -468,7 +494,9 @@ export const useGalaxyDataStore = create<GalaxyDataStore>((set, get) => ({
     if (state.dirtyTimeline) {
       try {
         await updateSetting('current_year', state.currentYear);
-        auditLog('timeline_changed', 'system', 'current_year', 'Timeline', { year: state.currentYear });
+        auditLog('timeline_changed', 'system', 'current_year', 'Timeline', {
+          year: state.currentYear,
+        });
       } catch (error) {
         logger.error('Failed to save timeline setting:', error);
         timelineFailed = true;
@@ -478,7 +506,8 @@ export const useGalaxyDataStore = create<GalaxyDataStore>((set, get) => ({
     const nextDirtySystemIds = failedSystemIds;
     const nextDirtyFleetIds = failedFleetIds;
     const nextDirtyTimeline = timelineFailed;
-    const hasPendingChanges = nextDirtySystemIds.size > 0 || nextDirtyFleetIds.size > 0 || nextDirtyTimeline;
+    const hasPendingChanges =
+      nextDirtySystemIds.size > 0 || nextDirtyFleetIds.size > 0 || nextDirtyTimeline;
 
     set({
       dirtySystemIds: nextDirtySystemIds,

@@ -35,7 +35,9 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
           <p className="route-auth-loading__eyebrow">Galaxy Map</p>
           <h2 className="route-auth-loading__title">Authenticating...</h2>
           <p className="route-auth-loading__copy">Verifying your clearance level.</p>
-          <div className="route-auth-loading__bar"><span /></div>
+          <div className="route-auth-loading__bar">
+            <span />
+          </div>
         </div>
       </div>
     );

@@ -74,25 +74,28 @@ export function useAuthForm(onSuccess: () => void) {
     }
   }, []);
 
-  const switchMode = useCallback((newMode: Mode, options?: { keepSuccessMessage?: boolean }) => {
-    setMode(newMode);
-    resetForm(options);
-  }, [resetForm]);
+  const switchMode = useCallback(
+    (newMode: Mode, options?: { keepSuccessMessage?: boolean }) => {
+      setMode(newMode);
+      resetForm(options);
+    },
+    [resetForm],
+  );
 
-  const passwordStrength = mode === 'signup'
-    ? PASSWORD_RULES.filter((r) => r.test(password)).length
-    : 0;
+  const passwordStrength =
+    mode === 'signup' ? PASSWORD_RULES.filter((r) => r.test(password)).length : 0;
 
   const handleGoogleAuth = useCallback(async () => {
     setError(null);
     setSuccessMessage(null);
 
-    const validatedSignup = mode === 'signup'
-      ? validateSignupSubmission({
-          displayName,
-          requirePassword: false,
-        })
-      : { error: null, displayName: null };
+    const validatedSignup =
+      mode === 'signup'
+        ? validateSignupSubmission({
+            displayName,
+            requirePassword: false,
+          })
+        : { error: null, displayName: null };
 
     if (validatedSignup.error) {
       setError(validatedSignup.error);
@@ -121,14 +124,15 @@ export function useAuthForm(onSuccess: () => void) {
     setError(null);
     setSuccessMessage(null);
 
-    const validatedSignup = mode === 'signup'
-      ? validateSignupSubmission({
-          displayName,
-          password,
-          confirmPassword,
-          requirePassword: true,
-        })
-      : { error: null, displayName: null };
+    const validatedSignup =
+      mode === 'signup'
+        ? validateSignupSubmission({
+            displayName,
+            password,
+            confirmPassword,
+            requirePassword: true,
+          })
+        : { error: null, displayName: null };
 
     if (validatedSignup.error) {
       setError(validatedSignup.error);
@@ -143,12 +147,25 @@ export function useAuthForm(onSuccess: () => void) {
     try {
       if (mode === 'login') {
         const { error: err } = await signIn(email, password);
-        if (err) { setError(err); return; }
+        if (err) {
+          setError(err);
+          return;
+        }
         onSuccess();
       } else {
-        const { error: err } = await signUp(email, password, validatedSignup.displayName!, galaxyMapRequested);
-        if (err) { setError(err); return; }
-        setSuccessMessage('Account created! Check your email to confirm, then sign in. If you don\'t see it, check your spam folder.');
+        const { error: err } = await signUp(
+          email,
+          password,
+          validatedSignup.displayName!,
+          galaxyMapRequested,
+        );
+        if (err) {
+          setError(err);
+          return;
+        }
+        setSuccessMessage(
+          "Account created! Check your email to confirm, then sign in. If you don't see it, check your spam folder.",
+        );
         switchMode('login', { keepSuccessMessage: true });
       }
     } finally {

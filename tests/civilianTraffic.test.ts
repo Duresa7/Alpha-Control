@@ -23,7 +23,9 @@ describe('civilianTraffic utilities', () => {
     if (!selection) return;
 
     expect(selection.origin.id).not.toBe(selection.destination.id);
-    expect(selection.origin.position.distanceTo(selection.destination.position)).toBeGreaterThanOrEqual(20);
+    expect(
+      selection.origin.position.distanceTo(selection.destination.position),
+    ).toBeGreaterThanOrEqual(20);
   });
 
   it('samples quadratic bezier endpoints and tangent direction', () => {

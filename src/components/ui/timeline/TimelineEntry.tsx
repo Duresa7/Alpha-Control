@@ -1,14 +1,14 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, ExternalLink } from "lucide-react";
-import { type ReactNode } from "react";
-import ReactMarkdown from "react-markdown";
-import remarkBreaks from "remark-breaks";
-import remarkGfm from "remark-gfm";
-import { Link } from "react-router";
+import { AnimatePresence, motion } from 'framer-motion';
+import { ChevronDown, ExternalLink } from 'lucide-react';
+import { type ReactNode } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkBreaks from 'remark-breaks';
+import remarkGfm from 'remark-gfm';
+import { Link } from 'react-router';
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
-import type { TimelineItem } from "./Timeline";
+import type { TimelineItem } from './Timeline';
 
 interface TimelineEntryProps {
   item: TimelineItem;
@@ -18,17 +18,14 @@ interface TimelineEntryProps {
   animationDuration: number;
 }
 
-function formatTimelineDate(
-  value: string,
-  dateFormat?: Intl.DateTimeFormatOptions,
-): string {
+function formatTimelineDate(value: string, dateFormat?: Intl.DateTimeFormatOptions): string {
   const parsed = new Date(value);
   if (Number.isNaN(parsed.getTime())) return value;
 
-  return parsed.toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
+  return parsed.toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
     ...dateFormat,
   });
 }
@@ -38,15 +35,13 @@ function isExternalHref(href: string): boolean {
 }
 
 function renderTimelineContent(content: ReactNode) {
-  if (typeof content === "string") {
+  if (typeof content === 'string') {
     return (
       <div className="timeline-shell__markdown">
         <ReactMarkdown
           remarkPlugins={[remarkGfm, remarkBreaks]}
           components={{
-            a: ({ node: _node, ...props }) => (
-              <a {...props} target="_blank" rel="noreferrer" />
-            ),
+            a: ({ node: _node, ...props }) => <a {...props} target="_blank" rel="noreferrer" />,
           }}
         >
           {content}
@@ -68,22 +63,17 @@ export function TimelineEntry({
   const displayDate = formatTimelineDate(item.date, dateFormat);
   const hasContent = Boolean(item.content);
   const hasHref = Boolean(item.href);
-  const toneClass = item.type ? `timeline-tone--${item.type}` : "";
-  const dotToneClass = item.type ? `timeline-shell__dot--${item.type}` : "";
+  const toneClass = item.type ? `timeline-tone--${item.type}` : '';
+  const dotToneClass = item.type ? `timeline-shell__dot--${item.type}` : '';
 
   const typeBadge = item.type ? (
-    <span className={cn("timeline-tone", toneClass)}>{item.type}</span>
+    <span className={cn('timeline-tone', toneClass)}>{item.type}</span>
   ) : null;
 
-  const dateLabel = (
-    <span className="timeline-shell__date-label">{displayDate}</span>
-  );
+  const dateLabel = <span className="timeline-shell__date-label">{displayDate}</span>;
 
   const card = (
-    <div
-      className="timeline-shell__card"
-      data-open={hasContent ? expanded : undefined}
-    >
+    <div className="timeline-shell__card" data-open={hasContent ? expanded : undefined}>
       <div className="timeline-shell__mobile-meta">
         {dateLabel}
         {typeBadge}
@@ -91,9 +81,7 @@ export function TimelineEntry({
 
       <div className="timeline-shell__card-head">
         <div className="timeline-shell__card-copy">
-          <div className="timeline-shell__desktop-meta">
-            {typeBadge}
-          </div>
+          <div className="timeline-shell__desktop-meta">{typeBadge}</div>
           <h3 className="timeline-shell__title">{item.title}</h3>
           {item.description ? (
             <p className="timeline-shell__description">{item.description}</p>
@@ -102,7 +90,7 @@ export function TimelineEntry({
 
         {hasContent ? (
           <span className="timeline-shell__entry-action" aria-hidden="true">
-            <ChevronDown className={cn("h-4 w-4", expanded && "rotate-180")} />
+            <ChevronDown className={cn('h-4 w-4', expanded && 'rotate-180')} />
           </span>
         ) : hasHref ? (
           <span className="timeline-shell__entry-action" aria-hidden="true">
@@ -115,14 +103,12 @@ export function TimelineEntry({
         {hasContent && expanded ? (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
+            animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: animationDuration }}
             className="overflow-hidden"
           >
-            <div className="timeline-shell__content">
-              {renderTimelineContent(item.content)}
-            </div>
+            <div className="timeline-shell__content">{renderTimelineContent(item.content)}</div>
           </motion.div>
         ) : null}
       </AnimatePresence>
@@ -131,15 +117,11 @@ export function TimelineEntry({
 
   const entryLayout = (
     <>
-      <div className="timeline-shell__desktop-date">
-        {dateLabel}
-      </div>
+      <div className="timeline-shell__desktop-date">{dateLabel}</div>
       <div className="timeline-shell__rail">
         <div className="timeline-shell__line" />
-        <div className={cn("timeline-shell__dot", dotToneClass)}>
-          {item.icon ? (
-            <span className="timeline-shell__dot-icon">{item.icon}</span>
-          ) : null}
+        <div className={cn('timeline-shell__dot', dotToneClass)}>
+          {item.icon ? <span className="timeline-shell__dot-icon">{item.icon}</span> : null}
         </div>
       </div>
       <div className="timeline-shell__desktop-card">{card}</div>
@@ -147,10 +129,8 @@ export function TimelineEntry({
       <div className="timeline-shell__mobile-entry">
         <div className="timeline-shell__mobile-rail">
           <div className="timeline-shell__line" />
-          <div className={cn("timeline-shell__dot", dotToneClass)}>
-            {item.icon ? (
-              <span className="timeline-shell__dot-icon">{item.icon}</span>
-            ) : null}
+          <div className={cn('timeline-shell__dot', dotToneClass)}>
+            {item.icon ? <span className="timeline-shell__dot-icon">{item.icon}</span> : null}
           </div>
         </div>
         <div className="timeline-shell__mobile-card">{card}</div>
@@ -172,16 +152,11 @@ export function TimelineEntry({
   }
 
   if (hasHref && item.href) {
-    const sharedClassName = "timeline-shell__entry-link";
+    const sharedClassName = 'timeline-shell__entry-link';
 
     if (isExternalHref(item.href)) {
       return (
-        <a
-          href={item.href}
-          className={sharedClassName}
-          target="_blank"
-          rel="noreferrer"
-        >
+        <a href={item.href} className={sharedClassName} target="_blank" rel="noreferrer">
           {entryLayout}
         </a>
       );

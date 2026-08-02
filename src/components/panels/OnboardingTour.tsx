@@ -70,7 +70,7 @@ function WelcomeModal({ onStart, onSkip }: { onStart: () => void; onSkip: () => 
   const pages = [
     {
       title: 'Welcome, Commander',
-      body: 'You\'ve been granted access to the Holonet Galaxy Map \u2014 an interactive star chart of the Old Republic era.',
+      body: "You've been granted access to the Holonet Galaxy Map \u2014 an interactive star chart of the Old Republic era.",
     },
     {
       title: 'What You Can Do',
@@ -78,7 +78,7 @@ function WelcomeModal({ onStart, onSkip }: { onStart: () => void; onSkip: () => 
     },
     {
       title: 'Quick Tour',
-      body: 'We\'ll walk you through the key controls so you can start exploring right away. Ready?',
+      body: "We'll walk you through the key controls so you can start exploring right away. Ready?",
     },
   ];
 
@@ -127,7 +127,14 @@ function WelcomeModal({ onStart, onSkip }: { onStart: () => void; onSkip: () => 
             justifyContent: 'center',
           }}
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(200, 170, 110, 0.8)" strokeWidth="1.5">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="rgba(200, 170, 110, 0.8)"
+            strokeWidth="1.5"
+          >
             <circle cx="12" cy="12" r="10" />
             <circle cx="12" cy="12" r="4" />
             <line x1="12" y1="2" x2="12" y2="6" />
@@ -246,8 +253,7 @@ function HoloTooltip({
         WebkitBackdropFilter: 'blur(24px) saturate(160%)',
         border: '1px solid rgba(255, 255, 255, 0.14)',
         borderRadius: 18,
-        boxShadow:
-          'inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 24px 48px -16px rgba(0, 0, 0, 0.65)',
+        boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 24px 48px -16px rgba(0, 0, 0, 0.65)',
       }}
     >
       {step.title && (
@@ -400,12 +406,7 @@ export function OnboardingTour({ run, onFinish, isAdmin, storageKey }: Onboardin
   return (
     <>
       <AnimatePresence>
-        {phase === 'welcome' && (
-          <WelcomeModal
-            onStart={startTour}
-            onSkip={completeTour}
-          />
-        )}
+        {phase === 'welcome' && <WelcomeModal onStart={startTour} onSkip={completeTour} />}
       </AnimatePresence>
 
       {phase === 'tour' && (

@@ -21,14 +21,16 @@ describe('addOrIncrementCustomShipEntry', () => {
   });
 
   it('increments an existing matching custom entry (case/whitespace-insensitive)', () => {
-    const existing = [{
-      catalogId: 'custom-1',
-      name: ' ARC   170 ',
-      shipClass: 'Fighter Wing',
-      modelType: null,
-      quantity: 3,
-      isCustomEntry: true,
-    }];
+    const existing = [
+      {
+        catalogId: 'custom-1',
+        name: ' ARC   170 ',
+        shipClass: 'Fighter Wing',
+        modelType: null,
+        quantity: 3,
+        isCustomEntry: true,
+      },
+    ];
 
     const result = addOrIncrementCustomShipEntry(existing, {
       name: 'arc 170',
@@ -42,14 +44,16 @@ describe('addOrIncrementCustomShipEntry', () => {
   });
 
   it('does not merge when ship class is different', () => {
-    const existing = [{
-      catalogId: 'custom-1',
-      name: 'Arc-170',
-      shipClass: 'Fighter Wing',
-      modelType: null,
-      quantity: 3,
-      isCustomEntry: true,
-    }];
+    const existing = [
+      {
+        catalogId: 'custom-1',
+        name: 'Arc-170',
+        shipClass: 'Fighter Wing',
+        modelType: null,
+        quantity: 3,
+        isCustomEntry: true,
+      },
+    ];
 
     const result = addOrIncrementCustomShipEntry(existing, {
       name: 'Arc-170',
@@ -68,13 +72,15 @@ describe('addOrIncrementCustomShipEntry', () => {
   });
 
   it('does not merge with non-custom catalog entries', () => {
-    const existing = [{
-      catalogId: 'victory-i',
-      name: 'Arc-170',
-      shipClass: 'Fighter Wing',
-      modelType: 'republic' as const,
-      quantity: 7,
-    }];
+    const existing = [
+      {
+        catalogId: 'victory-i',
+        name: 'Arc-170',
+        shipClass: 'Fighter Wing',
+        modelType: 'republic' as const,
+        quantity: 7,
+      },
+    ];
 
     const result = addOrIncrementCustomShipEntry(existing, {
       name: 'Arc-170',
@@ -101,14 +107,16 @@ describe('addOrIncrementCustomShipEntry', () => {
     expect(added[0].quantity).toBe(1);
 
     const incremented = addOrIncrementCustomShipEntry(
-      [{
-        catalogId: 'custom-2',
-        name: 'Nebulon-B',
-        shipClass: 'Frigate',
-        modelType: null,
-        quantity: 4,
-        isCustomEntry: true,
-      }],
+      [
+        {
+          catalogId: 'custom-2',
+          name: 'Nebulon-B',
+          shipClass: 'Frigate',
+          modelType: null,
+          quantity: 4,
+          isCustomEntry: true,
+        },
+      ],
       {
         name: 'Nebulon-B',
         shipClass: 'Frigate',

@@ -27,21 +27,29 @@ export function addOrIncrementCustomShipEntry(
 
   const displayName = name.trim().replace(/\s+/g, ' ');
   const incrementBy = clampCustomShipQuantity(quantityToAdd);
-  const existingIndex = entries.findIndex((entry) =>
-    entry.isCustomEntry
-    && entry.shipClass === shipClass
-    && normalizeCustomShipName(entry.name) === normalizedName,
+  const existingIndex = entries.findIndex(
+    (entry) =>
+      entry.isCustomEntry &&
+      entry.shipClass === shipClass &&
+      normalizeCustomShipName(entry.name) === normalizedName,
   );
 
   if (existingIndex >= 0) {
-    return entries.map((entry, index) => (
-      index === existingIndex ? { ...entry, quantity: entry.quantity + incrementBy } : entry
-    ));
+    return entries.map((entry, index) =>
+      index === existingIndex ? { ...entry, quantity: entry.quantity + incrementBy } : entry,
+    );
   }
 
   const catalogId = `custom-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
   return [
     ...entries,
-    { catalogId, name: displayName, shipClass, modelType: null, quantity: incrementBy, isCustomEntry: true },
+    {
+      catalogId,
+      name: displayName,
+      shipClass,
+      modelType: null,
+      quantity: incrementBy,
+      isCustomEntry: true,
+    },
   ];
 }

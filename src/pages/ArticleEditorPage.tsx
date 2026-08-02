@@ -6,7 +6,12 @@ import Link from '@tiptap/extension-link';
 import Image from '@tiptap/extension-image';
 import { NewsShell } from '@/components/news/NewsShell';
 import { useAuth } from '@/hooks/useAuth';
-import { createArticle, updateArticle, fetchArticleById, uploadArticleImage } from '@/data/articleStorage';
+import {
+  createArticle,
+  updateArticle,
+  fetchArticleById,
+  uploadArticleImage,
+} from '@/data/articleStorage';
 import { CATEGORIES } from '@/data/articleTypes';
 import type { Category } from '@/data/articleTypes';
 import { isSafeArticleLinkUrl, validateArticleImageFile } from '@/utils/articleSecurity';
@@ -25,7 +30,11 @@ function estimateReadingTime(html: string): number {
   return Math.max(1, Math.round(words / 200));
 }
 
-function EditorToolbar({ editor, onImageUpload, onError }: {
+function EditorToolbar({
+  editor,
+  onImageUpload,
+  onError,
+}: {
   editor: ReturnType<typeof useEditor>;
   onImageUpload: (file: File) => Promise<void>;
   onError: (message: string) => void;
@@ -40,56 +49,165 @@ function EditorToolbar({ editor, onImageUpload, onError }: {
 
   return (
     <div className="editor-toolbar">
-      <button type="button" className={btn(editor.isActive('bold'))} onClick={() => editor.chain().focus().toggleBold().run()}>
+      <button
+        type="button"
+        className={btn(editor.isActive('bold'))}
+        onClick={() => editor.chain().focus().toggleBold().run()}
+      >
         B
       </button>
-      <button type="button" className={btn(editor.isActive('italic'))} onClick={() => editor.chain().focus().toggleItalic().run()}>
+      <button
+        type="button"
+        className={btn(editor.isActive('italic'))}
+        onClick={() => editor.chain().focus().toggleItalic().run()}
+      >
         <em>I</em>
       </button>
-      <button type="button" className={btn(editor.isActive('strike'))} onClick={() => editor.chain().focus().toggleStrike().run()}>
+      <button
+        type="button"
+        className={btn(editor.isActive('strike'))}
+        onClick={() => editor.chain().focus().toggleStrike().run()}
+      >
         <s>S</s>
       </button>
       <div className="editor-toolbar__sep" />
-      <button type="button" className={btn(editor.isActive('heading', { level: 2 }))} onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}>
+      <button
+        type="button"
+        className={btn(editor.isActive('heading', { level: 2 }))}
+        onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+      >
         H2
       </button>
-      <button type="button" className={btn(editor.isActive('heading', { level: 3 }))} onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}>
+      <button
+        type="button"
+        className={btn(editor.isActive('heading', { level: 3 }))}
+        onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+      >
         H3
       </button>
       <div className="editor-toolbar__sep" />
-      <button type="button" className={btn(editor.isActive('bulletList'))} onClick={() => editor.chain().focus().toggleBulletList().run()}>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3" cy="6" r="1.5" fill="currentColor"/><circle cx="3" cy="12" r="1.5" fill="currentColor"/><circle cx="3" cy="18" r="1.5" fill="currentColor"/></svg>
+      <button
+        type="button"
+        className={btn(editor.isActive('bulletList'))}
+        onClick={() => editor.chain().focus().toggleBulletList().run()}
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <line x1="8" y1="6" x2="21" y2="6" />
+          <line x1="8" y1="12" x2="21" y2="12" />
+          <line x1="8" y1="18" x2="21" y2="18" />
+          <circle cx="3" cy="6" r="1.5" fill="currentColor" />
+          <circle cx="3" cy="12" r="1.5" fill="currentColor" />
+          <circle cx="3" cy="18" r="1.5" fill="currentColor" />
+        </svg>
       </button>
-      <button type="button" className={btn(editor.isActive('orderedList'))} onClick={() => editor.chain().focus().toggleOrderedList().run()}>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><text x="2" y="8" fontSize="8" fill="currentColor" stroke="none">1</text><text x="2" y="14" fontSize="8" fill="currentColor" stroke="none">2</text><text x="2" y="20" fontSize="8" fill="currentColor" stroke="none">3</text></svg>
+      <button
+        type="button"
+        className={btn(editor.isActive('orderedList'))}
+        onClick={() => editor.chain().focus().toggleOrderedList().run()}
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <line x1="10" y1="6" x2="21" y2="6" />
+          <line x1="10" y1="12" x2="21" y2="12" />
+          <line x1="10" y1="18" x2="21" y2="18" />
+          <text x="2" y="8" fontSize="8" fill="currentColor" stroke="none">
+            1
+          </text>
+          <text x="2" y="14" fontSize="8" fill="currentColor" stroke="none">
+            2
+          </text>
+          <text x="2" y="20" fontSize="8" fill="currentColor" stroke="none">
+            3
+          </text>
+        </svg>
       </button>
       <div className="editor-toolbar__sep" />
-      <button type="button" className={btn(editor.isActive('blockquote'))} onClick={() => editor.chain().focus().toggleBlockquote().run()}>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M10 7H6a2 2 0 00-2 2v3a2 2 0 002 2h2l-2 4h2.5l2-4V9a2 2 0 00-2-2zm10 0h-4a2 2 0 00-2 2v3a2 2 0 002 2h2l-2 4h2.5l2-4V9a2 2 0 00-2-2z"/></svg>
+      <button
+        type="button"
+        className={btn(editor.isActive('blockquote'))}
+        onClick={() => editor.chain().focus().toggleBlockquote().run()}
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M10 7H6a2 2 0 00-2 2v3a2 2 0 002 2h2l-2 4h2.5l2-4V9a2 2 0 00-2-2zm10 0h-4a2 2 0 00-2 2v3a2 2 0 002 2h2l-2 4h2.5l2-4V9a2 2 0 00-2-2z" />
+        </svg>
       </button>
-      <button type="button" className={btn(editor.isActive('codeBlock'))} onClick={() => editor.chain().focus().toggleCodeBlock().run()}>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      <button
+        type="button"
+        className={btn(editor.isActive('codeBlock'))}
+        onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <polyline points="16 18 22 12 16 6" />
+          <polyline points="8 6 2 12 8 18" />
+        </svg>
       </button>
       <div className="editor-toolbar__sep" />
-      <button type="button" className={btn(editor.isActive('link'))} onClick={() => {
-        if (editor.isActive('link')) {
-          editor.chain().focus().unsetLink().run();
-        } else {
-          const url = window.prompt('URL:');
-          if (url) {
-            const trimmedUrl = url.trim();
-            if (isSafeArticleLinkUrl(trimmedUrl)) {
-              editor.chain().focus().setLink({ href: trimmedUrl }).run();
-            } else {
-              onError('Only http(s), mailto, tel, and relative links are allowed.');
+      <button
+        type="button"
+        className={btn(editor.isActive('link'))}
+        onClick={() => {
+          if (editor.isActive('link')) {
+            editor.chain().focus().unsetLink().run();
+          } else {
+            const url = window.prompt('URL:');
+            if (url) {
+              const trimmedUrl = url.trim();
+              if (isSafeArticleLinkUrl(trimmedUrl)) {
+                editor.chain().focus().setLink({ href: trimmedUrl }).run();
+              } else {
+                onError('Only http(s), mailto, tel, and relative links are allowed.');
+              }
             }
           }
-        }
-      }}>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        }}
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+        </svg>
       </button>
-      <button type="button" className="editor-toolbar__btn" onClick={() => editor.chain().focus().setHorizontalRule().run()}>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="2" y1="12" x2="22" y2="12"/></svg>
+      <button
+        type="button"
+        className="editor-toolbar__btn"
+        onClick={() => editor.chain().focus().setHorizontalRule().run()}
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <line x1="2" y1="12" x2="22" y2="12" />
+        </svg>
       </button>
       <div className="editor-toolbar__sep" />
       <button
@@ -100,9 +218,31 @@ function EditorToolbar({ editor, onImageUpload, onError }: {
         onClick={() => fileInputRef.current?.click()}
       >
         {uploading ? (
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ opacity: 0.5 }}><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 9 9" strokeLinecap="round" className="editor-toolbar__spin"/></svg>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            style={{ opacity: 0.5 }}
+          >
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 3a9 9 0 0 1 9 9" strokeLinecap="round" className="editor-toolbar__spin" />
+          </svg>
         ) : (
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <rect x="3" y="3" width="18" height="18" rx="2" />
+            <circle cx="8.5" cy="8.5" r="1.5" />
+            <polyline points="21 15 16 10 5 21" />
+          </svg>
         )}
       </button>
       <input
@@ -161,10 +301,13 @@ export function ArticleEditorPage() {
     content: '',
   });
 
-  const handleImageUpload = useCallback(async (file: File) => {
-    const url = await uploadArticleImage(file);
-    editor?.chain().focus().setImage({ src: url }).run();
-  }, [editor]);
+  const handleImageUpload = useCallback(
+    async (file: File) => {
+      const url = await uploadArticleImage(file);
+      editor?.chain().focus().setImage({ src: url }).run();
+    },
+    [editor],
+  );
 
   useEffect(() => {
     if (!id || !editor) return;
@@ -193,7 +336,9 @@ export function ArticleEditorPage() {
       setLoadingExisting(false);
     });
 
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [id, editor]);
 
   useEffect(() => {
@@ -202,45 +347,73 @@ export function ArticleEditorPage() {
     }
   }, [title, slugManual]);
 
-  const handleSave = useCallback(async (publish: boolean) => {
-    if (!editor || !session?.user) return;
-    setError(null);
+  const handleSave = useCallback(
+    async (publish: boolean) => {
+      if (!editor || !session?.user) return;
+      setError(null);
 
-    if (!title.trim()) { setError('Title is required'); return; }
-    if (!slug.trim()) { setError('Slug is required'); return; }
-    if (!excerpt.trim()) { setError('Excerpt is required'); return; }
-
-    const html = editor.getHTML();
-    if (html === '<p></p>' || !html.trim()) { setError('Content is required'); return; }
-
-    setSaving(true);
-    try {
-      const input = {
-        title: title.trim(),
-        slug: slug.trim(),
-        excerpt: excerpt.trim(),
-        content: html,
-        category,
-        coverImageUrl,
-        readingTimeMinutes: estimateReadingTime(html),
-        isFeatured,
-        isTrending,
-        published: publish,
-      };
-
-      if (isEditing && id) {
-        await updateArticle(id, input);
-      } else {
-        await createArticle(input, session.user.id);
+      if (!title.trim()) {
+        setError('Title is required');
+        return;
+      }
+      if (!slug.trim()) {
+        setError('Slug is required');
+        return;
+      }
+      if (!excerpt.trim()) {
+        setError('Excerpt is required');
+        return;
       }
 
-      navigate('/news', { replace: true });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to save article');
-    } finally {
-      setSaving(false);
-    }
-  }, [editor, session, title, slug, excerpt, category, coverImageUrl, isFeatured, isTrending, isEditing, id, navigate]);
+      const html = editor.getHTML();
+      if (html === '<p></p>' || !html.trim()) {
+        setError('Content is required');
+        return;
+      }
+
+      setSaving(true);
+      try {
+        const input = {
+          title: title.trim(),
+          slug: slug.trim(),
+          excerpt: excerpt.trim(),
+          content: html,
+          category,
+          coverImageUrl,
+          readingTimeMinutes: estimateReadingTime(html),
+          isFeatured,
+          isTrending,
+          published: publish,
+        };
+
+        if (isEditing && id) {
+          await updateArticle(id, input);
+        } else {
+          await createArticle(input, session.user.id);
+        }
+
+        navigate('/news', { replace: true });
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to save article');
+      } finally {
+        setSaving(false);
+      }
+    },
+    [
+      editor,
+      session,
+      title,
+      slug,
+      excerpt,
+      category,
+      coverImageUrl,
+      isFeatured,
+      isTrending,
+      isEditing,
+      id,
+      navigate,
+    ],
+  );
 
   if (loadingExisting) {
     return (
@@ -282,7 +455,10 @@ export function ArticleEditorPage() {
               type="text"
               className="article-editor__input"
               value={slug}
-              onChange={(e) => { setSlug(e.target.value); setSlugManual(true); }}
+              onChange={(e) => {
+                setSlug(e.target.value);
+                setSlugManual(true);
+              }}
               placeholder="url-friendly-slug"
               maxLength={100}
             />
@@ -359,19 +535,29 @@ export function ArticleEditorPage() {
                 value={category}
                 onChange={(e) => setCategory(e.target.value as Category)}
               >
-                {CATEGORIES.map(c => (
-                  <option key={c} value={c}>{c}</option>
+                {CATEGORIES.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
                 ))}
               </select>
             </div>
 
             <label className="article-editor__checkbox">
-              <input type="checkbox" checked={isFeatured} onChange={(e) => setIsFeatured(e.target.checked)} />
+              <input
+                type="checkbox"
+                checked={isFeatured}
+                onChange={(e) => setIsFeatured(e.target.checked)}
+              />
               Featured
             </label>
 
             <label className="article-editor__checkbox">
-              <input type="checkbox" checked={isTrending} onChange={(e) => setIsTrending(e.target.checked)} />
+              <input
+                type="checkbox"
+                checked={isTrending}
+                onChange={(e) => setIsTrending(e.target.checked)}
+              />
               Trending
             </label>
           </div>
@@ -390,11 +576,7 @@ export function ArticleEditorPage() {
         </div>
 
         <div className="article-editor__actions">
-          <button
-            className="news-btn"
-            onClick={() => handleSave(false)}
-            disabled={saving}
-          >
+          <button className="news-btn" onClick={() => handleSave(false)} disabled={saving}>
             {saving ? 'Saving...' : 'Save Draft'}
           </button>
           <button

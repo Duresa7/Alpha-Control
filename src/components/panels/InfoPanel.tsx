@@ -149,7 +149,10 @@ export function InfoPanel() {
             onClick={() => setCollapsed(false)}
             title="Expand panel"
           >
-            <span className="text-[11px] uppercase tracking-widest text-white/60 font-semibold" style={{ fontFamily: '"Oxanium", monospace' }}>
+            <span
+              className="text-[11px] uppercase tracking-widest text-white/60 font-semibold"
+              style={{ fontFamily: '"Oxanium", monospace' }}
+            >
               {panelLabel}
             </span>
           </div>
@@ -163,8 +166,13 @@ export function InfoPanel() {
           exit={{ opacity: 0, x: 40 }}
           transition={{ duration: 0.15, ease: 'easeOut' }}
         >
-          <div className="holo-panel" style={{ maxHeight: 'calc(100vh - 2rem)', overflowY: 'auto' }}>
-            <div key={currentPanelId} className="space-y-6 pr-16">{renderPanelContent(panelData)}</div>
+          <div
+            className="holo-panel"
+            style={{ maxHeight: 'calc(100vh - 2rem)', overflowY: 'auto' }}
+          >
+            <div key={currentPanelId} className="space-y-6 pr-16">
+              {renderPanelContent(panelData)}
+            </div>
           </div>
 
           {/* Outside the panel: it scrolls, and these must stay reachable. */}
@@ -176,11 +184,7 @@ export function InfoPanel() {
             >
               <Minus className="w-4 h-4" aria-hidden="true" />
             </button>
-            <button
-              onClick={handleClose}
-              className="holo-close-button"
-              title="Close panel"
-            >
+            <button onClick={handleClose} className="holo-close-button" title="Close panel">
               <X className="w-4 h-4" aria-hidden="true" />
             </button>
           </div>

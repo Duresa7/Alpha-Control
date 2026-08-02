@@ -1,12 +1,7 @@
-import { create } from "zustand";
-import type { GalaxyUIStore } from "@/types";
+import { create } from 'zustand';
+import type { GalaxyUIStore } from '@/types';
 
-export type ActiveModule =
-  | "search"
-  | "timeline"
-  | "overview"
-  | "mapControls"
-  | null;
+export type ActiveModule = 'search' | 'timeline' | 'overview' | 'mapControls' | null;
 
 export const useGalaxyUIStore = create<
   GalaxyUIStore & {
@@ -28,7 +23,7 @@ export const useGalaxyUIStore = create<
   toggleCivilianTraffic: () =>
     set((state) => ({ showCivilianTraffic: !state.showCivilianTraffic })),
 
-  searchQuery: "",
+  searchQuery: '',
   setSearchQuery: (query: string) => set({ searchQuery: query }),
 
   factionFilters: {},
@@ -59,8 +54,7 @@ export const useGalaxyUIStore = create<
       ...(mode ? { fleetPlacementMode: false, pendingCustomFleet: null } : {}),
     })),
 
-  setDraggingCustomPlanet: (dragging) =>
-    set({ draggingCustomPlanet: dragging }),
+  setDraggingCustomPlanet: (dragging) => set({ draggingCustomPlanet: dragging }),
 
   fleetPlacementMode: false,
   pendingCustomFleet: null,

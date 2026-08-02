@@ -86,7 +86,10 @@ function FactionEditForm({
         boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.07)',
       }}
     >
-      <div className="text-[10px] uppercase tracking-wide holo-label-orbitron" style={{ color: 'var(--holo-cyan)' }}>
+      <div
+        className="text-[10px] uppercase tracking-wide holo-label-orbitron"
+        style={{ color: 'var(--holo-cyan)' }}
+      >
         Editing: {faction.label}
       </div>
       <input
@@ -100,7 +103,12 @@ function FactionEditForm({
       />
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-1.5">
-          <span className="text-[10px] holo-label-orbitron" style={{ color: 'var(--holo-text-muted)' }}>Marker</span>
+          <span
+            className="text-[10px] holo-label-orbitron"
+            style={{ color: 'var(--holo-text-muted)' }}
+          >
+            Marker
+          </span>
           <input
             type="color"
             value={markerColor}
@@ -110,7 +118,12 @@ function FactionEditForm({
           />
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="text-[10px] holo-label-orbitron" style={{ color: 'var(--holo-text-muted)' }}>Accent</span>
+          <span
+            className="text-[10px] holo-label-orbitron"
+            style={{ color: 'var(--holo-text-muted)' }}
+          >
+            Accent
+          </span>
           <input
             type="color"
             value={barColor}
@@ -205,7 +218,12 @@ export function FactionManagementPanel({ isFloatingMode = false }: { isFloatingM
   const handleCreate = async () => {
     if (!newName.trim()) return;
     const id = generateFactionId(newName.trim());
-    await createFaction({ id, label: newName.trim(), markerColor: newMarkerColor, barColor: newBarColor });
+    await createFaction({
+      id,
+      label: newName.trim(),
+      markerColor: newMarkerColor,
+      barColor: newBarColor,
+    });
     syncFactionFilters(useFactionStore.getState().getFactionIds());
     setNewName('');
     setNewMarkerColor('#4DD0E1');
@@ -214,12 +232,12 @@ export function FactionManagementPanel({ isFloatingMode = false }: { isFloatingM
   };
 
   return (
-    <div className={isFloatingMode ? "" : "holo-panel"} style={isFloatingMode ? {} : { marginTop: '0' }}>
+    <div
+      className={isFloatingMode ? '' : 'holo-panel'}
+      style={isFloatingMode ? {} : { marginTop: '0' }}
+    >
       {!isFloatingMode && (
-        <label
-          className="holo-label holo-section-header"
-          onClick={() => setCollapsed(!collapsed)}
-        >
+        <label className="holo-label holo-section-header" onClick={() => setCollapsed(!collapsed)}>
           <span className="flex items-center gap-2">
             <Flag className="w-4 h-4" style={{ opacity: 0.7 }} aria-hidden="true" />
             Factions
@@ -273,9 +291,14 @@ export function FactionManagementPanel({ isFloatingMode = false }: { isFloatingM
                   </div>
                   {(() => {
                     const affected = getAffectedCount(f.id);
-                    return (affected.planets > 0 || affected.fleets > 0) ? (
-                      <div className="text-[11px] holo-body-text" style={{ color: 'var(--holo-text-muted)' }}>
-                        {affected.planets} planet{affected.planets !== 1 ? 's' : ''} and {affected.fleets} fleet{affected.fleets !== 1 ? 's' : ''} will be reassigned to Neutral.
+                    return affected.planets > 0 || affected.fleets > 0 ? (
+                      <div
+                        className="text-[11px] holo-body-text"
+                        style={{ color: 'var(--holo-text-muted)' }}
+                      >
+                        {affected.planets} planet{affected.planets !== 1 ? 's' : ''} and{' '}
+                        {affected.fleets} fleet{affected.fleets !== 1 ? 's' : ''} will be reassigned
+                        to Neutral.
                       </div>
                     ) : null;
                   })()}
@@ -319,7 +342,10 @@ export function FactionManagementPanel({ isFloatingMode = false }: { isFloatingM
                   boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.07)',
                 }}
               >
-                <div className="text-[10px] uppercase tracking-wide holo-label-orbitron" style={{ color: 'var(--holo-cyan)' }}>
+                <div
+                  className="text-[10px] uppercase tracking-wide holo-label-orbitron"
+                  style={{ color: 'var(--holo-cyan)' }}
+                >
                   New Faction
                 </div>
                 <input
@@ -334,7 +360,12 @@ export function FactionManagementPanel({ isFloatingMode = false }: { isFloatingM
                 />
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-[10px] holo-label-orbitron" style={{ color: 'var(--holo-text-muted)' }}>Marker</span>
+                    <span
+                      className="text-[10px] holo-label-orbitron"
+                      style={{ color: 'var(--holo-text-muted)' }}
+                    >
+                      Marker
+                    </span>
                     <input
                       type="color"
                       value={newMarkerColor}
@@ -344,7 +375,12 @@ export function FactionManagementPanel({ isFloatingMode = false }: { isFloatingM
                     />
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <span className="text-[10px] holo-label-orbitron" style={{ color: 'var(--holo-text-muted)' }}>Accent</span>
+                    <span
+                      className="text-[10px] holo-label-orbitron"
+                      style={{ color: 'var(--holo-text-muted)' }}
+                    >
+                      Accent
+                    </span>
                     <input
                       type="color"
                       value={newBarColor}
@@ -364,7 +400,10 @@ export function FactionManagementPanel({ isFloatingMode = false }: { isFloatingM
                     Create
                   </button>
                   <button
-                    onClick={() => { setShowCreate(false); setNewName(''); }}
+                    onClick={() => {
+                      setShowCreate(false);
+                      setNewName('');
+                    }}
                     className="text-[11px] uppercase tracking-wide holo-label-orbitron px-1.5 py-0.5"
                     style={{ color: 'var(--holo-text-muted)' }}
                   >
@@ -373,11 +412,12 @@ export function FactionManagementPanel({ isFloatingMode = false }: { isFloatingM
                 </div>
               </div>
             ) : (
-              <button
-                onClick={() => setShowCreate(true)}
-                className="holo-button w-full"
-              >
-                <Plus className="w-4 h-4 flex-shrink-0" style={{ transform: 'translateY(-1px)' }} aria-hidden="true" />
+              <button onClick={() => setShowCreate(true)} className="holo-button w-full">
+                <Plus
+                  className="w-4 h-4 flex-shrink-0"
+                  style={{ transform: 'translateY(-1px)' }}
+                  aria-hidden="true"
+                />
                 <span className="leading-none">Create Faction</span>
               </button>
             )}

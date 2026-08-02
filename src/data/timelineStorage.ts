@@ -79,7 +79,10 @@ export async function createTimelineEntry(input: TimelineInput): Promise<Timelin
   return dbToEntry(data as DbEntry);
 }
 
-export async function updateTimelineEntry(id: string, input: Partial<TimelineInput>): Promise<void> {
+export async function updateTimelineEntry(
+  id: string,
+  input: Partial<TimelineInput>,
+): Promise<void> {
   if (!supabaseConfigured) return;
 
   const updates: Record<string, unknown> = {};

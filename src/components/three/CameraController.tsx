@@ -85,23 +85,23 @@ export function CameraController() {
       targetPosition.current.set(0, config.height, 0);
       targetLookAt.current.set(0, 0, 0);
     } else if (viewMode === 'system' && selectedSystemId) {
-      const system = systems.find(s => s.id === selectedSystemId);
+      const system = systems.find((s) => s.id === selectedSystemId);
       if (system) {
         targetLookAt.current.copy(system.position);
         targetPosition.current.set(
           system.position.x + config.distance * 0.5,
           system.position.y + config.height,
-          system.position.z + config.distance
+          system.position.z + config.distance,
         );
       }
     } else if (viewMode === 'fleet' && selectedFleetId) {
-      const fleet = fleets.find(f => f.id === selectedFleetId);
+      const fleet = fleets.find((f) => f.id === selectedFleetId);
       if (fleet) {
         targetLookAt.current.copy(fleet.position);
         targetPosition.current.set(
           fleet.position.x + config.distance * 0.5,
           fleet.position.y + config.height,
-          fleet.position.z + config.distance
+          fleet.position.z + config.distance,
         );
       }
     }

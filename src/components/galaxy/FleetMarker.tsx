@@ -57,7 +57,8 @@ const FleetMarker = memo(function FleetMarker({ fleet }: FleetMarkerProps) {
 
   useFrame((state) => {
     if (groupRef.current && !fleet.isCustom) {
-      groupRef.current.position.y = fleet.position.y + Math.sin(state.clock.elapsedTime + fleet.position.x) * 0.2;
+      groupRef.current.position.y =
+        fleet.position.y + Math.sin(state.clock.elapsedTime + fleet.position.x) * 0.2;
     }
   });
 
@@ -88,26 +89,24 @@ const FleetMarker = memo(function FleetMarker({ fleet }: FleetMarkerProps) {
           onClick={handleClick}
           onDoubleClick={handleDoubleClick}
           onPointerDown={handlePointerDown}
-          onPointerOver={(e) => { basePointerOver(e); setHovered(true); }}
-          onPointerOut={() => { basePointerOut(); setHovered(false); }}
+          onPointerOver={(e) => {
+            basePointerOver(e);
+            setHovered(true);
+          }}
+          onPointerOut={() => {
+            basePointerOut();
+            setHovered(false);
+          }}
           rotation={[-Math.PI / 2, 0, 0]}
           geometry={diamondGeo}
           scale={hovered ? 1.3 : 1}
         >
-          <meshBasicMaterial
-            color={color}
-            transparent
-            opacity={hovered ? 1 : 0.9}
-          />
+          <meshBasicMaterial color={color} transparent opacity={hovered ? 1 : 0.9} />
         </mesh>
 
         <mesh rotation={[-Math.PI / 2, 0, 0]}>
           <ringGeometry args={[markerSize * 1.1, markerSize * 1.3, 4]} />
-          <meshBasicMaterial
-            color={color}
-            transparent
-            opacity={0.3}
-          />
+          <meshBasicMaterial color={color} transparent opacity={0.3} />
         </mesh>
 
         {(showLabels || hovered || fleet.isCustom) && (
@@ -132,15 +131,23 @@ const FleetMarker = memo(function FleetMarker({ fleet }: FleetMarkerProps) {
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
       onPointerDown={handlePointerDown}
-      onPointerOver={(e) => { basePointerOver(e); setHovered(true); }}
-      onPointerOut={() => { basePointerOut(); setHovered(false); }}
+      onPointerOver={(e) => {
+        basePointerOver(e);
+        setHovered(true);
+      }}
+      onPointerOut={() => {
+        basePointerOut();
+        setHovered(false);
+      }}
     >
-      <Suspense fallback={
-        <mesh scale={markerScale}>
-          <coneGeometry args={[2, 5, 4]} />
-          <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.5} />
-        </mesh>
-      }>
+      <Suspense
+        fallback={
+          <mesh scale={markerScale}>
+            <coneGeometry args={[2, 5, 4]} />
+            <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.5} />
+          </mesh>
+        }
+      >
         <ShipModel
           type={shipType}
           position={ORIGIN}
@@ -180,7 +187,7 @@ export function FleetMarkers() {
 
   return (
     <group>
-      {fleets.map(fleet => (
+      {fleets.map((fleet) => (
         <FleetMarker key={fleet.id} fleet={fleet} />
       ))}
     </group>

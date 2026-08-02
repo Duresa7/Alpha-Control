@@ -56,7 +56,9 @@ export function TimelineControl() {
                 value={yearDraft}
                 onChange={(e) => setYearDraft(e.target.value)}
                 onBlur={commitYear}
-                onKeyDown={(e) => { if (e.key === 'Enter') commitYear(); }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') commitYear();
+                }}
                 className="holo-input holo-number-input holo-year-input"
               />
               <span className="holo-year-unit">ATC</span>

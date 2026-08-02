@@ -134,10 +134,7 @@ export function LandingPage() {
     ));
 
   return (
-    <section
-      className="portfolio-hero"
-      aria-label="Portfolio homepage"
-    >
+    <section className="portfolio-hero" aria-label="Portfolio homepage">
       <canvas
         ref={particleCanvasRef}
         className="portfolio-hero__layer portfolio-hero__particle-canvas"
@@ -159,7 +156,11 @@ export function LandingPage() {
                 aria-label="Interactive Galaxy Map"
                 data-hover-label="Interactive Galaxy Map"
               >
-                <img src={`${import.meta.env.BASE_URL}icons/codex-planets.png`} alt="" className="portfolio-hero__nav-icon-img" />
+                <img
+                  src={`${import.meta.env.BASE_URL}icons/codex-planets.png`}
+                  alt=""
+                  className="portfolio-hero__nav-icon-img"
+                />
               </Link>
             ) : (
               <button
@@ -168,7 +169,11 @@ export function LandingPage() {
                 aria-label="Interactive Galaxy Map"
                 data-hover-label="Interactive Galaxy Map"
               >
-                <img src={`${import.meta.env.BASE_URL}icons/codex-planets.png`} alt="" className="portfolio-hero__nav-icon-img" />
+                <img
+                  src={`${import.meta.env.BASE_URL}icons/codex-planets.png`}
+                  alt=""
+                  className="portfolio-hero__nav-icon-img"
+                />
               </button>
             )}
             <Link
@@ -193,38 +198,41 @@ export function LandingPage() {
           </div>
         </div>
 
-        <div className="portfolio-hero__social-block portfolio-hero__parallax">{renderSocialLinks()}</div>
+        <div className="portfolio-hero__social-block portfolio-hero__parallax">
+          {renderSocialLinks()}
+        </div>
       </div>
 
       <div className="portfolio-hero__auth-block">
         {session ? (
           <>
-            <span className="portfolio-hero__auth-name">
-              {displayName}
-            </span>
+            <span className="portfolio-hero__auth-name">{displayName}</span>
             <Link
               to="/settings"
               className="portfolio-hero__settings-icon"
               aria-label="Account settings"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <circle cx="12" cy="12" r="3" />
                 <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
               </svg>
             </Link>
             <NotificationBell variant="landing" />
-            <button
-              onClick={() => signOut()}
-              className="portfolio-hero__auth-pill"
-            >
+            <button onClick={() => signOut()} className="portfolio-hero__auth-pill">
               Sign Out
             </button>
           </>
         ) : (
-          <button
-            onClick={() => setShowAuthModal(true)}
-            className="portfolio-hero__auth-pill"
-          >
+          <button onClick={() => setShowAuthModal(true)} className="portfolio-hero__auth-pill">
             Sign In
           </button>
         )}

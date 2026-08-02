@@ -1,13 +1,13 @@
-import { motion } from "framer-motion";
-import { Globe, Rocket, SlidersHorizontal } from "lucide-react";
-import { useGalaxyUIStore } from "@/store/galaxyUIStore";
-import { useRole } from "@/hooks/useRole";
-import { CustomPlanetsPanel } from "@/components/panels/CustomPlanetsPanel";
-import { CustomFleetsPanel } from "@/components/panels/CustomFleetsPanel";
-import { HoloMicroExpander } from "@/components/panels/HoloMicroExpander";
-import { useState, useEffect } from "react";
-import { createPortal } from "react-dom";
-import { useFloating, offset, flip, shift, autoUpdate } from "@floating-ui/react-dom";
+import { motion } from 'framer-motion';
+import { Globe, Rocket, SlidersHorizontal } from 'lucide-react';
+import { useGalaxyUIStore } from '@/store/galaxyUIStore';
+import { useRole } from '@/hooks/useRole';
+import { CustomPlanetsPanel } from '@/components/panels/CustomPlanetsPanel';
+import { CustomFleetsPanel } from '@/components/panels/CustomFleetsPanel';
+import { HoloMicroExpander } from '@/components/panels/HoloMicroExpander';
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
+import { useFloating, offset, flip, shift, autoUpdate } from '@floating-ui/react-dom';
 
 export function BottomActionBar() {
   const { isAdmin } = useRole();
@@ -19,15 +19,15 @@ export function BottomActionBar() {
       className="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center justify-center gap-3"
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35, ease: "easeOut", delay: 0.15 }}
+      transition={{ duration: 0.35, ease: 'easeOut', delay: 0.15 }}
       data-tour="bottom-action-bar"
     >
       <div className="flex items-center gap-3">
         <HoloMicroExpander
           size="md"
           text="Map Controls"
-          isActive={activeModule === "mapControls"}
-          onClick={() => setActiveModule("mapControls")}
+          isActive={activeModule === 'mapControls'}
+          onClick={() => setActiveModule('mapControls')}
           icon={<SlidersHorizontal className="w-4 h-4" aria-hidden="true" />}
         />
 
@@ -70,7 +70,7 @@ function PanelTriggerWrapper({
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (activeModule === "mapControls") {
+    if (activeModule === 'mapControls') {
       setOpen(false);
     }
   }, [activeModule]);
@@ -78,8 +78,8 @@ function PanelTriggerWrapper({
   // Floating UI keeps the panel anchored on scroll and resize, and flips or
   // shifts it when the trigger sits too close to a screen edge.
   const { refs, floatingStyles } = useFloating({
-    placement: "top",
-    strategy: "fixed",
+    placement: 'top',
+    strategy: 'fixed',
     middleware: [offset(16), flip({ padding: 12 }), shift({ padding: 12 })],
     whileElementsMounted: autoUpdate,
   });
@@ -95,13 +95,13 @@ function PanelTriggerWrapper({
         !panel.contains(target) &&
         button &&
         !button.contains(target) &&
-        !target.closest(".fleet-modal-overlay")
+        !target.closest('.fleet-modal-overlay')
       ) {
         setOpen(false);
       }
     };
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
   }, [open, refs]);
 
   return (

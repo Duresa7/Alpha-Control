@@ -1,21 +1,18 @@
-import type { ReactNode } from "react";
-import { Link, useLocation } from "react-router";
+import type { ReactNode } from 'react';
+import { Link, useLocation } from 'react-router';
 
-import "@/styles/news.css";
+import '@/styles/news.css';
 
-import { NewsFooter } from "@/components/news/NewsFooter";
-import { NotificationBell } from "@/components/NotificationBell";
-import { NewsProfileMenu } from "@/components/news/NewsProfileMenu";
-import {
-  NewsThemeContext,
-  useNewsTheme,
-} from "@/components/news/theme/newsTheme";
-import { useRole } from "@/hooks/useRole";
+import { NewsFooter } from '@/components/news/NewsFooter';
+import { NotificationBell } from '@/components/NotificationBell';
+import { NewsProfileMenu } from '@/components/news/NewsProfileMenu';
+import { NewsThemeContext, useNewsTheme } from '@/components/news/theme/newsTheme';
+import { useRole } from '@/hooks/useRole';
 
 const NAV_ITEMS = [
-  { path: "/news", label: "Home" },
-  { path: "/blog", label: "Blog" },
-  { path: "/services", label: "AlphaSec Services" },
+  { path: '/news', label: 'Home' },
+  { path: '/blog', label: 'Blog' },
+  { path: '/services', label: 'AlphaSec Services' },
 ];
 
 export function NewsShell({ children }: { children: ReactNode }) {
@@ -26,28 +23,14 @@ export function NewsShell({ children }: { children: ReactNode }) {
 
   return (
     <NewsThemeContext.Provider value={themeState}>
-      <main
-        className="news-page"
-        data-news-theme={theme}
-        aria-label="AlphaSec News"
-      >
-        <div
-          className="news-page__layer news-page__layer--base"
-          aria-hidden="true"
-        />
-        <div
-          className="news-page__layer news-page__layer--veil"
-          aria-hidden="true"
-        />
+      <main className="news-page" data-news-theme={theme} aria-label="AlphaSec News">
+        <div className="news-page__layer news-page__layer--base" aria-hidden="true" />
+        <div className="news-page__layer news-page__layer--veil" aria-hidden="true" />
 
         <div className="news-page__shell">
           <header className="news-nav" role="banner">
             <div className="news-nav__inner">
-              <Link
-                to="/"
-                className="news-nav__icon-btn"
-                aria-label="Back to home"
-              >
+              <Link to="/" className="news-nav__icon-btn" aria-label="Back to home">
                 <svg
                   width="18"
                   height="18"
@@ -71,16 +54,15 @@ export function NewsShell({ children }: { children: ReactNode }) {
               <nav className="news-nav__links" aria-label="Main navigation">
                 {NAV_ITEMS.map((item) => {
                   const isActive =
-                    item.path === "/news"
-                      ? pathname === "/news" ||
-                        (pathname.startsWith("/news/") &&
-                          !pathname.startsWith("/news/dashboard"))
+                    item.path === '/news'
+                      ? pathname === '/news' ||
+                        (pathname.startsWith('/news/') && !pathname.startsWith('/news/dashboard'))
                       : pathname.startsWith(item.path);
                   return (
                     <Link
                       key={item.path}
                       to={item.path}
-                      className={`news-nav__link${isActive ? " news-nav__link--active" : ""}`}
+                      className={`news-nav__link${isActive ? ' news-nav__link--active' : ''}`}
                     >
                       {item.label}
                     </Link>
@@ -89,7 +71,7 @@ export function NewsShell({ children }: { children: ReactNode }) {
                 {isBossman && (
                   <Link
                     to="/news/dashboard"
-                    className={`news-nav__link${pathname === "/news/dashboard" ? " news-nav__link--active" : ""}`}
+                    className={`news-nav__link${pathname === '/news/dashboard' ? ' news-nav__link--active' : ''}`}
                   >
                     Dashboard
                   </Link>
@@ -97,11 +79,7 @@ export function NewsShell({ children }: { children: ReactNode }) {
               </nav>
 
               <div className="news-nav__actions">
-                <button
-                  className="news-nav__icon-btn"
-                  aria-label="Search"
-                  type="button"
-                >
+                <button className="news-nav__icon-btn" aria-label="Search" type="button">
                   <svg
                     width="18"
                     height="18"

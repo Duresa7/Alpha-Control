@@ -28,7 +28,9 @@ describe('parsePendingGoogleAuthIntent', () => {
       createdAt,
     });
 
-    expect(parsePendingGoogleAuthIntent(JSON.stringify(intent), { now: createdAt + 60_000 })).toEqual(intent);
+    expect(
+      parsePendingGoogleAuthIntent(JSON.stringify(intent), { now: createdAt + 60_000 }),
+    ).toEqual(intent);
   });
 
   it('rejects expired intents', () => {
@@ -40,7 +42,7 @@ describe('parsePendingGoogleAuthIntent', () => {
 
     expect(
       parsePendingGoogleAuthIntent(JSON.stringify(intent), {
-        now: createdAt + (16 * 60_000),
+        now: createdAt + 16 * 60_000,
       }),
     ).toBeNull();
   });
@@ -54,7 +56,9 @@ describe('parsePendingGoogleAuthIntent', () => {
       createdAt: Date.UTC(2026, 2, 11, 16, 0, 0),
     };
 
-    expect(parsePendingGoogleAuthIntent(JSON.stringify(intent), { now: intent.createdAt + 1_000 })).toBeNull();
+    expect(
+      parsePendingGoogleAuthIntent(JSON.stringify(intent), { now: intent.createdAt + 1_000 }),
+    ).toBeNull();
   });
 });
 

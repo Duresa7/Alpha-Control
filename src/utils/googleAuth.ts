@@ -127,7 +127,10 @@ export function readPendingGoogleAuthIntent(
   return parsed;
 }
 
-export function writePendingGoogleAuthIntent(intent: PendingGoogleAuthIntent, storage?: StorageLike) {
+export function writePendingGoogleAuthIntent(
+  intent: PendingGoogleAuthIntent,
+  storage?: StorageLike,
+) {
   const authStorage = getGoogleAuthStorage(storage);
   if (!authStorage) return;
   authStorage.setItem(PENDING_GOOGLE_AUTH_STORAGE_KEY, JSON.stringify(intent));
@@ -263,12 +266,14 @@ export async function finalizePendingGoogleSignup({
       return;
     }
 
-    if (!canApplyPendingGoogleSignupProfile({
-      intent,
-      currentDisplayName: currentProfile?.display_name,
-      email: user.email,
-      user,
-    })) {
+    if (
+      !canApplyPendingGoogleSignupProfile({
+        intent,
+        currentDisplayName: currentProfile?.display_name,
+        email: user.email,
+        user,
+      })
+    ) {
       clearPendingGoogleAuthIntent();
       return;
     }
@@ -281,8 +286,8 @@ export async function finalizePendingGoogleSignup({
     const currentMetadataGalaxyRequest = Boolean(user.user_metadata?.galaxy_map_requested);
 
     if (
-      currentMetadataName !== desiredDisplayName
-      || currentMetadataGalaxyRequest !== intent.galaxyMapRequested
+      currentMetadataName !== desiredDisplayName ||
+      currentMetadataGalaxyRequest !== intent.galaxyMapRequested
     ) {
       const { error: userError } = await withTimeout(
         supabase.auth.updateUser({
@@ -303,8 +308,8 @@ export async function finalizePendingGoogleSignup({
     }
 
     if (
-      currentProfile?.display_name !== desiredDisplayName
-      || currentProfile?.galaxy_map_requested !== intent.galaxyMapRequested
+      currentProfile?.display_name !== desiredDisplayName ||
+      currentProfile?.galaxy_map_requested !== intent.galaxyMapRequested
     ) {
       const { error: updateProfileError } = await supabase
         .from('profiles')

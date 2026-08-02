@@ -9,7 +9,12 @@ interface LikeButtonProps {
   onAuthRequired: () => void;
 }
 
-export function LikeButton({ articleId, initialCount, initialLiked, onAuthRequired }: LikeButtonProps) {
+export function LikeButton({
+  articleId,
+  initialCount,
+  initialLiked,
+  onAuthRequired,
+}: LikeButtonProps) {
   const { session } = useAuth();
   const [liked, setLiked] = useState(initialLiked);
   const [count, setCount] = useState(initialCount);

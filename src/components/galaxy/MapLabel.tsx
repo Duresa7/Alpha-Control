@@ -51,9 +51,7 @@ export function MapLabel({
       >
         {title}
         {subtitle && (
-          <div style={{ fontSize: '10px', fontWeight: 'normal', opacity: 0.7 }}>
-            {subtitle}
-          </div>
+          <div style={{ fontSize: '10px', fontWeight: 'normal', opacity: 0.7 }}>{subtitle}</div>
         )}
       </div>
     </Html>

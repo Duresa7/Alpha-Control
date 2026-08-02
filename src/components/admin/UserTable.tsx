@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState } from 'react';
 import {
   ArrowDown,
   ArrowUp,
@@ -7,24 +7,14 @@ import {
   ChevronDown,
   ShieldCheck,
   Users as UsersIcon,
-} from "lucide-react";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-import {
-  ROLE_COLORS,
-  ROLE_LABELS,
-  formatDate,
-  formatFullTime,
-  getInitials,
-} from "./adminMeta";
-import type { UserManagementProfile, UserRole } from "@/types";
+} from 'lucide-react';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { cn } from '@/lib/utils';
+import { ROLE_COLORS, ROLE_LABELS, formatDate, formatFullTime, getInitials } from './adminMeta';
+import type { UserManagementProfile, UserRole } from '@/types';
 
-type SortKey = "name" | "role" | "joined";
-type SortDir = "asc" | "desc";
+type SortKey = 'name' | 'role' | 'joined';
+type SortDir = 'asc' | 'desc';
 
 const ROLE_RANK: Record<UserRole, number> = {
   user: 0,
@@ -52,11 +42,7 @@ function RoleBadge({ role }: { role: UserRole }) {
 function UserAvatar({ user }: { user: UserManagementProfile }) {
   const color = ROLE_COLORS[user.role];
   return (
-    <span
-      className="adm-avatar"
-      style={{ color, borderColor: `${color}66` }}
-      aria-hidden
-    >
+    <span className="adm-avatar" style={{ color, borderColor: `${color}66` }} aria-hidden>
       {getInitials(user.display_name)}
     </span>
   );
@@ -85,10 +71,10 @@ function SortHeader({
     >
       {label}
       {isActive ? (
-        dir === "asc" ? (
-          <ArrowUp size={11} style={{ color: "var(--adm-amber)" }} />
+        dir === 'asc' ? (
+          <ArrowUp size={11} style={{ color: 'var(--adm-amber)' }} />
         ) : (
-          <ArrowDown size={11} style={{ color: "var(--adm-amber)" }} />
+          <ArrowDown size={11} style={{ color: 'var(--adm-amber)' }} />
         )
       ) : (
         <ArrowUpDown size={11} style={{ opacity: 0.45 }} />
@@ -120,32 +106,29 @@ export function UserTable({
   isFiltered,
   onRoleChange,
 }: UserTableProps) {
-  const [sortKey, setSortKey] = useState<SortKey>("joined");
-  const [sortDir, setSortDir] = useState<SortDir>("desc");
+  const [sortKey, setSortKey] = useState<SortKey>('joined');
+  const [sortDir, setSortDir] = useState<SortDir>('desc');
   const [roleMenuFor, setRoleMenuFor] = useState<string | null>(null);
 
   const handleSort = (key: SortKey) => {
     if (key === sortKey) {
-      setSortDir((d) => (d === "asc" ? "desc" : "asc"));
+      setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'));
     } else {
       setSortKey(key);
-      setSortDir(key === "joined" ? "desc" : "asc");
+      setSortDir(key === 'joined' ? 'desc' : 'asc');
     }
   };
 
   const sortedUsers = useMemo(() => {
-    const factor = sortDir === "asc" ? 1 : -1;
+    const factor = sortDir === 'asc' ? 1 : -1;
     return [...users].sort((a, b) => {
-      if (sortKey === "name") {
+      if (sortKey === 'name') {
         return a.display_name.localeCompare(b.display_name) * factor;
       }
-      if (sortKey === "role") {
+      if (sortKey === 'role') {
         return (ROLE_RANK[a.role] - ROLE_RANK[b.role]) * factor;
       }
-      return (
-        (new Date(a.created_at).getTime() - new Date(b.created_at).getTime()) *
-        factor
-      );
+      return (new Date(a.created_at).getTime() - new Date(b.created_at).getTime()) * factor;
     });
   }, [users, sortKey, sortDir]);
 
@@ -156,18 +139,15 @@ export function UserTable({
       {pendingRequests.length > 0 && (
         <section
           className="adm-card overflow-hidden"
-          style={{ borderColor: "rgba(146, 118, 27, 0.3)" }}
+          style={{ borderColor: 'rgba(146, 118, 27, 0.3)' }}
         >
           <header
             className="flex items-center justify-between gap-3 px-4 py-2.5"
-            style={{ borderBottom: "1px solid var(--adm-line-soft)" }}
+            style={{ borderBottom: '1px solid var(--adm-line-soft)' }}
           >
             <div className="flex items-center gap-2.5">
-              <ShieldCheck size={14} style={{ color: "var(--adm-gold)" }} />
-              <span
-                className="adm-label"
-                style={{ color: "var(--adm-gold)" }}
-              >
+              <ShieldCheck size={14} style={{ color: 'var(--adm-gold)' }} />
+              <span className="adm-label" style={{ color: 'var(--adm-gold)' }}>
                 Pending galaxy access requests
               </span>
             </div>
@@ -178,20 +158,14 @@ export function UserTable({
               <li
                 key={user.id}
                 className="flex items-center gap-3 px-4 py-2.5"
-                style={
-                  index > 0
-                    ? { borderTop: "1px solid var(--adm-line-soft)" }
-                    : undefined
-                }
+                style={index > 0 ? { borderTop: '1px solid var(--adm-line-soft)' } : undefined}
               >
                 <UserAvatar user={user} />
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-[13.5px] font-medium">
-                    {user.display_name}
-                  </p>
+                  <p className="truncate text-[13.5px] font-medium">{user.display_name}</p>
                   <p
                     className="adm-mono text-[11px]"
-                    style={{ color: "var(--adm-text-faint)" }}
+                    style={{ color: 'var(--adm-text-faint)' }}
                     title={formatFullTime(user.created_at)}
                   >
                     Joined {formatDate(user.created_at)}
@@ -201,9 +175,9 @@ export function UserTable({
                   type="button"
                   className="adm-btn adm-btn--primary"
                   disabled={roleUpdating === user.id}
-                  onClick={() => onRoleChange(user.id, "galaxy_user")}
+                  onClick={() => onRoleChange(user.id, 'galaxy_user')}
                 >
-                  {roleUpdating === user.id ? "Granting…" : "Grant access"}
+                  {roleUpdating === user.id ? 'Granting…' : 'Grant access'}
                 </button>
               </li>
             ))}
@@ -245,7 +219,7 @@ export function UserTable({
                     onSort={handleSort}
                   />
                 </th>
-                <th style={{ textAlign: "right" }}>Actions</th>
+                <th style={{ textAlign: 'right' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -276,17 +250,11 @@ export function UserTable({
                 <tr>
                   <td colSpan={colCount}>
                     <div className="flex min-h-[200px] flex-col items-center justify-center gap-3 text-center">
-                      <UsersIcon
-                        size={26}
-                        style={{ color: "var(--adm-text-faint)" }}
-                      />
-                      <p
-                        className="adm-label text-[11px]"
-                        style={{ color: "var(--adm-text-dim)" }}
-                      >
+                      <UsersIcon size={26} style={{ color: 'var(--adm-text-faint)' }} />
+                      <p className="adm-label text-[11px]" style={{ color: 'var(--adm-text-dim)' }}>
                         {isFiltered
-                          ? "No personnel match the current filters"
-                          : "No personnel found"}
+                          ? 'No personnel match the current filters'
+                          : 'No personnel found'}
                       </p>
                     </div>
                   </td>
@@ -303,11 +271,8 @@ export function UserTable({
                       </span>
                     </td>
                     {isBossman && (
-                      <td
-                        className="adm-mono text-[12px]"
-                        style={{ color: "var(--adm-text-dim)" }}
-                      >
-                        {user.email || "Hidden"}
+                      <td className="adm-mono text-[12px]" style={{ color: 'var(--adm-text-dim)' }}>
+                        {user.email || 'Hidden'}
                       </td>
                     )}
                     <td>
@@ -315,12 +280,12 @@ export function UserTable({
                     </td>
                     <td
                       className="adm-mono text-[12px]"
-                      style={{ color: "var(--adm-text-dim)" }}
+                      style={{ color: 'var(--adm-text-dim)' }}
                       title={formatFullTime(user.created_at)}
                     >
                       {formatDate(user.created_at)}
                     </td>
-                    <td style={{ textAlign: "right" }}>
+                    <td style={{ textAlign: 'right' }}>
                       {user.id === currentUserId ? (
                         <span className="adm-label">You</span>
                       ) : !user.can_manage ? (
@@ -328,9 +293,7 @@ export function UserTable({
                       ) : (
                         <Popover
                           open={roleMenuFor === user.id}
-                          onOpenChange={(open) =>
-                            setRoleMenuFor(open ? user.id : null)
-                          }
+                          onOpenChange={(open) => setRoleMenuFor(open ? user.id : null)}
                         >
                           <PopoverTrigger asChild>
                             <button
@@ -339,7 +302,7 @@ export function UserTable({
                               disabled={roleUpdating === user.id}
                             >
                               {roleUpdating === user.id ? (
-                                "Updating…"
+                                'Updating…'
                               ) : (
                                 <>
                                   Set role
@@ -355,8 +318,8 @@ export function UserTable({
                                 key={role}
                                 type="button"
                                 className={cn(
-                                  "adm-menu-item",
-                                  role === user.role && "adm-menu-item--active",
+                                  'adm-menu-item',
+                                  role === user.role && 'adm-menu-item--active',
                                 )}
                                 onClick={() => {
                                   setRoleMenuFor(null);
@@ -370,9 +333,7 @@ export function UserTable({
                                   style={{ background: ROLE_COLORS[role] }}
                                   aria-hidden
                                 />
-                                <span className="flex-1">
-                                  {ROLE_LABELS[role]}
-                                </span>
+                                <span className="flex-1">{ROLE_LABELS[role]}</span>
                                 {role === user.role && <Check size={13} />}
                               </button>
                             ))}

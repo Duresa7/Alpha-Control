@@ -41,11 +41,7 @@ async function fetchMemberCount(): Promise<ServiceStatus> {
   return { ...base, metric: count.toLocaleString(), metricLabel: 'Members' };
 }
 
-async function fetchExternalStatus(
-  id: string,
-  name: string,
-  url: string,
-): Promise<ServiceStatus> {
+async function fetchExternalStatus(id: string, name: string, url: string): Promise<ServiceStatus> {
   const base: ServiceStatus = {
     id,
     name,
@@ -81,8 +77,16 @@ function getAppVersion(): ServiceStatus {
 export async function fetchLiveStatuses(): Promise<ServiceStatus[]> {
   const [members, vercel, supabaseStatus] = await Promise.all([
     fetchMemberCount(),
-    fetchExternalStatus('vercel', 'Vercel Hosting', 'https://www.vercel-status.com/api/v2/status.json'),
-    fetchExternalStatus('supabase', 'Supabase Database', 'https://status.supabase.com/api/v2/status.json'),
+    fetchExternalStatus(
+      'vercel',
+      'Vercel Hosting',
+      'https://www.vercel-status.com/api/v2/status.json',
+    ),
+    fetchExternalStatus(
+      'supabase',
+      'Supabase Database',
+      'https://status.supabase.com/api/v2/status.json',
+    ),
   ]);
 
   return [members, vercel, supabaseStatus, getAppVersion()];

@@ -42,7 +42,7 @@ const mocks = vi.hoisted(() => {
         select: vi.fn(() => ({
           eq: vi.fn((field: string, value: string) => ({
             single: vi.fn(async () => ({
-              data: field === 'id' ? state.articleById.get(value) ?? null : null,
+              data: field === 'id' ? (state.articleById.get(value) ?? null) : null,
               error: null,
             })),
           })),
@@ -109,9 +109,7 @@ const mocks = vi.hoisted(() => {
             }),
             maybeSingle: vi.fn(async () => ({
               data:
-                state.existingLike &&
-                filters.get('article_id') &&
-                filters.get('user_id')
+                state.existingLike && filters.get('article_id') && filters.get('user_id')
                   ? { article_id: filters.get('article_id') }
                   : null,
               error: null,
@@ -333,14 +331,18 @@ describe('articleStorage', () => {
   it('uploads valid article images and returns the public url', async () => {
     const file = new File(['image'], 'cover.png', { type: 'image/png' });
 
-    await expect(uploadArticleImage(file)).resolves.toBe('https://cdn.example.com/article-image.png');
+    await expect(uploadArticleImage(file)).resolves.toBe(
+      'https://cdn.example.com/article-image.png',
+    );
     expect(mocks.state.uploadPath).toMatch(/\.png$/);
   });
 
   it('rejects invalid article images before upload', async () => {
     const file = new File(['svg'], 'cover.svg', { type: 'image/svg+xml' });
 
-    await expect(uploadArticleImage(file)).rejects.toThrow('Only JPEG, PNG, WebP, or GIF images are allowed.');
+    await expect(uploadArticleImage(file)).rejects.toThrow(
+      'Only JPEG, PNG, WebP, or GIF images are allowed.',
+    );
     expect(mocks.state.uploadPath).toBeNull();
   });
 

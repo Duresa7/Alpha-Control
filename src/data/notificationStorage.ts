@@ -87,7 +87,10 @@ export async function markNotificationRead(userId: string, notificationId: strin
 
   const { error } = await supabase
     .from('notification_reads')
-    .upsert({ user_id: userId, notification_id: notificationId }, { onConflict: 'user_id,notification_id' });
+    .upsert(
+      { user_id: userId, notification_id: notificationId },
+      { onConflict: 'user_id,notification_id' },
+    );
 
   if (error) {
     logger.error('[notificationStorage] markNotificationRead failed:', error.message);

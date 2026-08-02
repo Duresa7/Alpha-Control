@@ -96,10 +96,7 @@ describe('supabaseStorage hyperlane system mapping', () => {
 
   it('persists hyperlanes and omits legacy population keys on system upsert', async () => {
     await batchUpsertSystems(
-      [
-        buildSystem('system-1', ['Hydian Way', 'Perlemian Trade Route']),
-        buildSystem('system-2'),
-      ],
+      [buildSystem('system-1', ['Hydian Way', 'Perlemian Trade Route']), buildSystem('system-2')],
       'user-1',
     );
 

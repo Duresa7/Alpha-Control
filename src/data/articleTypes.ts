@@ -1,15 +1,6 @@
-export type Category =
-  | 'Cybersecurity'
-  | 'Tech'
-  | 'Life'
-  | 'Nonsense';
+export type Category = 'Cybersecurity' | 'Tech' | 'Life' | 'Nonsense';
 
-export const CATEGORIES: Category[] = [
-  'Cybersecurity',
-  'Tech',
-  'Life',
-  'Nonsense',
-];
+export const CATEGORIES: Category[] = ['Cybersecurity', 'Tech', 'Life', 'Nonsense'];
 
 export interface Article {
   id: string;

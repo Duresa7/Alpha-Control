@@ -1,16 +1,16 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router";
-import { NewsShell } from "@/components/news/NewsShell";
-import { fetchArticles } from "@/data/articleStorage";
-import { CATEGORIES } from "@/data/articleTypes";
-import type { Article } from "@/data/articleTypes";
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router';
+import { NewsShell } from '@/components/news/NewsShell';
+import { fetchArticles } from '@/data/articleStorage';
+import { CATEGORIES } from '@/data/articleTypes';
+import type { Article } from '@/data/articleTypes';
 
 const ARTICLES_PER_PAGE = 5;
 
 function ArticleCard({ article }: { article: Article }) {
-  const date = new Date(article.createdAt).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
+  const date = new Date(article.createdAt).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
   });
 
   return (
@@ -18,18 +18,14 @@ function ArticleCard({ article }: { article: Article }) {
       <div className="article-card__body">
         <div className="article-card__meta">
           <div className="article-card__avatar">{article.authorInitials}</div>
-          <span className="article-card__author-name">
-            {article.authorName}
-          </span>
+          <span className="article-card__author-name">{article.authorName}</span>
           <span className="article-card__date">&middot; {date}</span>
         </div>
         <h3 className="article-card__title">{article.title}</h3>
         <p className="article-card__excerpt">{article.excerpt}</p>
         <div className="article-card__footer">
           <span className="article-card__tag">{article.category}</span>
-          <span className="article-card__read-time">
-            {article.readingTimeMinutes} min read
-          </span>
+          <span className="article-card__read-time">{article.readingTimeMinutes} min read</span>
         </div>
       </div>
       <div className="article-card__thumb" aria-hidden="true">
@@ -71,14 +67,14 @@ export function BlogPage() {
         <header className="blog-feed__header">
           <h1 className="blog-feed__title">Blog</h1>
           <p className="blog-feed__subtitle">
-            Personal Blog where I ramble about things that are Cyber, Tech, and
-            whatever else people don't want to listen to me talk about!
+            Personal Blog where I ramble about things that are Cyber, Tech, and whatever else people
+            don't want to listen to me talk about!
           </p>
         </header>
 
         <div className="blog-feed__filters">
           <button
-            className={`blog-feed__filter${activeCategory === null ? " blog-feed__filter--active" : ""}`}
+            className={`blog-feed__filter${activeCategory === null ? ' blog-feed__filter--active' : ''}`}
             onClick={() => {
               setActiveCategory(null);
               setVisibleCount(ARTICLES_PER_PAGE);
@@ -89,7 +85,7 @@ export function BlogPage() {
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
-              className={`blog-feed__filter${activeCategory === cat ? " blog-feed__filter--active" : ""}`}
+              className={`blog-feed__filter${activeCategory === cat ? ' blog-feed__filter--active' : ''}`}
               onClick={() => {
                 setActiveCategory(cat);
                 setVisibleCount(ARTICLES_PER_PAGE);

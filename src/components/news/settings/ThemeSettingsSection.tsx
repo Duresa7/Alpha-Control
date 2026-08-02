@@ -1,8 +1,6 @@
-import type { Dispatch, ReactNode, SetStateAction } from "react";
+import type { Dispatch, ReactNode, SetStateAction } from 'react';
 
-import type {
-  NewsTheme,
-} from "@/components/news/theme/newsTheme";
+import type { NewsTheme } from '@/components/news/theme/newsTheme';
 
 const THEME_OPTIONS: Array<{
   value: NewsTheme;
@@ -10,8 +8,8 @@ const THEME_OPTIONS: Array<{
   icon: ReactNode;
 }> = [
   {
-    value: "light",
-    label: "Light",
+    value: 'light',
+    label: 'Light',
     icon: (
       <svg
         width="18"
@@ -36,8 +34,8 @@ const THEME_OPTIONS: Array<{
     ),
   },
   {
-    value: "dark",
-    label: "Dark",
+    value: 'dark',
+    label: 'Dark',
     icon: (
       <svg
         width="18"
@@ -60,16 +58,9 @@ interface ThemeSettingsSectionProps {
   setTheme: Dispatch<SetStateAction<NewsTheme>>;
 }
 
-export function ThemeSettingsSection({
-  theme,
-  setTheme,
-}: ThemeSettingsSectionProps) {
+export function ThemeSettingsSection({ theme, setTheme }: ThemeSettingsSectionProps) {
   return (
-    <section
-      id="settings-panel-theme"
-      className="settings-page__group"
-      role="tabpanel"
-    >
+    <section id="settings-panel-theme" className="settings-page__group" role="tabpanel">
       <div className="settings-page__group-header">
         <h2 className="settings-page__group-title">Theme</h2>
       </div>
@@ -86,9 +77,7 @@ export function ThemeSettingsSection({
             <span className="settings-page__theme-icon" aria-hidden="true">
               {option.icon}
             </span>
-            <span className="settings-page__theme-option-title">
-              {option.label}
-            </span>
+            <span className="settings-page__theme-option-title">{option.label}</span>
           </button>
         ))}
       </div>

@@ -1,15 +1,18 @@
 import type { PlanetType } from '@/types';
 
-export const PLANET_APPEARANCES: Record<PlanetType, {
-  color: string;
-  roughness: number;
-  metalness: number;
-  secondaryColor?: string;
-  hasRings?: boolean;
-  hasClouds?: boolean;
-  hasAtmosphere?: boolean;
-  atmosphereColor?: string;
-}> = {
+export const PLANET_APPEARANCES: Record<
+  PlanetType,
+  {
+    color: string;
+    roughness: number;
+    metalness: number;
+    secondaryColor?: string;
+    hasRings?: boolean;
+    hasClouds?: boolean;
+    hasAtmosphere?: boolean;
+    atmosphereColor?: string;
+  }
+> = {
   terrestrial: {
     color: '#4A7C59',
     roughness: 0.8,

@@ -11,9 +11,7 @@ function FeaturedHero({ article }: { article: Article }) {
   return (
     <Link to={`/news/${article.slug}`} className="news-home__hero">
       <div className="news-home__hero-cover" aria-hidden="true">
-        {article.coverImageUrl && (
-          <img src={article.coverImageUrl} alt="" />
-        )}
+        {article.coverImageUrl && <img src={article.coverImageUrl} alt="" />}
       </div>
       <p className="news-home__hero-tag">{article.category}</p>
       <h2 className="news-home__hero-title">{article.title}</h2>
@@ -22,7 +20,8 @@ function FeaturedHero({ article }: { article: Article }) {
         <div className="news-home__hero-avatar">{article.authorInitials}</div>
         <span className="news-home__hero-author">{article.authorName}</span>
         <span className="news-home__hero-date">
-          &middot; {formatDate(article.createdAt, 'compact')} &middot; {article.readingTimeMinutes} min read
+          &middot; {formatDate(article.createdAt, 'compact')} &middot; {article.readingTimeMinutes}{' '}
+          min read
         </span>
       </div>
     </Link>
@@ -36,7 +35,9 @@ function ArticleCard({ article }: { article: Article }) {
         <div className="article-card__meta">
           <div className="article-card__avatar">{article.authorInitials}</div>
           <span className="article-card__author-name">{article.authorName}</span>
-          <span className="article-card__date">&middot; {formatDate(article.createdAt, 'compact')}</span>
+          <span className="article-card__date">
+            &middot; {formatDate(article.createdAt, 'compact')}
+          </span>
         </div>
         <h3 className="article-card__title">{article.title}</h3>
         <p className="article-card__excerpt">{article.excerpt}</p>
@@ -55,13 +56,13 @@ function ArticleCard({ article }: { article: Article }) {
 function TrendingItem({ article, rank }: { article: Article; rank: number }) {
   return (
     <Link to={`/news/${article.slug}`} className="trending-item">
-      <span className="trending-item__rank">
-        {String(rank).padStart(2, '0')}
-      </span>
+      <span className="trending-item__rank">{String(rank).padStart(2, '0')}</span>
       <div className="trending-item__body">
         <div className="trending-item__meta">
           <span className="trending-item__author">{article.authorName}</span>
-          <span className="trending-item__date">&middot; {formatDate(article.createdAt, 'compact')}</span>
+          <span className="trending-item__date">
+            &middot; {formatDate(article.createdAt, 'compact')}
+          </span>
         </div>
         <h4 className="trending-item__title">{article.title}</h4>
       </div>
@@ -74,9 +75,7 @@ function ServiceQuickCard({ status }: { status: ServiceStatus }) {
     <div className="service-quick">
       <div className={`service-quick__dot service-quick__dot--${status.status}`} />
       <span className="service-quick__name">{status.name}</span>
-      {status.metric && (
-        <span className="service-quick__metric">{status.metric}</span>
-      )}
+      {status.metric && <span className="service-quick__metric">{status.metric}</span>}
     </div>
   );
 }
@@ -95,19 +94,19 @@ export function NewsPage() {
         setLoading(false);
       }
     });
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  const featured = articles.find(a => a.isFeatured);
-  const trending = articles.filter(a => a.isTrending && a.slug !== featured?.slug);
-  const latest = articles.filter(a => a.slug !== featured?.slug).slice(0, 6);
+  const featured = articles.find((a) => a.isFeatured);
+  const trending = articles.filter((a) => a.isTrending && a.slug !== featured?.slug);
+  const latest = articles.filter((a) => a.slug !== featured?.slug).slice(0, 6);
 
   return (
     <NewsShell>
       <div className="news-home">
-        {loading && (
-          <p className="news-home__empty">Loading articles...</p>
-        )}
+        {loading && <p className="news-home__empty">Loading articles...</p>}
 
         {!loading && articles.length === 0 && (
           <p className="news-home__empty">No articles published yet.</p>
@@ -119,7 +118,7 @@ export function NewsPage() {
           <div className="news-home__grid">
             <div className="news-home__main">
               <h2 className="news-home__section-title">Latest</h2>
-              {latest.map(article => (
+              {latest.map((article) => (
                 <ArticleCard key={article.slug} article={article} />
               ))}
             </div>
@@ -137,7 +136,7 @@ export function NewsPage() {
               {statuses.length > 0 && (
                 <div className="news-home__sidebar-section">
                   <h3 className="news-home__section-title">AlphaSec Status</h3>
-                  {statuses.map(status => (
+                  {statuses.map((status) => (
                     <ServiceQuickCard key={status.id} status={status} />
                   ))}
                 </div>

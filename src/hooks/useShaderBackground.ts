@@ -96,10 +96,17 @@ class WebGLRenderer {
     if (!this.vs) return false;
 
     this.fs = this.compile(gl.FRAGMENT_SHADER, SHADER_SOURCE);
-    if (!this.fs) { gl.deleteShader(this.vs); return false; }
+    if (!this.fs) {
+      gl.deleteShader(this.vs);
+      return false;
+    }
 
     const program = gl.createProgram();
-    if (!program) { gl.deleteShader(this.vs); gl.deleteShader(this.fs); return false; }
+    if (!program) {
+      gl.deleteShader(this.vs);
+      gl.deleteShader(this.fs);
+      return false;
+    }
 
     gl.attachShader(program, this.vs);
     gl.attachShader(program, this.fs);
@@ -149,8 +156,14 @@ class WebGLRenderer {
   dispose() {
     const gl = this.gl;
     if (this.program) {
-      if (this.vs) { gl.detachShader(this.program, this.vs); gl.deleteShader(this.vs); }
-      if (this.fs) { gl.detachShader(this.program, this.fs); gl.deleteShader(this.fs); }
+      if (this.vs) {
+        gl.detachShader(this.program, this.vs);
+        gl.deleteShader(this.vs);
+      }
+      if (this.fs) {
+        gl.detachShader(this.program, this.fs);
+        gl.deleteShader(this.fs);
+      }
       gl.deleteProgram(this.program);
     }
     if (this.buffer) gl.deleteBuffer(this.buffer);
