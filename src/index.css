@@ -1693,9 +1693,15 @@ body {
   pointer-events: none;
 }
 
-.portfolio-hero__shader-canvas {
+.portfolio-hero__particle-canvas {
   z-index: 0;
-  background: #000;
+  /* A canvas is a replaced element, so inset alone leaves it at its intrinsic
+     size. Without this it never fills the hero. */
+  width: 100%;
+  height: 100%;
+  /* The gradient behind the particles is painted onto the canvas, since trails
+     fade towards it. This only covers the moment before the first frame. */
+  background: #07080c;
 }
 
 .portfolio-hero__grid {
@@ -1803,6 +1809,12 @@ body {
   font-size: clamp(2.4rem, 8vw, 6rem);
   font-weight: 600;
   letter-spacing: 0.03em;
+}
+
+/* Nudges the second line down without shifting the first. In em so the gap
+   keeps its proportions as the clamped font size scales. */
+.portfolio-hero__name-line + .portfolio-hero__name-line {
+  margin-top: 0.14em;
 }
 
 .portfolio-hero__content--base .portfolio-hero__name-line {

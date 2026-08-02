@@ -1,7 +1,7 @@
 import { useState, type ComponentType } from 'react';
 import { Link, useLocation } from 'react-router';
 import { useAuth } from '@/hooks/useAuth';
-import { useShaderBackground } from '@/hooks/useShaderBackground';
+import { useParticleBackground } from '@/hooks/useParticleBackground';
 import { AuthModal } from '@/components/auth/AuthModal';
 import { NotificationBell } from '@/components/NotificationBell';
 import { Footer } from '@/components/Footer';
@@ -110,7 +110,7 @@ const SOCIAL_LINKS: SocialLink[] = [
 ];
 
 export function LandingPage() {
-  const shaderCanvasRef = useShaderBackground();
+  const particleCanvasRef = useParticleBackground();
   const { session, profile, signOut } = useAuth();
   const location = useLocation();
   const locationState = location.state as { showAuthModal?: boolean } | null;
@@ -139,15 +139,15 @@ export function LandingPage() {
       aria-label="Portfolio homepage"
     >
       <canvas
-        ref={shaderCanvasRef}
-        className="portfolio-hero__layer portfolio-hero__shader-canvas"
+        ref={particleCanvasRef}
+        className="portfolio-hero__layer portfolio-hero__particle-canvas"
         aria-hidden="true"
       />
 
       <div className="portfolio-hero__content portfolio-hero__content--base">
         <div className="portfolio-hero__name-block portfolio-hero__parallax">
-          <p className="portfolio-hero__name-line">Alpha</p>
-          <p className="portfolio-hero__name-line">Sec</p>
+          <p className="portfolio-hero__name-line">AlphaSec</p>
+          <p className="portfolio-hero__name-line">United</p>
         </div>
 
         <div className="portfolio-hero__nav-block portfolio-hero__parallax">
