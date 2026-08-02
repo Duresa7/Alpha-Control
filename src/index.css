@@ -4156,16 +4156,39 @@ body {
    Fleet Logistics Interface Modal
    ======================================== */
 
+/* ============================================
+   Shared command modal shell
+   Neutral graphite foundation. Cyan carries state
+   (active / selected / focus), amber is reserved for
+   the single primary action. Nothing else is tinted.
+   ============================================ */
 .fleet-modal-overlay {
+  --m-surface: #12151d;
+  --m-raised: #191d27;
+  --m-inset: #0c0e14;
+  --m-line: rgba(255, 255, 255, 0.07);
+  --m-line-strong: rgba(255, 255, 255, 0.13);
+  --m-text: #eef1f6;
+  --m-text-dim: #a3adbe;
+  --m-text-mute: #6d7789;
+  --m-accent: #f0c987;
+  --m-state: #5ad6f0;
+  --m-state-soft: rgba(90, 214, 240, 0.13);
+  --m-danger: #ff6b7a;
+  --m-radius-lg: 18px;
+  --m-radius-md: 12px;
+  --m-radius-sm: 8px;
+
   position: fixed;
   inset: 0;
   z-index: 16777280;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(2, 2, 6, 0.88);
-  backdrop-filter: blur(8px);
-  animation: fadeIn 0.25s ease-out;
+  background: rgba(4, 6, 10, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  animation: fadeIn 0.2s ease-out;
 }
 
 .fleet-modal-container {
@@ -4174,42 +4197,14 @@ body {
   max-height: 96vh;
   display: flex;
   flex-direction: column;
-  background:
-    linear-gradient(
-      160deg,
-      rgba(255, 255, 255, 0.07) 0%,
-      rgba(255, 255, 255, 0.015) 36%,
-      rgba(200, 170, 110, 0.05) 100%
-    ),
-    rgba(8, 9, 14, 0.82);
-  backdrop-filter: blur(32px) saturate(170%);
-  -webkit-backdrop-filter: blur(32px) saturate(170%);
-  border: 1px solid rgba(255, 255, 255, 0.13);
-  border-radius: 20px;
+  background: var(--m-surface);
+  border: 1px solid var(--m-line-strong);
+  border-radius: var(--m-radius-lg);
   overflow: hidden;
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.14),
-    0 0 1px rgba(200, 170, 110, 0.2),
-    0 24px 64px rgba(0, 0, 0, 0.7);
-  animation: slideInRight 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.fleet-modal-container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(200, 170, 110, 0.3) 30%,
-    rgba(200, 170, 110, 0.3) 70%,
-    transparent
-  );
-  pointer-events: none;
-  z-index: 0;
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 32px 80px rgba(0, 0, 0, 0.6);
+  animation: fadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Header */
@@ -4219,52 +4214,62 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 24px;
-  border-bottom: 1px solid rgba(200, 170, 110, 0.18);
-  background: rgba(200, 170, 110, 0.04);
+  gap: 16px;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--m-line);
 }
 
 .fleet-modal-header-left {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  min-width: 0;
 }
 
 .fleet-modal-header-icon {
-  width: 22px;
-  height: 22px;
-  color: var(--holo-amber);
-  filter: drop-shadow(0 0 4px rgba(200, 170, 110, 0.4));
+  width: 18px;
+  height: 18px;
+  flex: none;
+  color: var(--m-accent);
 }
 
 .fleet-modal-title {
   margin: 0;
   font-family: 'Orbitron', monospace;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--holo-text-primary);
-  letter-spacing: 0.12em;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--m-text);
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
 .fleet-modal-close {
   width: 30px;
   height: 30px;
+  flex: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(200, 170, 110, 0.06);
-  border: 1px solid rgba(200, 170, 110, 0.15);
-  border-radius: 50%;
-  color: var(--holo-amber);
+  background: transparent;
+  border: 1px solid var(--m-line);
+  border-radius: var(--m-radius-sm);
+  color: var(--m-text-dim);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
 }
 
 .fleet-modal-close:hover {
-  background: rgba(200, 170, 110, 0.18);
-  color: var(--holo-amber-bright);
-  box-shadow: 0 0 10px rgba(200, 170, 110, 0.2);
+  background: var(--m-raised);
+  border-color: var(--m-line-strong);
+  color: var(--m-text);
+}
+
+.fleet-modal-close:focus-visible {
+  outline: 2px solid var(--m-state);
+  outline-offset: 2px;
 }
 
 /* Body */
@@ -4279,14 +4284,14 @@ body {
 /* Left — Catalog */
 .fleet-modal-catalog {
   flex: 1;
-  padding: 20px;
+  padding: 22px;
   overflow-y: auto;
-  border-right: 1px solid rgba(200, 170, 110, 0.12);
+  border-right: 1px solid var(--m-line);
 }
 
 .fleet-ship-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
   gap: 16px;
 }
 
@@ -4294,24 +4299,28 @@ body {
 .fleet-ship-card {
   display: flex;
   flex-direction: column;
-  background: rgba(200, 170, 110, 0.03);
-  border: 1px solid rgba(200, 170, 110, 0.1);
-  border-radius: 10px;
+  background: var(--m-raised);
+  border: 1px solid var(--m-line);
+  border-radius: var(--m-radius-md);
   overflow: hidden;
-  transition: all 0.25s ease;
+  transition:
+    border-color 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
 }
 
 .fleet-ship-card:hover {
-  border-color: rgba(200, 170, 110, 0.3);
-  background: rgba(200, 170, 110, 0.06);
-  box-shadow: 0 0 20px rgba(200, 170, 110, 0.06);
+  border-color: var(--m-line-strong);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
 }
 
 .fleet-ship-card-preview {
   position: relative;
   width: 100%;
-  height: 160px;
-  background: linear-gradient(145deg, rgba(10, 12, 20, 0.9) 0%, rgba(18, 20, 32, 0.8) 100%);
+  height: 158px;
+  background: radial-gradient(ellipse at 50% 42%, #1d2331 0%, var(--m-inset) 72%);
+  border-bottom: 1px solid var(--m-line);
   overflow: hidden;
 }
 
@@ -4324,76 +4333,95 @@ body {
 
 .fleet-ship-class-badge {
   position: absolute;
-  bottom: 8px;
-  left: 8px;
+  bottom: 10px;
+  left: 10px;
   font-family: 'Orbitron', monospace;
   font-size: 8px;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  padding: 3px 10px;
-  background: rgba(200, 170, 110, 0.15);
-  color: var(--holo-amber);
-  border: 1px solid rgba(200, 170, 110, 0.3);
-  border-radius: 5px;
+  padding: 4px 9px;
+  background: rgba(8, 10, 15, 0.78);
+  color: var(--m-text-dim);
+  border: 1px solid var(--m-line);
+  border-radius: 999px;
 }
 
 .fleet-ship-card-info {
-  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 15px 15px 15px;
+  gap: 6px;
 }
 
 .fleet-ship-card-name {
-  margin: 0 0 6px;
+  margin: 0;
   font-family: 'Oxanium', 'Orbitron', monospace;
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--holo-text-primary);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--m-text);
 }
 
 .fleet-ship-card-desc {
-  margin: 0 0 12px;
+  margin: 0 0 4px;
   font-family: 'Oxanium', 'Orbitron', monospace;
-  font-size: 12px;
-  line-height: 1.4;
-  color: var(--holo-text-muted);
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--m-text-dim);
 }
 
 .fleet-ship-add-btn {
   display: block;
   width: 100%;
-  padding: 8px 12px;
+  margin-top: auto;
+  padding: 9px 12px;
   font-family: 'Orbitron', monospace;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--holo-amber);
-  background: rgba(200, 170, 110, 0.06);
-  border: 1px solid rgba(200, 170, 110, 0.2);
-  border-radius: 0 0 10px 10px;
+  color: var(--m-text-dim);
+  background: transparent;
+  border: 1px solid var(--m-line-strong);
+  border-radius: var(--m-radius-sm);
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
 }
 
-.fleet-ship-add-btn:hover {
-  background: rgba(200, 170, 110, 0.14);
-  border-color: rgba(200, 170, 110, 0.5);
-  color: #fff;
-  box-shadow: 0 0 12px rgba(200, 170, 110, 0.15);
+.fleet-ship-add-btn:hover:not(:disabled) {
+  color: var(--m-state);
+  border-color: var(--m-state);
+  background: var(--m-state-soft);
+}
+
+.fleet-ship-add-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.fleet-ship-add-btn:focus-visible {
+  outline: 2px solid var(--m-state);
+  outline-offset: 2px;
 }
 
 /* Right — Config */
 .fleet-modal-config {
-  width: 280px;
-  min-width: 280px;
+  width: 296px;
+  min-width: 296px;
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 22px;
   overflow-y: auto;
+  background: var(--m-inset);
 }
 
 .fleet-config-section {
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 .fleet-config-label {
@@ -4401,18 +4429,39 @@ body {
   font-family: 'Orbitron', monospace;
   font-size: 9px;
   font-weight: 600;
-  color: var(--holo-amber);
+  color: var(--m-text-mute);
   text-transform: uppercase;
   letter-spacing: 0.14em;
   margin-bottom: 8px;
-  text-shadow: 0 0 4px rgba(200, 170, 110, 0.3);
+}
+
+.fleet-config-input,
+.fleet-config-select {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--m-raised);
+  border: 1px solid var(--m-line);
+  border-radius: var(--m-radius-sm);
+  color: var(--m-text);
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
 }
 
 .fleet-config-input {
-  width: 100%;
-  padding: 8px 12px;
+  padding: 9px 12px;
   font-size: 13px;
-  box-sizing: border-box;
+}
+
+.fleet-config-input::placeholder {
+  color: var(--m-text-mute);
+}
+
+.fleet-config-input:focus,
+.fleet-config-select:focus {
+  outline: none;
+  border-color: var(--m-state);
+  box-shadow: 0 0 0 3px var(--m-state-soft);
 }
 
 .fleet-config-select-wrap {
@@ -4420,19 +4469,18 @@ body {
 }
 
 .fleet-config-select {
-  width: 100%;
-  padding: 8px 28px 8px 12px;
-  font-size: 12px;
+  padding: 9px 30px 9px 12px;
+  font-size: 12.5px;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  box-sizing: border-box;
+  cursor: pointer;
   background-image:
-    linear-gradient(45deg, transparent 50%, rgba(200, 170, 110, 0.9) 50%),
-    linear-gradient(135deg, rgba(200, 170, 110, 0.9) 50%, transparent 50%);
+    linear-gradient(45deg, transparent 50%, #a3adbe 50%),
+    linear-gradient(135deg, #a3adbe 50%, transparent 50%);
   background-position:
-    calc(100% - 12px) calc(50% - 2px),
-    calc(100% - 8px) calc(50% - 2px);
+    calc(100% - 15px) calc(50% - 1px),
+    calc(100% - 11px) calc(50% - 1px);
   background-size:
     4px 4px,
     4px 4px;
@@ -4442,15 +4490,14 @@ body {
 .fleet-config-faction-desc {
   margin: 8px 0 0;
   font-family: 'Oxanium', 'Orbitron', monospace;
-  font-size: 11px;
-  line-height: 1.4;
-  color: var(--holo-amber);
-  font-style: italic;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--m-text-dim);
 }
 
 .fleet-config-units-header {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
 }
 
@@ -4458,8 +4505,8 @@ body {
   font-family: 'Orbitron', monospace;
   font-size: 12px;
   font-weight: 600;
-  color: var(--holo-amber);
-  text-shadow: 0 0 6px rgba(200, 170, 110, 0.3);
+  font-variant-numeric: tabular-nums;
+  color: var(--m-accent);
 }
 
 /* Hangar */
@@ -4484,11 +4531,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px dashed rgba(200, 170, 110, 0.12);
-  border-radius: 10px;
-  color: var(--holo-text-muted);
+  background: var(--m-surface);
+  border: 1px dashed var(--m-line-strong);
+  border-radius: var(--m-radius-md);
+  color: var(--m-text-mute);
   font-family: 'Oxanium', 'Orbitron', monospace;
-  font-size: 13px;
+  font-size: 12.5px;
 }
 
 .fleet-hangar-list {
@@ -4501,44 +4549,48 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 10px;
-  background: rgba(200, 170, 110, 0.04);
-  border: 1px solid rgba(200, 170, 110, 0.1);
-  border-radius: 8px;
+  gap: 10px;
+  padding: 9px 11px;
+  background: var(--m-raised);
+  border: 1px solid var(--m-line);
+  border-radius: var(--m-radius-sm);
 }
 
 .fleet-hangar-entry-info {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
+  min-width: 0;
 }
 
 .fleet-hangar-entry-name {
   font-family: 'Oxanium', 'Orbitron', monospace;
   font-size: 13px;
   font-weight: 600;
-  color: var(--holo-text-primary);
+  color: var(--m-text);
 }
 
 .fleet-hangar-entry-class {
   font-family: 'Orbitron', monospace;
   font-size: 8px;
-  color: var(--holo-text-muted);
+  color: var(--m-text-mute);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
 }
 
 .fleet-hangar-entry-controls {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  flex: none;
 }
 
 .fleet-hangar-entry-qty {
   font-family: 'Orbitron', monospace;
   font-size: 12px;
   font-weight: 600;
-  color: var(--holo-amber);
+  font-variant-numeric: tabular-nums;
+  color: var(--m-text);
 }
 
 .fleet-hangar-remove-btn {
@@ -4547,18 +4599,26 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(220, 20, 60, 0.08);
-  border: 1px solid rgba(220, 20, 60, 0.2);
-  border-radius: 50%;
-  color: var(--holo-crimson);
+  background: transparent;
+  border: 1px solid var(--m-line-strong);
+  border-radius: var(--m-radius-sm);
+  color: var(--m-text-mute);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
 }
 
 .fleet-hangar-remove-btn:hover {
-  background: rgba(220, 20, 60, 0.2);
-  border-color: rgba(220, 20, 60, 0.5);
-  color: #fff;
+  background: rgba(255, 107, 122, 0.12);
+  border-color: var(--m-danger);
+  color: var(--m-danger);
+}
+
+.fleet-hangar-remove-btn:focus-visible {
+  outline: 2px solid var(--m-state);
+  outline-offset: 2px;
 }
 
 /* Actions */
@@ -4566,53 +4626,67 @@ body {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  margin-top: auto;
+  padding-top: 18px;
+  border-top: 1px solid var(--m-line);
 }
 
 .fleet-confirm-btn {
   width: 100%;
-  padding: 10px 16px;
+  padding: 11px 16px;
   font-family: 'Orbitron', monospace;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #050508;
-  background: linear-gradient(135deg, rgba(200, 170, 110, 0.9), rgba(168, 140, 88, 0.9));
-  border: 1px solid var(--holo-amber);
-  border-radius: 8px;
+  color: #0b0d12;
+  background: var(--m-accent);
+  border: 1px solid var(--m-accent);
+  border-radius: var(--m-radius-sm);
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition:
+    background 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .fleet-confirm-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, var(--holo-amber-bright), var(--holo-amber));
-  box-shadow: 0 0 20px rgba(200, 170, 110, 0.3);
+  background: #ffdca5;
+  border-color: #ffdca5;
+  box-shadow: 0 6px 20px rgba(240, 201, 135, 0.18);
 }
 
 .fleet-confirm-btn:disabled {
-  opacity: 0.3;
+  opacity: 0.28;
   cursor: not-allowed;
+}
+
+.fleet-confirm-btn:focus-visible,
+.fleet-cancel-btn:focus-visible {
+  outline: 2px solid var(--m-state);
+  outline-offset: 2px;
 }
 
 .fleet-cancel-btn {
   width: 100%;
-  padding: 8px 16px;
+  padding: 9px 16px;
   font-family: 'Orbitron', monospace;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--holo-text-muted);
+  color: var(--m-text-mute);
   background: transparent;
-  border: 1px solid rgba(200, 170, 110, 0.12);
+  border: 1px solid transparent;
+  border-radius: var(--m-radius-sm);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
 }
 
 .fleet-cancel-btn:hover {
-  color: var(--holo-text-primary);
-  border-color: rgba(200, 170, 110, 0.3);
-  background: rgba(200, 170, 110, 0.04);
+  color: var(--m-text);
+  border-color: var(--m-line-strong);
 }
 
 /* Custom ship card in fleet modal */
@@ -4620,25 +4694,40 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(ellipse at center, rgba(200, 170, 110, 0.06) 0%, transparent 70%);
+}
+
+.fleet-custom-name-input,
+.fleet-custom-class-select {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--m-inset);
+  border: 1px solid var(--m-line);
+  border-radius: 6px;
+  color: var(--m-text);
 }
 
 .fleet-custom-name-input {
-  width: 100%;
   font-size: 12px;
-  padding: 4px 8px;
+  padding: 6px 9px;
   margin-bottom: 6px;
 }
 
+.fleet-custom-name-input::placeholder {
+  color: var(--m-text-mute);
+}
+
 .fleet-custom-class-select {
-  width: 100%;
-  font-size: 11px;
-  padding: 3px 6px;
+  font-size: 11.5px;
+  padding: 6px 9px;
   margin-bottom: 8px;
-  background: rgba(200, 170, 110, 0.06);
-  border: 1px solid rgba(200, 170, 110, 0.15);
-  color: var(--holo-text-primary);
-  border-radius: 4px;
+  cursor: pointer;
+}
+
+.fleet-custom-name-input:focus,
+.fleet-custom-class-select:focus {
+  outline: none;
+  border-color: var(--m-state);
+  box-shadow: 0 0 0 3px var(--m-state-soft);
 }
 
 .fleet-custom-qty-row {
@@ -4652,32 +4741,48 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  height: 22px;
-  border-radius: 3px;
-  border: 1px solid rgba(200, 170, 110, 0.2);
-  background: rgba(200, 170, 110, 0.06);
-  color: var(--holo-amber);
+  width: 24px;
+  height: 24px;
+  flex: none;
+  border-radius: 6px;
+  border: 1px solid var(--m-line-strong);
+  background: transparent;
+  color: var(--m-text-dim);
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
 }
 
 .fleet-custom-qty-btn:hover:not(:disabled) {
-  background: rgba(200, 170, 110, 0.12);
-  border-color: rgba(200, 170, 110, 0.35);
+  color: var(--m-state);
+  border-color: var(--m-state);
+  background: var(--m-state-soft);
 }
 
 .fleet-custom-qty-btn:disabled {
-  opacity: 0.35;
+  opacity: 0.3;
   cursor: not-allowed;
 }
 
 .fleet-custom-qty-input {
-  width: 64px;
+  flex: 1;
+  min-width: 0;
   text-align: center;
-  font-size: 11px;
-  padding: 3px 6px;
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+  padding: 5px 6px;
   margin: 0;
+  background: var(--m-inset);
+  border: 1px solid var(--m-line);
+  border-radius: 6px;
+  color: var(--m-text);
+}
+
+.fleet-custom-qty-input:focus {
+  outline: none;
+  border-color: var(--m-state);
 }
 
 .fleet-custom-qty-input::-webkit-outer-spin-button,
@@ -4699,9 +4804,9 @@ body {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  padding: 20px;
-  gap: 16px;
-  border-right: 1px solid rgba(200, 170, 110, 0.12);
+  padding: 22px;
+  gap: 18px;
+  border-right: 1px solid var(--m-line);
   overflow-y: auto;
 }
 
@@ -4709,50 +4814,59 @@ body {
   position: relative;
   flex: 1;
   min-height: 360px;
-  border: 1px solid rgba(200, 170, 110, 0.15);
-  border-radius: 6px;
-  background:
-    radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.04), transparent 60%),
-    rgba(3, 3, 5, 0.9);
+  border: 1px solid var(--m-line);
+  border-radius: var(--m-radius-md);
+  background: radial-gradient(ellipse at 50% 45%, #161b26 0%, #05070b 74%);
   overflow: hidden;
 }
 
 .planet-designer-seed {
   position: absolute;
-  bottom: 10px;
-  left: 12px;
+  bottom: 12px;
+  left: 14px;
   font-family: 'Orbitron', monospace;
   font-size: 9px;
-  letter-spacing: 0.14em;
-  color: var(--holo-text-muted);
+  letter-spacing: 0.16em;
+  font-variant-numeric: tabular-nums;
+  color: var(--m-text-mute);
   pointer-events: none;
 }
 
 .planet-designer-reroll {
   position: absolute;
-  bottom: 10px;
-  right: 12px;
+  bottom: 12px;
+  right: 14px;
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 5px 11px;
+  gap: 7px;
+  padding: 7px 12px;
   font-family: 'Orbitron', monospace;
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--holo-amber);
-  background: rgba(5, 5, 8, 0.8);
-  border: 1px solid rgba(200, 170, 110, 0.25);
-  border-radius: 4px;
+  color: var(--m-text-dim);
+  background: rgba(10, 13, 19, 0.82);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid var(--m-line-strong);
+  border-radius: var(--m-radius-sm);
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
 }
 
 .planet-designer-reroll:hover {
-  background: rgba(200, 170, 110, 0.12);
-  border-color: rgba(200, 170, 110, 0.45);
-  color: var(--holo-amber-bright);
+  color: var(--m-state);
+  border-color: var(--m-state);
+  background: var(--m-state-soft);
+}
+
+.planet-designer-reroll:focus-visible {
+  outline: 2px solid var(--m-state);
+  outline-offset: 2px;
 }
 
 .planet-designer-presets {
@@ -4762,8 +4876,8 @@ body {
 .planet-designer-preset-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 8px;
+  gap: 7px;
+  margin-top: 9px;
 }
 
 .planet-designer-preset {
@@ -4773,46 +4887,54 @@ body {
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--holo-text-muted);
-  background: rgba(200, 170, 110, 0.04);
-  border: 1px solid rgba(200, 170, 110, 0.15);
-  border-radius: 4px;
+  color: var(--m-text-dim);
+  background: var(--m-raised);
+  border: 1px solid var(--m-line);
+  border-radius: 999px;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
 }
 
 .planet-designer-preset:hover {
-  color: var(--holo-amber-bright);
-  border-color: rgba(200, 170, 110, 0.4);
+  color: var(--m-text);
+  border-color: var(--m-line-strong);
 }
 
 .planet-designer-preset.is-active {
-  color: var(--holo-void);
-  background: var(--holo-amber);
-  border-color: var(--holo-amber);
+  color: var(--m-state);
+  background: var(--m-state-soft);
+  border-color: var(--m-state);
+}
+
+.planet-designer-preset:focus-visible {
+  outline: 2px solid var(--m-state);
+  outline-offset: 2px;
 }
 
 .planet-designer-config {
-  width: 320px;
-  min-width: 320px;
+  width: 316px;
+  min-width: 316px;
 }
 
 .planet-designer-section {
   margin-bottom: 18px;
-  padding-top: 14px;
-  border-top: 1px solid rgba(200, 170, 110, 0.12);
+  padding-top: 16px;
+  border-top: 1px solid var(--m-line);
   display: flex;
   flex-direction: column;
-  gap: 9px;
+  gap: 10px;
 }
 
 .planet-designer-section-title {
   font-family: 'Orbitron', monospace;
   font-size: 9px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--holo-amber);
+  color: var(--m-text-mute);
 }
 
 .planet-designer-slider,
@@ -4824,9 +4946,9 @@ body {
 
 .planet-designer-slider-label {
   flex: none;
-  width: 84px;
-  font-size: 11px;
-  color: var(--holo-text-muted);
+  width: 82px;
+  font-size: 11.5px;
+  color: var(--m-text-dim);
 }
 
 .planet-designer-slider-value {
@@ -4836,7 +4958,7 @@ body {
   font-family: 'Orbitron', monospace;
   font-size: 9px;
   font-variant-numeric: tabular-nums;
-  color: var(--holo-text-primary);
+  color: var(--m-text-mute);
 }
 
 .planet-designer-range {
@@ -4845,38 +4967,61 @@ body {
   height: 3px;
   appearance: none;
   -webkit-appearance: none;
-  background: rgba(200, 170, 110, 0.18);
+  background: rgba(255, 255, 255, 0.13);
   border-radius: 2px;
   cursor: pointer;
 }
 
 .planet-designer-range::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 12px;
-  height: 12px;
+  width: 13px;
+  height: 13px;
   border-radius: 50%;
-  background: var(--holo-amber);
+  background: var(--m-text);
   border: none;
   cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.planet-designer-range:hover::-webkit-slider-thumb {
+  background: var(--m-state);
 }
 
 .planet-designer-range::-moz-range-thumb {
-  width: 12px;
-  height: 12px;
+  width: 13px;
+  height: 13px;
   border-radius: 50%;
-  background: var(--holo-amber);
+  background: var(--m-text);
   border: none;
   cursor: pointer;
 }
 
+.planet-designer-range:hover::-moz-range-thumb {
+  background: var(--m-state);
+}
+
 .planet-designer-range:focus-visible {
-  outline: 2px solid var(--holo-cyan);
+  outline: 2px solid var(--m-state);
   outline-offset: 3px;
+}
+
+.planet-designer-color .holo-color-input {
+  width: 30px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid var(--m-line-strong);
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
 }
 
 .planet-designer-toggle {
   display: flex;
-  gap: 8px;
+  gap: 4px;
+  padding: 4px;
+  background: var(--m-raised);
+  border: 1px solid var(--m-line);
+  border-radius: var(--m-radius-sm);
 }
 
 .planet-designer-toggle button {
@@ -4887,23 +5032,28 @@ body {
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--holo-text-muted);
-  background: rgba(200, 170, 110, 0.04);
-  border: 1px solid rgba(200, 170, 110, 0.15);
-  border-radius: 4px;
+  color: var(--m-text-mute);
+  background: transparent;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease;
 }
 
 .planet-designer-toggle button:hover {
-  color: var(--holo-amber-bright);
-  border-color: rgba(200, 170, 110, 0.4);
+  color: var(--m-text);
 }
 
 .planet-designer-toggle button.is-active {
-  color: var(--holo-void);
-  background: var(--holo-amber);
-  border-color: var(--holo-amber);
+  color: #0b0d12;
+  background: var(--m-text);
+}
+
+.planet-designer-toggle button:focus-visible {
+  outline: 2px solid var(--m-state);
+  outline-offset: 2px;
 }
 
 @media (max-width: 900px) {
