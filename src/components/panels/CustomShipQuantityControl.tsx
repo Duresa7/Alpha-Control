@@ -1,3 +1,4 @@
+import { Minus, Plus } from 'lucide-react';
 interface CustomShipQuantityControlProps {
   ariaLabel: string;
   clamp: (value: number) => number;
@@ -23,9 +24,7 @@ export function CustomShipQuantityControl({
         disabled={value <= min}
         title="Decrease quantity"
       >
-        <svg width={10} height={10} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
-          <path d="M20 12H4" />
-        </svg>
+        <Minus size={10} strokeWidth={2.5} aria-hidden="true" />
       </button>
       <input
         type="number"
@@ -43,9 +42,7 @@ export function CustomShipQuantityControl({
         disabled={value >= max}
         title="Increase quantity"
       >
-        <svg width={10} height={10} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
-          <path d="M12 4v16m8-8H4" />
-        </svg>
+        <Plus size={10} strokeWidth={2.5} aria-hidden="true" />
       </button>
     </div>
   );

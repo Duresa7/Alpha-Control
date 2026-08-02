@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Minus, Plus } from 'lucide-react';
 import type { Fleet, FleetShipEntry, ShipModelType } from '@/types';
 import { useGalaxySelectionStore } from '@/store/galaxySelectionStore';
 import { useGalaxyDataStore } from '@/store/galaxyDataStore';
@@ -66,17 +67,13 @@ function CompositionEntry({
       <div className="fleet-composition-entry-right">
         {editable && (
           <button className="fleet-composition-qty-btn" onClick={onRemove}>
-            <svg width={10} height={10} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
-              <path d="M20 12H4" />
-            </svg>
+            <Minus size={10} strokeWidth={2.5} aria-hidden="true" />
           </button>
         )}
         <span className="fleet-composition-entry-qty">{entry.quantity}</span>
         {editable && (
           <button className="fleet-composition-qty-btn" onClick={onAdd}>
-            <svg width={10} height={10} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
-              <path d="M12 4v16m8-8H4" />
-            </svg>
+            <Plus size={10} strokeWidth={2.5} aria-hidden="true" />
           </button>
         )}
       </div>

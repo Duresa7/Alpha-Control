@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
+import { Search } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGalaxySelectionStore } from '@/store/galaxySelectionStore';
 import { useGalaxyUIStore } from '@/store/galaxyUIStore';
@@ -104,17 +105,13 @@ export function SearchBar() {
       <div className="holo-panel">
         <label className="holo-label holo-section-header mb-3 pointer-events-none">
           <span className="flex items-center gap-2">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ opacity: 0.7 }}>
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
+            <Search className="w-4 h-4" style={{ opacity: 0.7 }} aria-hidden="true" />
             Search Nav
           </span>
         </label>
         
         <div className="holo-search-wrapper">
-            <svg className="holo-search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
+            <Search className="holo-search-icon" aria-hidden="true" />
             <input
               type="text"
               value={searchQuery}

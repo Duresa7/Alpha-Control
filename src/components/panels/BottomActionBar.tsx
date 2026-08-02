@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Globe, SlidersHorizontal, Zap } from "lucide-react";
+import { Globe, Rocket, SlidersHorizontal } from "lucide-react";
 import { useGalaxyUIStore } from "@/store/galaxyUIStore";
 import { useRole } from "@/hooks/useRole";
 import { CustomPlanetsPanel } from "@/components/panels/CustomPlanetsPanel";
@@ -45,7 +45,7 @@ export function BottomActionBar() {
               label="Create Fleet"
               activeModule={activeModule}
               onOpen={() => setActiveModule(null)}
-              icon={<Zap className="w-4 h-4" aria-hidden="true" />}
+              icon={<Rocket className="w-4 h-4" aria-hidden="true" />}
             />
           </>
         )}

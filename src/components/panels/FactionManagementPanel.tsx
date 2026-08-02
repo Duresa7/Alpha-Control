@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ChevronDown, ChevronRight, Flag, Plus } from 'lucide-react';
 import { useFactionStore } from '@/store/factionStore';
 import { useGalaxyDataStore } from '@/store/galaxyDataStore';
 import { useGalaxyUIStore } from '@/store/galaxyUIStore';
@@ -220,20 +221,14 @@ export function FactionManagementPanel({ isFloatingMode = false }: { isFloatingM
           onClick={() => setCollapsed(!collapsed)}
         >
           <span className="flex items-center gap-2">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ opacity: 0.7 }}>
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
-            </svg>
+            <Flag className="w-4 h-4" style={{ opacity: 0.7 }} aria-hidden="true" />
             Factions
           </span>
           <span aria-hidden="true" style={{ color: 'var(--holo-amber)', opacity: 0.7 }}>
             {collapsed ? (
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
+              <ChevronRight className="w-4 h-4" aria-hidden="true" />
             ) : (
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
+              <ChevronDown className="w-4 h-4" aria-hidden="true" />
             )}
           </span>
         </label>
@@ -382,15 +377,7 @@ export function FactionManagementPanel({ isFloatingMode = false }: { isFloatingM
                 onClick={() => setShowCreate(true)}
                 className="holo-button w-full"
               >
-                <svg
-                  className="w-4 h-4 flex-shrink-0"
-                  style={{ transform: 'translateY(-1px)' }}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                </svg>
+                <Plus className="w-4 h-4 flex-shrink-0" style={{ transform: 'translateY(-1px)' }} aria-hidden="true" />
                 <span className="leading-none">Create Faction</span>
               </button>
             )}

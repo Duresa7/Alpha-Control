@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Plus, Zap } from 'lucide-react';
+import { Plus, Rocket } from 'lucide-react';
 import { useGalaxyUIStore } from '@/store/galaxyUIStore';
 import { useGalaxyDataStore } from '@/store/galaxyDataStore';
 import { FleetLogisticsModal } from '@/components/panels/FleetLogisticsModal';
@@ -21,7 +21,7 @@ export function CustomFleetsPanel() {
         className="holo-label holo-section-header"
       >
         <span className="flex items-center gap-2">
-          <Zap className="w-4 h-4 holo-icon-dim" aria-hidden="true" />
+          <Rocket className="w-4 h-4 holo-icon-dim" aria-hidden="true" />
           Custom Fleets
         </span>
       </label>
