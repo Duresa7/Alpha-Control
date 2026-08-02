@@ -1,4 +1,6 @@
+import { useEffect, useRef } from 'react';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
+import type { EffectComposer as EffectComposerImpl } from 'postprocessing';
 
 /**
  * Bloom for close-up planet views.
@@ -17,8 +19,18 @@ import { EffectComposer, Bloom } from '@react-three/postprocessing';
  * scene in the app.
  */
 export function PlanetEffects() {
+  const composer = useRef<EffectComposerImpl>(null);
+
+  // The wrapper never disposes the composer it builds, so leaving system view
+  // would abandon its multisampled buffers — hundreds of megabytes per trip
+  // between the map and a planet.
+  useEffect(() => {
+    const instance = composer.current;
+    return () => instance?.dispose();
+  }, []);
+
   return (
-    <EffectComposer multisampling={4}>
+    <EffectComposer ref={composer} multisampling={4}>
       <Bloom
         intensity={1.3}
         luminanceThreshold={1.05}
