@@ -785,6 +785,11 @@ body {
   transform: translateY(-50%) translateX(0);
 }
 
+/* The label would sit on top of the panel its own button just opened. */
+.holo-rail-item:has(.holo-rail-button.is-active) .holo-rail-tooltip {
+  opacity: 0;
+}
+
 .holo-tab-strip {
   display: flex;
   gap: 4px;
@@ -895,12 +900,12 @@ body {
 }
 
 .holo-year-label {
-  margin-bottom: 4px;
   font-family: "Oxanium", "Orbitron", monospace;
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  white-space: nowrap;
   color: rgba(255, 255, 255, 0.4);
 }
 

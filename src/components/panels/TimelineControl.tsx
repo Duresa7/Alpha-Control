@@ -30,7 +30,7 @@ export function TimelineControl() {
 
   return (
     <motion.div
-      className="absolute left-20 top-1/2 -translate-y-1/2 z-40 w-[240px]"
+      className="absolute left-20 top-1/2 -translate-y-1/2 z-40 w-80"
       initial={{ x: -12 }}
       animate={{ x: 0 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
@@ -49,27 +49,25 @@ export function TimelineControl() {
         </div>
 
         <div className="holo-year-card">
-          <div className="flex flex-col">
-            <span className="holo-year-label">Current Year</span>
-            {isAdmin ? (
-              <div className="holo-year-value">
-                <input
-                  type="number"
-                  value={yearDraft}
-                  onChange={(e) => setYearDraft(e.target.value)}
-                  onBlur={commitYear}
-                  onKeyDown={(e) => { if (e.key === 'Enter') commitYear(); }}
-                  className="holo-input holo-number-input holo-year-input"
-                />
-                <span className="holo-year-unit">ATC</span>
-              </div>
-            ) : (
-              <div className="holo-year-value">
-                <span className="holo-year-number">{currentYear}</span>
-                <span className="holo-year-unit">ATC</span>
-              </div>
-            )}
-          </div>
+          <span className="holo-year-label">Current Year</span>
+          {isAdmin ? (
+            <div className="holo-year-value">
+              <input
+                type="number"
+                value={yearDraft}
+                onChange={(e) => setYearDraft(e.target.value)}
+                onBlur={commitYear}
+                onKeyDown={(e) => { if (e.key === 'Enter') commitYear(); }}
+                className="holo-input holo-number-input holo-year-input"
+              />
+              <span className="holo-year-unit">ATC</span>
+            </div>
+          ) : (
+            <div className="holo-year-value">
+              <span className="holo-year-number">{currentYear}</span>
+              <span className="holo-year-unit">ATC</span>
+            </div>
+          )}
         </div>
       </div>
     </motion.div>
