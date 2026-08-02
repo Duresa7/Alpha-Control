@@ -137,8 +137,8 @@ export function InfoPanel() {
           key="collapsed"
           className="absolute z-50"
           style={{ top: '20px', right: '220px' }}
-          initial={{ opacity: 0, scale: 0.92 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ scale: 0.92 }}
+          animate={{ scale: 1 }}
           exit={{ opacity: 0, scale: 0.92 }}
           transition={{ duration: 0.15, ease: 'easeOut' }}
         >
@@ -157,8 +157,8 @@ export function InfoPanel() {
         <motion.div
           key="expanded"
           className="absolute right-4 top-4 z-50 w-[30rem] max-h-[calc(100vh-2rem)]"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ x: 24 }}
+          animate={{ x: 0 }}
           exit={{ opacity: 0, x: 40 }}
           transition={{ duration: 0.15, ease: 'easeOut' }}
         >

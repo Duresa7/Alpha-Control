@@ -72,14 +72,14 @@ function WelcomeModal({ onStart, onSkip }: { onStart: () => void; onSkip: () => 
   const isLast = page === pages.length - 1;
 
   return (
-    <motion.div
-      className="fixed inset-0 z-[10000] flex items-center justify-center"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
-    >
-      <div className="absolute inset-0 bg-[rgba(5,5,8,0.85)]" />
+    <div className="fixed inset-0 z-[10000] flex items-center justify-center">
+      <motion.div
+        className="absolute inset-0 bg-[rgba(5,5,8,0.85)]"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.3 }}
+      />
 
       <motion.div
         className="holo-panel relative z-10"
@@ -89,8 +89,8 @@ function WelcomeModal({ onStart, onSkip }: { onStart: () => void; onSkip: () => 
           padding: '32px 32px 24px',
           borderColor: 'rgba(200, 170, 110, 0.3)',
         }}
-        initial={{ opacity: 0, scale: 0.95, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
+        initial={{ scale: 0.95, y: 20 }}
+        animate={{ scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
         transition={{ duration: 0.35, ease: 'easeOut' }}
       >
@@ -196,7 +196,7 @@ function WelcomeModal({ onStart, onSkip }: { onStart: () => void; onSkip: () => 
           </div>
         </div>
       </motion.div>
-    </motion.div>
+    </div>
   );
 }
 
