@@ -1,8 +1,15 @@
-import { useRef, useMemo } from 'react';
+import { useRef, useMemo, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { Starfield } from '@/components/three/Starfield';
 import { SpiralGalaxy } from '@/components/three/SpiralGalaxy';
+
+/**
+ * Sized so the arms stay bright out past the furthest system, which sits at
+ * roughly 146 units. Systems keep their own coordinates either way.
+ */
+const GALAXY_RADIUS = 220;
+
 function ProceduralGalaxyMap() {
   const galaxyRef = useRef<THREE.Group>(null);
   useFrame((state) => {
@@ -31,11 +38,7 @@ function ProceduralGalaxyMap() {
     </group>
   );
 }
-/**
- * Sized so the arms stay bright out past the furthest system, which sits at
- * roughly 146 units. Systems keep their own coordinates either way.
- */
-const GALAXY_RADIUS = 220;
+
 function StarField() {
   return (
     <group position={[0, 0, 0.1]}>
@@ -52,11 +55,12 @@ function StarField() {
     </group>
   );
 }
+
 function GridOverlay() {
   const gridSpacing = 10;
   const gridRange = 20;
   const lineObjects = useMemo(() => {
-    const objects: THREE.Line[] = [];
+    const objects: THREE.Line<THREE.BufferGeometry, THREE.LineBasicMaterial>[] = [];
     for (let x = -gridRange; x <= gridRange; x++) {
       const points = [
         new THREE.Vector3(x * gridSpacing, -gridRange * gridSpacing, 0),
@@ -87,6 +91,19 @@ function GridOverlay() {
     return objects;
   }, []);
 
+  // These lines are handed over as primitives, which React Three Fiber leaves
+  // alone on unmount because their lifetime may be owned elsewhere. The whole
+  // overlay unmounts every time the map leaves top-down view, so without this
+  // the grid strands its geometries and materials on the GPU each time.
+  useEffect(() => {
+    return () => {
+      for (const line of lineObjects) {
+        line.geometry.dispose();
+        line.material.dispose();
+      }
+    };
+  }, [lineObjects]);
+
   return (
     <group position={[0, 0, 0.2]}>
       {lineObjects.map((lineObj, i) => (
@@ -95,6 +112,7 @@ function GridOverlay() {
     </group>
   );
 }
+
 export function GalaxyMapBackground() {
   return <ProceduralGalaxyMap />;
 }
