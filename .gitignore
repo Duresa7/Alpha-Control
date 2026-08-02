@@ -73,6 +73,10 @@ typings/
 .env
 .env.test
 .env.production
+# Vite loads these for local overrides, so they are where secrets land
+.env.local
+.env.*.local
+*.local
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
