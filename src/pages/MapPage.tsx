@@ -12,6 +12,7 @@ import {
   RefreshCw,
   Settings,
 } from 'lucide-react';
+import type { RealtimePostgresChangesPayload } from '@supabase/supabase-js';
 import { Link, useNavigate } from 'react-router';
 import { GalaxyScene } from '@/components/galaxy/GalaxyScene';
 import { InfoPanel } from '@/components/panels/InfoPanel';
@@ -31,6 +32,7 @@ import { useFactionStore } from '@/store/factionStore';
 import { useAuth } from '@/hooks/useAuth';
 import { useRole } from '@/hooks/useRole';
 import { supabase, supabaseConfigured } from '@/lib/supabase';
+import { dbToFleet, dbToSystem, type DbFleet, type DbSystem } from '@/data/supabaseStorage';
 import { getUserIdentity } from '@/utils/getUserIdentity';
 
 const TOUR_STORAGE_KEY = 'onboarding_tour_completed';
@@ -186,7 +188,6 @@ export function MapPage() {
   const [uiHidden, setUiHidden] = useState(false);
   const [tourRunning, setTourRunning] = useState(false);
   const [tourReady, setTourReady] = useState(false);
-  const realtimeRefreshTimeoutRef = useRef<number | null>(null);
   const factionRefreshTimeoutRef = useRef<number | null>(null);
   const viewLabel =
     viewMode === 'topdown' ? 'Galaxy Map' : viewMode === 'system' ? 'Planet View' : 'Fleet View';
@@ -232,17 +233,37 @@ export function MapPage() {
 
     if (!supabaseConfigured) return;
 
-    const scheduleRealtimeRefresh = () => {
-      if (realtimeRefreshTimeoutRef.current !== null) {
-        window.clearTimeout(realtimeRefreshTimeoutRef.current);
+    // Apply the changed row straight from the realtime payload rather than
+    // refetching. A full reload costs ~247kB per save per connected client,
+    // which is the one pattern most likely to burn through the free tier.
+    const handleSystemChange = (payload: RealtimePostgresChangesPayload<DbSystem>) => {
+      const dataStore = useGalaxyDataStore.getState();
+      if (payload.eventType === 'DELETE') {
+        const deletedId = (payload.old as Partial<DbSystem>).id;
+        if (deletedId) dataStore.applyRemoteSystemDelete(deletedId);
+        return;
       }
+      dataStore.applyRemoteSystemUpsert(dbToSystem(payload.new as DbSystem));
+    };
 
-      realtimeRefreshTimeoutRef.current = window.setTimeout(() => {
-        realtimeRefreshTimeoutRef.current = null;
-        const dataState = useGalaxyDataStore.getState();
-        if (dataState.hasPendingChanges) return;
-        void dataState.initializeData();
-      }, 300);
+    const handleFleetChange = (payload: RealtimePostgresChangesPayload<DbFleet>) => {
+      const dataStore = useGalaxyDataStore.getState();
+      if (payload.eventType === 'DELETE') {
+        const deletedId = (payload.old as Partial<DbFleet>).id;
+        if (deletedId) dataStore.applyRemoteFleetDelete(deletedId);
+        return;
+      }
+      dataStore.applyRemoteFleetUpsert(dbToFleet(payload.new as DbFleet));
+    };
+
+    const handleSettingChange = (
+      payload: RealtimePostgresChangesPayload<{ key: string; value: unknown }>,
+    ) => {
+      if (payload.eventType === 'DELETE') return;
+      const { key, value } = payload.new;
+      if (key === 'current_year' && typeof value === 'number') {
+        useGalaxyDataStore.getState().applyRemoteYear(value);
+      }
     };
 
     const scheduleFactionRefresh = () => {
@@ -263,17 +284,17 @@ export function MapPage() {
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'custom_systems' },
-        scheduleRealtimeRefresh,
+        handleSystemChange,
       )
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'custom_fleets' },
-        scheduleRealtimeRefresh,
+        handleFleetChange,
       )
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'app_settings' },
-        scheduleRealtimeRefresh,
+        handleSettingChange,
       )
       .on(
         'postgres_changes',
@@ -283,10 +304,6 @@ export function MapPage() {
       .subscribe();
 
     return () => {
-      if (realtimeRefreshTimeoutRef.current !== null) {
-        window.clearTimeout(realtimeRefreshTimeoutRef.current);
-        realtimeRefreshTimeoutRef.current = null;
-      }
       if (factionRefreshTimeoutRef.current !== null) {
         window.clearTimeout(factionRefreshTimeoutRef.current);
         factionRefreshTimeoutRef.current = null;

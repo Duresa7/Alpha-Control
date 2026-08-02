@@ -248,6 +248,11 @@ export interface GalaxyDataStore {
   currentYear: number;
   setCurrentYear: (year: number) => void;
   initializeData: () => Promise<void>;
+  applyRemoteSystemUpsert: (system: StarSystem) => void;
+  applyRemoteSystemDelete: (id: string) => void;
+  applyRemoteFleetUpsert: (fleet: Fleet) => void;
+  applyRemoteFleetDelete: (id: string) => void;
+  applyRemoteYear: (year: number) => void;
   updatePlanetStats: (systemId: string, planetId: string, stats: PlanetStatsUpdate) => void;
   addCustomSystem: (system: StarSystem) => void;
   removeCustomSystem: (id: string) => void;

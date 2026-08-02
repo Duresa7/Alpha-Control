@@ -36,7 +36,7 @@ export const getAuthenticatedUserId = async (): Promise<string | null> => {
   }
 };
 
-interface DbSystem {
+export interface DbSystem {
   id: string;
   name: string;
   position_x: number;
@@ -74,7 +74,7 @@ const sanitizeStringArray = (value: unknown): string[] | undefined => {
   return items.length > 0 ? items : undefined;
 };
 
-interface DbFleet {
+export interface DbFleet {
   id: string;
   name: string;
   position_x: number;
@@ -89,7 +89,7 @@ interface DbFleet {
   created_by: string | null;
 }
 
-function dbToSystem(row: DbSystem): StarSystem {
+export function dbToSystem(row: DbSystem): StarSystem {
   const planets: Planet[] =
     Array.isArray(row.planets) && row.planets.length > 0
       ? row.planets.map((p, i) => ({
@@ -139,7 +139,7 @@ function dbToSystem(row: DbSystem): StarSystem {
   };
 }
 
-function dbToFleet(row: DbFleet): Fleet {
+export function dbToFleet(row: DbFleet): Fleet {
   const composition =
     Array.isArray(row.composition) && row.composition.length > 0 ? row.composition : undefined;
   return {

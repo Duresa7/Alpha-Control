@@ -143,6 +143,24 @@ const mergeById = <T extends { id: string }>(current: T[], incoming: T[]): T[] =
   return merged;
 };
 
+const _baseSystemsById = new Map(starSystems.map((s) => [s.id, s]));
+const _baseFleetsById = new Map(fleets.map((f) => [f.id, f]));
+
+/**
+ * A remote delete removes the `custom_*` override row, not the entity itself.
+ * Entities that also exist in the bundled galaxy data revert to their base
+ * definition; purely custom ones disappear.
+ */
+const applyRemoteDeletion = <T extends { id: string }>(
+  items: T[],
+  id: string,
+  base: T | undefined,
+  clone: (item: T) => T,
+): T[] =>
+  base
+    ? items.map((item) => (item.id === id ? clone(base) : item))
+    : items.filter((item) => item.id !== id);
+
 const mergeSavedSnapshotEntries = <T extends { id: string }>(
   currentSnapshot: T[],
   latestData: T[],
@@ -248,6 +266,52 @@ export const useGalaxyDataStore = create<GalaxyDataStore>((set, get) => ({
       logger.error('Failed to initialize custom data from Supabase:', err);
       set({ isLoading: false });
     }
+  },
+
+  applyRemoteSystemUpsert: (system) => {
+    if (get().dirtySystemIds.has(system.id)) return;
+    set((state) => ({ systems: mergeById(state.systems, [system]) }));
+    _systemsSnapshot = mergeById(_systemsSnapshot, [cloneSystem(system)]);
+  },
+
+  applyRemoteSystemDelete: (id) => {
+    if (get().dirtySystemIds.has(id)) return;
+    const base = _baseSystemsById.get(id);
+    set((state) => ({
+      systems: applyRemoteDeletion(state.systems, id, base, cloneSystem),
+    }));
+    _systemsSnapshot = applyRemoteDeletion(_systemsSnapshot, id, base, cloneSystem);
+
+    if (base) return;
+    const selStore = useGalaxySelectionStore.getState();
+    if (selStore.selectedSystemId === id) selStore.setSelectedSystem(null);
+    if (shouldClearPanelForSystem(selStore.infoPanelData, id)) selStore.setInfoPanelData(null);
+  },
+
+  applyRemoteFleetUpsert: (fleet) => {
+    if (get().dirtyFleetIds.has(fleet.id)) return;
+    set((state) => ({ fleets: mergeById(state.fleets, [fleet]) }));
+    _fleetsSnapshot = mergeById(_fleetsSnapshot, [cloneFleet(fleet)]);
+  },
+
+  applyRemoteFleetDelete: (id) => {
+    if (get().dirtyFleetIds.has(id)) return;
+    const base = _baseFleetsById.get(id);
+    set((state) => ({
+      fleets: applyRemoteDeletion(state.fleets, id, base, cloneFleet),
+    }));
+    _fleetsSnapshot = applyRemoteDeletion(_fleetsSnapshot, id, base, cloneFleet);
+
+    if (base) return;
+    const selStore = useGalaxySelectionStore.getState();
+    if (selStore.selectedFleetId === id) selStore.setSelectedFleet(null);
+    if (shouldClearPanelForFleet(selStore.infoPanelData, id)) selStore.setInfoPanelData(null);
+  },
+
+  applyRemoteYear: (year) => {
+    if (get().dirtyTimeline) return;
+    set({ currentYear: year });
+    _yearSnapshot = year;
   },
 
   updatePlanetStats: (systemId, planetId, updates) => {
