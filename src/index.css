@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Forum&family=Inter:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Oxanium:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Spline+Sans:wght@300;400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Oxanium:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Spline+Sans:wght@300;400;500;600&display=swap");
 @import "tailwindcss";
 
 :root {
@@ -1298,7 +1298,7 @@ body {
 .holo-field-textarea {
   padding: 6px 8px;
   font-size: 13px;
-  font-family: "Forum", "Rajdhani", serif;
+  font-family: "Oxanium", "Orbitron", monospace;
   resize: vertical;
 }
 
@@ -4258,8 +4258,8 @@ body {
 .fleet-modal-header-icon {
   width: 22px;
   height: 22px;
-  color: var(--holo-cyan);
-  filter: drop-shadow(0 0 4px rgba(0, 240, 255, 0.4));
+  color: var(--holo-amber);
+  filter: drop-shadow(0 0 4px rgba(200, 170, 110, 0.4));
 }
 
 .fleet-modal-title {
@@ -4361,9 +4361,9 @@ body {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 3px 10px;
-  background: rgba(0, 240, 255, 0.15);
-  color: var(--holo-cyan);
-  border: 1px solid rgba(0, 240, 255, 0.3);
+  background: rgba(200, 170, 110, 0.15);
+  color: var(--holo-amber);
+  border: 1px solid rgba(200, 170, 110, 0.3);
   border-radius: 5px;
 }
 
@@ -4373,7 +4373,7 @@ body {
 
 .fleet-ship-card-name {
   margin: 0 0 6px;
-  font-family: "Forum", "Rajdhani", serif;
+  font-family: "Oxanium", "Orbitron", monospace;
   font-size: 16px;
   font-weight: 700;
   color: var(--holo-text-primary);
@@ -4381,7 +4381,7 @@ body {
 
 .fleet-ship-card-desc {
   margin: 0 0 12px;
-  font-family: "Forum", "Rajdhani", serif;
+  font-family: "Oxanium", "Orbitron", monospace;
   font-size: 12px;
   line-height: 1.4;
   color: var(--holo-text-muted);
@@ -4396,19 +4396,19 @@ body {
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--holo-cyan);
-  background: rgba(0, 240, 255, 0.06);
-  border: 1px solid rgba(0, 240, 255, 0.2);
+  color: var(--holo-amber);
+  background: rgba(200, 170, 110, 0.06);
+  border: 1px solid rgba(200, 170, 110, 0.2);
   border-radius: 0 0 10px 10px;
   cursor: pointer;
   transition: all 0.25s ease;
 }
 
 .fleet-ship-add-btn:hover {
-  background: rgba(0, 240, 255, 0.14);
-  border-color: rgba(0, 240, 255, 0.5);
+  background: rgba(200, 170, 110, 0.14);
+  border-color: rgba(200, 170, 110, 0.5);
   color: #fff;
-  box-shadow: 0 0 12px rgba(0, 240, 255, 0.15);
+  box-shadow: 0 0 12px rgba(200, 170, 110, 0.15);
 }
 
 /* Right — Config */
@@ -4470,10 +4470,10 @@ body {
 
 .fleet-config-faction-desc {
   margin: 8px 0 0;
-  font-family: "Forum", "Rajdhani", serif;
+  font-family: "Oxanium", "Orbitron", monospace;
   font-size: 11px;
   line-height: 1.4;
-  color: var(--holo-cyan);
+  color: var(--holo-amber);
   font-style: italic;
 }
 
@@ -4487,8 +4487,8 @@ body {
   font-family: "Orbitron", monospace;
   font-size: 12px;
   font-weight: 600;
-  color: var(--holo-cyan);
-  text-shadow: 0 0 6px rgba(0, 240, 255, 0.3);
+  color: var(--holo-amber);
+  text-shadow: 0 0 6px rgba(200, 170, 110, 0.3);
 }
 
 /* Hangar */
@@ -4516,7 +4516,7 @@ body {
   border: 2px dashed rgba(200, 170, 110, 0.12);
   border-radius: 10px;
   color: var(--holo-text-muted);
-  font-family: "Forum", "Rajdhani", serif;
+  font-family: "Oxanium", "Orbitron", monospace;
   font-size: 13px;
 }
 
@@ -4543,7 +4543,7 @@ body {
 }
 
 .fleet-hangar-entry-name {
-  font-family: "Forum", "Rajdhani", serif;
+  font-family: "Oxanium", "Orbitron", monospace;
   font-size: 13px;
   font-weight: 600;
   color: var(--holo-text-primary);
@@ -4567,7 +4567,7 @@ body {
   font-family: "Orbitron", monospace;
   font-size: 12px;
   font-weight: 600;
-  color: var(--holo-cyan);
+  color: var(--holo-amber);
 }
 
 .fleet-hangar-remove-btn {
@@ -4606,16 +4606,16 @@ body {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #050508;
-  background: linear-gradient(135deg, var(--holo-cyan), #00c4d4);
-  border: 1px solid var(--holo-cyan);
+  background: linear-gradient(135deg, rgba(200, 170, 110, 0.9), rgba(168, 140, 88, 0.9));
+  border: 1px solid var(--holo-amber);
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.25s ease;
 }
 
 .fleet-confirm-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, #00ffff, #00e4f4);
-  box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+  background: linear-gradient(135deg, var(--holo-amber-bright), var(--holo-amber));
+  box-shadow: 0 0 20px rgba(200, 170, 110, 0.3);
 }
 
 .fleet-confirm-btn:disabled {
@@ -4761,9 +4761,9 @@ body {
   letter-spacing: 0.5px;
   padding: 2px 5px;
   border-radius: 3px;
-  background: rgba(0, 240, 255, 0.1);
-  color: var(--holo-cyan);
-  border: 1px solid rgba(0, 240, 255, 0.2);
+  background: rgba(200, 170, 110, 0.1);
+  color: var(--holo-amber);
+  border: 1px solid rgba(200, 170, 110, 0.2);
   flex-shrink: 0;
 }
 
@@ -4774,7 +4774,7 @@ body {
 }
 
 .fleet-composition-entry-name {
-  font-family: "Forum", serif;
+  font-family: "Oxanium", "Orbitron", monospace;
   font-size: 13px;
   color: var(--holo-text-primary);
   white-space: nowrap;
@@ -4839,17 +4839,17 @@ body {
   font-family: "Orbitron", monospace;
   font-size: 10px;
   letter-spacing: 0.3px;
-  color: var(--holo-cyan);
-  background: rgba(0, 240, 255, 0.06);
-  border: 1px solid rgba(0, 240, 255, 0.2);
+  color: var(--holo-amber);
+  background: rgba(200, 170, 110, 0.06);
+  border: 1px solid rgba(200, 170, 110, 0.2);
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .fleet-composition-add-btn:hover {
-  background: rgba(0, 240, 255, 0.12);
-  border-color: rgba(0, 240, 255, 0.35);
+  background: rgba(200, 170, 110, 0.12);
+  border-color: rgba(200, 170, 110, 0.35);
 }
 
 .fleet-composition-add-form {
@@ -4869,7 +4869,7 @@ body {
   font-family: "Orbitron", monospace;
   font-size: 10px;
   color: #050508;
-  background: var(--holo-cyan);
+  background: var(--holo-amber);
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -4877,7 +4877,7 @@ body {
 }
 
 .fleet-composition-add-confirm:hover:not(:disabled) {
-  box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+  box-shadow: 0 0 10px rgba(200, 170, 110, 0.3);
 }
 
 .fleet-composition-add-confirm:disabled {
